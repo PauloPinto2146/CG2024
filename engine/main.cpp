@@ -1,58 +1,47 @@
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
+#include "main.h"
 
-#include <iostream>
-#include <string>
-#include <fstream>
-using namespace std;
-
-
+Camera* camera = new Camera();
 float x1 = 20.0f, y1 = 20.0f, z1 = 20.0f; //coordenadas para o lookAt
 float x2 = 0.0f, y2 = 0.0f, z2 = 0.0f; // coordenadas para a camara
 
 // Camera position and rotation angles
 GLfloat cameraX = 5.0f, cameraY = 5.0f, cameraZ = 5.0f, rotateX = 0.0f, rotateY = 0.0f, rotateZ = 0.0f, zoom = 1.0f;
 
-void readFile(std::string fich) {
-    ifstream file(fich);
-    if (file.is_open()) {
-        //
-        //ler ficheiro
-        //
-        file.close();
-			}
-	else {
-		cout << "File not found" << endl;
-	}
-	
+bool axis = true;
+
+
+void drawAxis() {
+	glBegin(GL_LINES);
+	// X axis in red
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(100.0f, 0.0f, 0.0f);		
+    // Y Axis in Green
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 100.0f, 0.0f);
+    // Z Axis in Blue
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 100.0f);
+	glEnd();
+
 }
 
 void renderScene(void) {
-    
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(x1, y1, z1, //todo: alterar aqui
-        0.0, 0.0, 0.0,
-        0.0f, 1.0f, 0.0f);
+    gluLookAt(camera->pos[0], camera->pos[1], camera->pos[3],
+        camera->lookAt[0], camera->lookAt[1], camera->lookAt[3],
+        camera->up[0], camera->up[1], camera->up[3]);
+
 
     //draw instructions
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glTranslatef(x2, y2, z2);
-    glRotatef(0, 0.0, 1.0, 0.0);
-    glRotatef(0, 1.0, 0.0, 0.0);
-    glBegin(GL_TRIANGLES);
+    if (axis) drawAxis();
 
-    //
-    //Desenhar os vertices lidos do ficheiro
-    //
-
-    glEnd();
     //End of frame
     glutSwapBuffers();
 }
@@ -76,7 +65,7 @@ void changeSize(int w, int h) {
 	glViewport(0, 0, w, h);
 
 	// Set perspective
-	gluPerspective(45.0f, ratio, 1.0f, 1000.0f);
+	gluPerspective(camera->projection[0], ratio, camera->projection[1], camera->projection[2]);
 
 	// return to the model view matrix mode
 	glMatrixMode(GL_MODELVIEW);
@@ -114,17 +103,24 @@ void keyboard(unsigned char key, int x, int y) {
     case '-':
         zoom -= 0.1f;
         break;
+    case '1':
+        eixos = !eixos;
+        break;
     }
     glutPostRedisplay();
 }
 
 
 int main(int argc, char** argv) {
+    Window* window = new Window();
+    camera = new Camera();
+    Group* group = new Group();
+   
     //Init
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
-    glutInitWindowSize(800, 800);
+    glutInitWindowSize(window->height,window->width);
     glutCreateWindow("CG@DI-UM");
 
 

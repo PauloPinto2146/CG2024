@@ -1,8 +1,6 @@
 #include "main.h"
 
 Camera* camera = new Camera();
-float x1 = 20.0f, y1 = 20.0f, z1 = 20.0f; //coordenadas para o lookAt
-float x2 = 0.0f, y2 = 0.0f, z2 = 0.0f; // coordenadas para a camara
 
 // Camera position and rotation angles
 GLfloat cameraX = 5.0f, cameraY = 5.0f, cameraZ = 5.0f, rotateX = 0.0f, rotateY = 0.0f, rotateZ = 0.0f, zoom = 1.0f;
@@ -34,9 +32,9 @@ void renderScene(void) {
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(camera->pos[0], camera->pos[1], camera->pos[3],
-        camera->lookAt[0], camera->lookAt[1], camera->lookAt[3],
-        camera->up[0], camera->up[1], camera->up[3]);
+    gluLookAt(camera->pos[0], camera->pos[1], camera->pos[2],
+        camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
+        camera->up[0], camera->up[1], camera->up[2]);
 
 
     //draw instructions
@@ -104,7 +102,7 @@ void keyboard(unsigned char key, int x, int y) {
         zoom -= 0.1f;
         break;
     case '1':
-        eixos = !eixos;
+        axis = !axis;
         break;
     }
     glutPostRedisplay();

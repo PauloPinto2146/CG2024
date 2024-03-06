@@ -32,7 +32,7 @@ void generateSphere(char* argv[]) {
 	float slices = atoi(argv[3]);
 	float stacks = atoi(argv[4]);
 
-	int N = (stacks*slices*9)+(stacks*slices*18); //Número de pontos
+	int N = (stacks*slices*9)+(stacks*slices*18); //NÃºmero de pontos
 	std::vector<float> pontos(N);
 	int p = 0;
 
@@ -113,15 +113,15 @@ void generateBox(char* argv[]) {
 	float length = atoi(argv[2]);
 	float grid = atoi(argv[3]);
 	float tr = length / 2;
-	int N = grid * grid * 18 * 6; //Número de pontos
+	int N = grid * grid * 18 * 6; //NÃºmero de pontos
 	std::vector<float> pontos(N);
 	int p = 0;
 
-	//plano de baixo e de cima (y estável)
+	//plano de baixo e de cima (y estÃ¡vel)
 	for (int a = -1; a < 2; a += 2) {
-		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+		for (int i = 0; i < grid; i++) { // ComeÃ§ar pelo menor z e menor x e iterando pela linha dos x atÃ© length/2
 			for (int j = 0; j < grid; j++) {
-				//Cada quadrado é formado por 2 triângulos:
+				//Cada quadrado Ã© formado por 2 triÃ¢ngulos:
 				//Triangulo 1 
 				//P1
 				pontos[p] = j * tr - (length / 2); p++;
@@ -152,11 +152,11 @@ void generateBox(char* argv[]) {
 			}
 		}
 	}
-	//plano da esquerda e da direita (z estável)
+	//plano da esquerda e da direita (z estÃ¡vel)
 	for (int a = -1; a < 2; a += 2) {
-		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+		for (int i = 0; i < grid; i++) { // ComeÃ§ar pelo menor z e menor x e iterando pela linha dos x atÃ© length/2
 			for (int j = 0; j < grid; j++) {
-				//Cada quadrado é formado por 2 triângulos:
+				//Cada quadrado Ã© formado por 2 triÃ¢ngulos:
 				//Triangulo 1 
 				//P1
 				pontos[p] = j * tr - (length / 2); p++;
@@ -187,11 +187,11 @@ void generateBox(char* argv[]) {
 			}
 		}
 	}
-	//plano da frente e de trás (x estável)
+	//plano da frente e de trÃ¡s (x estÃ¡vel)
 	for (int a = -1; a < 2; a += 2) {
-		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+		for (int i = 0; i < grid; i++) { // ComeÃ§ar pelo menor z e menor x e iterando pela linha dos x atÃ© length/2
 			for (int j = 0; j < grid; j++) {
-				//Cada quadrado é formado por 2 triângulos:
+				//Cada quadrado Ã© formado por 2 triÃ¢ngulos:
 				//Triangulo 1 
 				//P1
 				pontos[p] = a * tr; p++;
@@ -259,7 +259,7 @@ void generateCone(char* argv[]) {
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * (i+1)); p++;
 	}
-	//Bases de Stacks (Começar da ponta do cone até à base)
+	//Bases de Stacks (ComeÃ§ar da ponta do cone atÃ© Ã  base)
 	float altura = height;
 	float raio = 0.0;
 	for (int i = 0; i < stacks; i++) {
@@ -268,7 +268,7 @@ void generateCone(char* argv[]) {
 			float new_alpha = 2.0f * M_PI * j / slices;
 			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
 			raio += radius / stacks;
-			//Centro da circunferência atual
+			//Centro da circunferÃªncia atual
 			pontos[p] = 0; p++;
 			pontos[p] = altura; p++;
 			pontos[p] = 0; p++;
@@ -286,12 +286,12 @@ void generateCone(char* argv[]) {
 	altura = 0;
 	float next_altura = 0.0;
 	for (int i = 0; i < stacks; i++) {
+		altura = next_altura;
+            	next_altura = altura + height / stacks;
 		for (int j = 0; j < slices; j++) {
-			altura = next_altura;
-			next_altura = altura + height / stacks;
 			float new_alpha = 2.0f * M_PI * j / slices;
 			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
-			//Cada face 2 triângulos
+			//Cada face 2 triÃ¢ngulos
 			//Triangulo 1
 			  // Ponto 1
 			pontos[p] = raio * sin(new_alpha); p++;
@@ -338,9 +338,9 @@ void generatePlane(char *argv[]) {
 	std::vector<float> pontos(N);
 	int p = 0;
 
-	for (int i = 0; i < divisions; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+	for (int i = 0; i < divisions; i++) { // ComeÃ§ar pelo menor z e menor x e iterando pela linha dos x atÃ© length/2
 		for (int j = 0; j < divisions; j++) {
-			//Cada quadrado é formado por 2 triângulos:
+			//Cada quadrado Ã© formado por 2 triÃ¢ngulos:
 			//Triangulo 1 
 			//P1
 			pontos[p] = j * tr - (length / 2); p++;

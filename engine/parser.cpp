@@ -77,28 +77,32 @@ void parse_camera(xml_node<>* camera_node, Camera* camera) {
 	}
 }
 
-void parse_group(xml_node<>* group_node, Group* group) {
+void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 	xml_node<>* models = group_node->first_node("models");
 	if (models) {
 		for(xml_node<>* model = models->first_node("model"); model; model = model->next_sibling()) {
 
 			//Get file name and open it
 			char* file = model->first_attribute("file")->value();
-			fstream fdin;
-			fdin.open(file, ios::in | ios::binary);
-			if (!fdin) {
+			fstream fich;
+			fich.open(file, ios::in | ios::binary);
+			if (!fich) {
 				std::cout << "Error opening file " << endl;
 				exit(1);
 			}
-			//
-			//falta aqui o parser do group
-			//
-			
+			unsigned int numberPoints;
+			fich.read((char*)&numberPoints, sizeof(int));
+			int tamanho = points->size();
+			points->resize(tamanho + numberPoints * 3);
+			fich.read((char*)(points->data() + tamanho), numberPoints * 3 * sizeof(float));
+
+			fich.close();
+			group->model.push_back(numberPoints);
 		}
 	}
 }
 
-void parser(char* fileName, Window* window, Camera* camera, Group* group) {
+void parser(char* fileName, Window* window, Camera* camera, Group* group, vector<float>* points) {
 	xml_document<> doc;
 	xml_node<>* root_node;
 
@@ -120,5 +124,5 @@ void parser(char* fileName, Window* window, Camera* camera, Group* group) {
 
 	//Parse group
 	xml_node<>* group_node = root_node->first_node("group");
-	parse_group(group_node, group);
+	parse_group(group_node, group, points);
 }

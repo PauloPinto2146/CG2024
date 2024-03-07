@@ -154,6 +154,43 @@ void generateBox(char* argv[]) {
 			}
 		}
 	}
+	//plano da frente e de trás (x estável)
+	for (int a = -1; a < 2; a += 2) {
+		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+			for (int j = 0; j < grid; j++) {
+				float y = i * length - half;
+				float z = j * length - half;
+				//Cada quadrado é formado por 2 triângulos:
+				//Triangulo 1 
+				//P1
+				pontos[p] = a * half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z; p++;
+				//P2
+				pontos[p] = a * half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z + length; p++;
+				//P3
+				pontos[p] = a * half; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z; p++;
+
+				//Triangulo 2
+				//P1
+				pontos[p] = a * half; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z; p++;
+				//P2
+				pontos[p] = a * half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z + length; p++;
+				//P3
+				pontos[p] = a * half; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z + length; p++;
+			}
+		}
+	}
 	//plano da esquerda e da direita (z estável)
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
@@ -187,43 +224,6 @@ void generateBox(char* argv[]) {
 				//P3
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
-			}
-		}
-	}
-	//plano da frente e de trás (x estável)
-	for (int a = -1; a < 2; a += 2) {
-		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
-			for (int j = 0; j < grid; j++) {
-				float y = i * length - half;
-				float z = j * length - half;
-				//Cada quadrado é formado por 2 triângulos:
-				//Triangulo 1 
-				//P1
-				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
-				pontos[p] = z; p++;
-				//P2
-				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
-				pontos[p] = z+length; p++;
-				//P3
-				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
-				pontos[p] = z; p++;
-
-				//Triangulo 2
-				//P1
-				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
-				pontos[p] = z; p++;
-				//P2
-				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
-				pontos[p] = z + length; p++;
-				//P3
-				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
 				pontos[p] = z + length; p++;
 			}
 		}

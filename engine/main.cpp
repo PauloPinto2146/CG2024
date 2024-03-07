@@ -1,5 +1,6 @@
 #include "main.h"
 #include "parser.h"
+#include <cstdlib>
 
 Camera* camera = new Camera();
 Group* group = new Group();
@@ -36,6 +37,9 @@ void renderScene(void) {
 
     // set the camera
     glLoadIdentity();
+    std::cout << camera->pos[0] << endl;
+    std::cout << camera->pos[1] << endl;
+    std::cout << camera->pos[2] << endl;
     gluLookAt(camera->pos[0], camera->pos[1], camera->pos[2],
         camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
         camera->up[0], camera->up[1], camera->up[2]);
@@ -43,11 +47,8 @@ void renderScene(void) {
 
     //draw instructions
     if (axis) drawAxis();
-    glBegin(GL_TRIANGLES);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(-1.0f, 1.0f, 0.0f);
-    glEnd();
+
+    glColor3f(1.0f, 1.0f, 1.0f);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     int first = 0;
     for (int i = 0; i < group->model.size(); i++) {
@@ -87,27 +88,27 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'W':
         case 'w':
-            camera->rotate[0] += 1.0f;
+            camera->pos[0] += 1.0f;
             break;
         case 'S':
         case 's':
-            camera->rotate[0] -= 1.0f;
+            camera->pos[0] -= 1.0f;
             break;
         case 'A':
         case 'a':
-            camera->rotate[1] += 1.0f;
+            camera->pos[1] += 1.0f;
             break;
         case 'D':
         case 'd':
-            camera->rotate[1] -= 1.0f;
+            camera->pos[1] -= 1.0f;
             break;
         case 'Q':
         case 'q':
-            camera->rotate[2] += 1.0f;
+            camera->pos[2] += 1.0f;
             break;
         case 'E':
         case 'e':
-            camera->rotate[2] -= 1.0f;
+            camera->pos[2] -= 1.0f;
             break;
         case '+':
             camera->zoom += 0.1f;
@@ -119,6 +120,7 @@ void keyboard(unsigned char key, int x, int y) {
             axis = !axis;
             break;
     }
+
     glutPostRedisplay();
 }
 
@@ -128,9 +130,15 @@ int main(int argc, char** argv) {
     camera = new Camera();
     group = new Group();
 
-    vector<float> points;
+    vector<float> temp_points;
 
-    parser(argv[1], window, camera, group, &points);
+    parser(argv[1], window, camera, group, &temp_points);
+
+    float* points = (float*)malloc(temp_points.size()*sizeof(float));
+
+    for (int i = 0; i < temp_points.size(); i++) {
+        points[i] = temp_points[i];
+    }
    
     //Init
     glutInit(&argc, argv);
@@ -139,18 +147,20 @@ int main(int argc, char** argv) {
     glutInitWindowSize(window->height,window->width);
     glutCreateWindow("CG@DI-UM");
 
+    glewInit();
+
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
     glutKeyboardFunc(keyboard);
 
-    glewInit();
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
+    glEnableClientState(GL_VERTEX_ARRAY);
+
     glGenBuffers(1, buffers);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-    glBufferData(GL_ARRAY_BUFFER, points.size()*sizeof(float), &points, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, temp_points.size()*sizeof(float), points, GL_STATIC_DRAW);
 
     glVertexPointer(3, GL_FLOAT, 0, 0);
 

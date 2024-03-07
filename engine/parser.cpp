@@ -102,6 +102,8 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 				points->push_back(atof(line));
 			}
 
+			group->model.push_back(points->size());
+
 			fich.close();
 		}
 	}

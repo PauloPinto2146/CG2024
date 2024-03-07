@@ -1,7 +1,6 @@
 #include "main.h"
 #include "parser.h"
 
-
 Camera* camera = new Camera();
 Group* group = new Group();
 
@@ -44,6 +43,11 @@ void renderScene(void) {
 
     //draw instructions
     if (axis) drawAxis();
+    glBegin(GL_TRIANGLES);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(1.0f, 1.0f, 0.0f);
+    glVertex3f(-1.0f, 1.0f, 0.0f);
+    glEnd();
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     int first = 0;
     for (int i = 0; i < group->model.size(); i++) {
@@ -146,7 +150,7 @@ int main(int argc, char** argv) {
 
     glGenBuffers(1, buffers);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-    glBufferData(GL_ARRAY_BUFFER, points.size()*sizeof(float), points, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, points.size()*sizeof(float), &points, GL_STATIC_DRAW);
 
     glVertexPointer(3, GL_FLOAT, 0, 0);
 

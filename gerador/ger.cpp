@@ -144,11 +144,11 @@ void generateBox(char* argv[]) {
 				pontos[p] = a * half; p++;
 				pontos[p] = z ; p++;
 				//P2
-				pontos[p] = x + length; p++;
+				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
 				pontos[p] = z + length; p++;
 				//P3
-				pontos[p] = x; p++;
+				pontos[p] = x + length; p++;
 				pontos[p] = a * half; p++;
 				pontos[p] = z + length; p++;
 			}
@@ -218,11 +218,11 @@ void generateBox(char* argv[]) {
 				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
 				//P2
-				pontos[p] = x + length; p++;
+				pontos[p] = x; p++;
 				pontos[p] = y + length; p++;
 				pontos[p] = a * half; p++;
 				//P3
-				pontos[p] = x; p++;
+				pontos[p] = x + length; p++;
 				pontos[p] = y + length; p++;
 				pontos[p] = a * half; p++;
 			}

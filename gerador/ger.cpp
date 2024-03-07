@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include <cstring>
 #include <array>
 #include <vector>
 #include <deque>

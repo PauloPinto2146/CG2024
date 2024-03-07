@@ -1,4 +1,5 @@
 #include "main.h"
+#include "parser.h"
 
 Camera* camera = new Camera();
 
@@ -10,7 +11,7 @@ void drawAxis() {
 	// X axis in red
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(100.0f, 0.0f, 0.0f);		
+	glVertex3f(100.0f, 0.0f, 0.0f);
 
     // Y Axis in Green
 	glColor3f(0.0f, 1.0f, 0.0f);
@@ -71,39 +72,39 @@ void changeSize(int w, int h) {
 
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
-    case 'W':
-    case 'w':
-        camera->rotate[0] += 1.0f;
-        break;
-    case 'S':
-    case 's':
-        camera->rotate[0] -= 1.0f;
-        break;
-    case 'A':
-    case 'a':
-        camera->rotate[1] += 1.0f;
-        break;
-    case 'D':
-    case 'd':
-        camera->rotate[1] -= 1.0f;
-        break;
-    case 'Q':
-    case 'q':
-        camera->rotate[2] += 1.0f;
-        break;
-    case 'E':
-    case 'e':
-        camera->rotate[2] -= 1.0f;
-        break;
-    case '+':
-        camera->zoom += 0.1f;
-        break;
-    case '-':
-        camera->zoom -= 0.1f;
-        break;
-    case '1':
-        axis = !axis;
-        break;
+        case 'W':
+        case 'w':
+            camera->rotate[0] += 1.0f;
+            break;
+        case 'S':
+        case 's':
+            camera->rotate[0] -= 1.0f;
+            break;
+        case 'A':
+        case 'a':
+            camera->rotate[1] += 1.0f;
+            break;
+        case 'D':
+        case 'd':
+            camera->rotate[1] -= 1.0f;
+            break;
+        case 'Q':
+        case 'q':
+            camera->rotate[2] += 1.0f;
+            break;
+        case 'E':
+        case 'e':
+            camera->rotate[2] -= 1.0f;
+            break;
+        case '+':
+            camera->zoom += 0.1f;
+            break;
+        case '-':
+            camera->zoom -= 0.1f;
+            break;
+        case '1':
+            axis = !axis;
+            break;
     }
     glutPostRedisplay();
 }
@@ -113,6 +114,10 @@ int main(int argc, char** argv) {
     Window* window = new Window();
     camera = new Camera();
     Group* group = new Group();
+
+    vector<float> points;
+
+    parser(argv[1], window, camera, group, &points);
    
     //Init
     glutInit(&argc, argv);

@@ -96,8 +96,6 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 
 			char line[20];
 
-			fich.getline(line, 20); // skip first line
-
 			while (fich.getline(line, 20)) {
 				points->push_back(atof(line));
 			}

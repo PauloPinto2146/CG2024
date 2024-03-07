@@ -343,23 +343,23 @@ void generatePlane(char *argv[]) {
 			//Cada face é formado por 2 triângulos:
 			//Triangulo 1 
 			//P1
-			pontos[p] = j * tr - (length / 2); p++;
+			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
-			pontos[p] = i * tr - (length / 2); p++;
+			pontos[p] = (i + 1) * tr - (length / 2); p++;
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0 ; p++;
 			pontos[p] = i * tr - (length / 2); p++;
 			//P3
-			pontos[p] = (j+1) * tr - (length / 2); p++;
+			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
-			pontos[p] = (i+1) * tr - (length / 2); p++;
+			pontos[p] = i * tr - (length / 2); p++;
 
 			//Triangulo 2
 			//P1
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
-			pontos[p] = i * tr - (length / 2); p++;
+			pontos[p] = (i + 1) * tr - (length / 2); p++;
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
@@ -367,7 +367,7 @@ void generatePlane(char *argv[]) {
 			//P3
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
-			pontos[p] = (i + 1) * tr - (length / 2); p++;
+			pontos[p] = i * tr - (length / 2); p++;
 		}
 	}
 	for (int i = 0; i < N; i++)

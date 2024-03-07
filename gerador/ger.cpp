@@ -112,7 +112,7 @@ void generateBox(char* argv[]) {
 	//generator box length grid box.3d
 	float length = atoi(argv[2]);
 	float grid = atoi(argv[3]);
-	float tr = length / 2;
+	float half = length / 2;
 	int N = grid * grid * 18 * 6; //Número de pontos
 	std::vector<float> pontos(N);
 	int p = 0;
@@ -121,34 +121,36 @@ void generateBox(char* argv[]) {
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
+				float x = i * length - half;
+				float z = j * length - half;
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = (j+1) * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
-				pontos[p] = (i+1) * tr - (length / 2); p++;
+				pontos[p] = x; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z+; p++;
 				//P2
-				pontos[p] = (j + 1) * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - (length / 2); p++;
+				pontos[p] = x+length; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z + ; p++;
 				//P3
-				pontos[p] = j * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - (length / 2); p++;
+				pontos[p] = x; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z + length; p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = j * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
-				pontos[p] = (i + 1) * tr - (length / 2); p++;
+				pontos[p] = x + length; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z ; p++;
 				//P2
-				pontos[p] = (j + 1) * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
-				pontos[p] = (i+1) * tr - (length / 2); p++;
+				pontos[p] = x + length; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z + length; p++;
 				//P3
-				pontos[p] = j * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - (length / 2); p++;
+				pontos[p] = x; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z + length; p++;
 			}
 		}
 	}
@@ -156,34 +158,36 @@ void generateBox(char* argv[]) {
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
+				float x = i * length - half;
+				float z = j * length - half;
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = (j+1) * tr - (length / 2); p++;
-				pontos[p] = (i+1) * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
+				pontos[p] = x; p++;
+				pontos[p] = a * half; p++;;
+				pontos[p] = z; p++;
 				//P2
-				pontos[p] = (j+1) * tr - (length / 2); p++;
-				pontos[p] = i * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
+				pontos[p] = x+length; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z; p++;
 				//P3
-				pontos[p] = j * tr - (length / 2); p++;
-				pontos[p] = i * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
+				pontos[p] = x; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z + length; p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = j * tr - (length / 2); p++;
-				pontos[p] = (i + 1) * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
+				pontos[p] = x+length; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z; p++;
 				//P2
-				pontos[p] = (j + 1) * tr - (length / 2); p++;
-				pontos[p] = (i+1) * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
+				pontos[p] = x + length; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z + length; p++;
 				//P3
-				pontos[p] = j * tr - (length / 2); p++;
-				pontos[p] = i * tr - (length / 2); p++;
-				pontos[p] = a * tr; p++;
+				pontos[p] = x; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = z + length; p++;
 			}
 		}
 	}
@@ -191,34 +195,36 @@ void generateBox(char* argv[]) {
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
+				float y = i * length - half;
+				float z = j * length - half;
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = a * tr; p++;
-				pontos[p] = (i+1) * tr - (length / 2); p++;
-				pontos[p] = (j+1) * tr - (length / 2); p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z; p++;
 				//P2
-				pontos[p] = a * tr; p++; 
-				pontos[p] = i * tr - length / 2; p++;
-				pontos[p] = (j + 1) * tr - length / 2; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z+length; p++;
 				//P3
-				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - length / 2; p++;
-				pontos[p] = j * tr - length / 2; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z; p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - length / 2; p++; 
-				pontos[p] = (j + 1) * tr - length / 2; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z; p++;
 				//P2
-				pontos[p] = a * tr; p++;
-				pontos[p] = (i+1) * tr - length / 2; p++; 
-				pontos[p] = (j+1) * tr - length / 2; p++; 
+				pontos[p] = a * half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z + length; p++;
 				//P3
-				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - length / 2; p++;
-				pontos[p] = j * tr - length / 2; p++;
+				pontos[p] = a * half; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z + length; p++;
 			}
 		}
 	}

@@ -126,9 +126,9 @@ void generateBox(char* argv[]) {
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = x; p++;
+				pontos[p] = x + length; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
+				pontos[p] = z + length; p++;
 				//P2
 				pontos[p] = x+length; p++;
 				pontos[p] = a * half; p++;
@@ -136,13 +136,13 @@ void generateBox(char* argv[]) {
 				//P3
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = z; p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = x + length; p++;
+				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z ; p++;
+				pontos[p] = z + length; p++;
 				//P2
 				pontos[p] = x + length; p++;
 				pontos[p] = a * half; p++;
@@ -150,7 +150,7 @@ void generateBox(char* argv[]) {
 				//P3
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = z; p++;
 			}
 		}
 	}
@@ -164,30 +164,30 @@ void generateBox(char* argv[]) {
 				//Triangulo 1 
 				//P1
 				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
-				pontos[p] = z; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z + length; p++;
 				//P2
 				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = y + length; p++;
+				pontos[p] = z; p++;
 				//P3
 				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
+				pontos[p] = y; p++;
 				pontos[p] = z; p++;
 
 				//Triangulo 2
 				//P1
 				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
-				pontos[p] = z; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z + length; p++;
 				//P2
 				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
+				pontos[p] = y + length; p++;
 				pontos[p] = z + length; p++;
 				//P3
 				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z; p++;
 			}
 		}
 	}
@@ -200,22 +200,22 @@ void generateBox(char* argv[]) {
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = x; p++;
-				pontos[p] = y; p++;;
+				pontos[p] = x + length; p++;
+				pontos[p] = y + length; p++;;
 				pontos[p] = a * half; p++;
 				//P2
-				pontos[p] = x; p++;
-				pontos[p] = y+ length; p++;
+				pontos[p] = x + length; p++;
+				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
 				//P3
-				pontos[p] = x + length; p++;
+				pontos[p] = x; p++;
 				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = x+length; p++;
-				pontos[p] = y; p++;
+				pontos[p] = x + length; p++;
+				pontos[p] = y + length; p++;
 				pontos[p] = a * half; p++;
 				//P2
 				pontos[p] = x; p++;
@@ -223,7 +223,7 @@ void generateBox(char* argv[]) {
 				pontos[p] = a * half; p++;
 				//P3
 				pontos[p] = x + length; p++;
-				pontos[p] = y + length; p++;
+				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
 			}
 		}

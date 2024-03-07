@@ -196,35 +196,35 @@ void generateBox(char* argv[]) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
 				float x = i * length - half;
-				float z = j * length - half;
+				float y = j * length - half;
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
 				pontos[p] = x; p++;
-				pontos[p] = a * half; p++;;
-				pontos[p] = z; p++;
+				pontos[p] = y; p++;;
+				pontos[p] = a * half; p++;
 				//P2
 				pontos[p] = x+length; p++;
+				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
 				//P3
 				pontos[p] = x; p++;
+				pontos[p] = y+length; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
 
 				//Triangulo 2
 				//P1
 				pontos[p] = x+length; p++;
+				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
 				//P2
 				pontos[p] = x + length; p++;
+				pontos[p] = y + length; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
 				//P3
 				pontos[p] = x; p++;
+				pontos[p] = y + length; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
 			}
 		}
 	}

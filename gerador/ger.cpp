@@ -23,8 +23,8 @@ void print(T collection) {
 }
 
 void generateSphere(char* argv[]) {
-	ofstream file("sphere.3d");
-	//generator sphere radius slices stacks sphere.3d
+	ofstream file(argv[5]);
+	//generator generateSphere radius slices stacks sphere.3d
 
 	file << "sphere\n";
 
@@ -108,7 +108,7 @@ void generateSphere(char* argv[]) {
 }
 
 void generateBox(char* argv[]) {
-	ofstream file("box.3d");
+	ofstream file(argv[4]);
 	//generator box length grid box.3d
 	float length = atoi(argv[2]);
 	float grid = atoi(argv[3]);
@@ -228,7 +228,7 @@ void generateBox(char* argv[]) {
 }
 
 void generateCone(char* argv[]) {
-	ofstream file("cone.3d");
+	ofstream file(argv[6]);
 	//generator cone radius height slices stacks cone.3d
 
 	file << "cone\n";
@@ -326,7 +326,7 @@ void generateCone(char* argv[]) {
 }
 
 void generatePlane(char *argv[]) {
-	ofstream file("plane.3d");
+	ofstream file(argv[4]);
 	//generator plane length divisions plane.3d
 	
 	file << "plane\n";

@@ -37,12 +37,13 @@ void renderScene(void) {
 
     // set the camera
     glLoadIdentity();
-    std::cout << camera->pos[0] << endl;
-    std::cout << camera->pos[1] << endl;
-    std::cout << camera->pos[2] << endl;
     gluLookAt(camera->pos[0], camera->pos[1], camera->pos[2],
         camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
         camera->up[0], camera->up[1], camera->up[2]);
+    glRotatef(camera->rotate[0], 1.0f, 0.0f, 0.0f);
+    glRotatef(camera->rotate[1], 0.0f, 1.0f, 0.0f);
+    glRotatef(camera->rotate[2], 0.0f, 0.0f, 1.0f);
+    glScalef(camera->zoom, camera->zoom, camera->zoom);
 
 
     //draw instructions
@@ -88,27 +89,27 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'W':
         case 'w':
-            camera->pos[0] += 1.0f;
+            camera->rotate[0] += 1.0f;
             break;
         case 'S':
         case 's':
-            camera->pos[0] -= 1.0f;
+            camera->rotate[0] -= 1.0f;
             break;
         case 'A':
         case 'a':
-            camera->pos[1] += 1.0f;
+            camera->rotate[1] += 1.0f;
             break;
         case 'D':
         case 'd':
-            camera->pos[1] -= 1.0f;
+            camera->rotate[1] -= 1.0f;
             break;
         case 'Q':
         case 'q':
-            camera->pos[2] += 1.0f;
+            camera->rotate[2] += 1.0f;
             break;
         case 'E':
         case 'e':
-            camera->pos[2] -= 1.0f;
+            camera->rotate[2] -= 1.0f;
             break;
         case '+':
             camera->zoom += 0.1f;

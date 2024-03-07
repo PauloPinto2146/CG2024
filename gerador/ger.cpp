@@ -128,27 +128,27 @@ void generateBox(char* argv[]) {
 				pontos[p] = a * tr; p++;
 				pontos[p] = (i+1) * tr - (length / 2); p++;
 				//P2
-				pontos[p] = (j + 1) * tr - length / 2; p++;
+				pontos[p] = (j + 1) * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - length / 2; p++;
+				pontos[p] = i * tr - (length / 2); p++;
 				//P3
-				pontos[p] = j * tr - length / 2; p++;
+				pontos[p] = j * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - length / 2; p++;
+				pontos[p] = i * tr - (length / 2); p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = j * tr - length / 2; p++;
+				pontos[p] = j * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
-				pontos[p] = (i + 1) * tr - length / 2; p++;
+				pontos[p] = (i + 1) * tr - (length / 2); p++;
 				//P2
-				pontos[p] = (j + 1) * tr - length / 2; p++;
+				pontos[p] = (j + 1) * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
-				pontos[p] = (i+1) * tr - length / 2; p++;
+				pontos[p] = (i+1) * tr - (length / 2); p++;
 				//P3
-				pontos[p] = j * tr - length / 2; p++;
+				pontos[p] = j * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
-				pontos[p] = i * tr - length / 2; p++;
+				pontos[p] = i * tr - (length / 2); p++;
 			}
 		}
 	}
@@ -163,26 +163,26 @@ void generateBox(char* argv[]) {
 				pontos[p] = (i+1) * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
 				//P2
-				pontos[p] = (j+1) * tr - length / 2; p++;
-				pontos[p] = i * tr - length / 2; p++;
+				pontos[p] = (j+1) * tr - (length / 2); p++;
+				pontos[p] = i * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
 				//P3
-				pontos[p] = j * tr - length / 2; p++;
-				pontos[p] = i * tr - length / 2; p++;
+				pontos[p] = j * tr - (length / 2); p++;
+				pontos[p] = i * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = j * tr - length / 2; p++;
-				pontos[p] = (i + 1) * tr - length / 2; p++;
+				pontos[p] = j * tr - (length / 2); p++;
+				pontos[p] = (i + 1) * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
 				//P2
-				pontos[p] = (j + 1) * tr - length / 2; p++;
-				pontos[p] = (i+1) * tr - length / 2; p++;
+				pontos[p] = (j + 1) * tr - (length / 2); p++;
+				pontos[p] = (i+1) * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
 				//P3
-				pontos[p] = j * tr - length / 2; p++;
-				pontos[p] = i * tr - length / 2; p++;
+				pontos[p] = j * tr - (length / 2); p++;
+				pontos[p] = i * tr - (length / 2); p++;
 				pontos[p] = a * tr; p++;
 			}
 		}

@@ -2,26 +2,26 @@
 
 Camera* camera = new Camera();
 
-// Camera position and rotation angles
-GLfloat cameraX = 5.0f, cameraY = 5.0f, cameraZ = 5.0f, rotateX = 0.0f, rotateY = 0.0f, rotateZ = 0.0f, zoom = 1.0f;
-
 bool axis = true;
-
 
 void drawAxis() {
 	glBegin(GL_LINES);
+
 	// X axis in red
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(100.0f, 0.0f, 0.0f);		
+
     // Y Axis in Green
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 100.0f, 0.0f);
+
     // Z Axis in Blue
 	glColor3f(0.0f, 0.0f, 1.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 100.0f);
+
 	glEnd();
 
 }
@@ -73,33 +73,33 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) {
     case 'W':
     case 'w':
-        rotateX += 1.0f;
+        camera->rotate[0] += 1.0f;
         break;
     case 'S':
     case 's':
-        rotateX -= 1.0f;
+        camera->rotate[0] -= 1.0f;
         break;
     case 'A':
     case 'a':
-        rotateY += 1.0f;
+        camera->rotate[1] += 1.0f;
         break;
     case 'D':
     case 'd':
-        rotateY -= 1.0f;
+        camera->rotate[1] -= 1.0f;
         break;
     case 'Q':
     case 'q':
-        rotateZ += 1.0f;
+        camera->rotate[2] += 1.0f;
         break;
     case 'E':
     case 'e':
-        rotateZ -= 1.0f;
+        camera->rotate[2] -= 1.0f;
         break;
     case '+':
-        zoom += 0.1f;
+        camera->zoom += 0.1f;
         break;
     case '-':
-        zoom -= 0.1f;
+        camera->zoom -= 0.1f;
         break;
     case '1':
         axis = !axis;
@@ -120,7 +120,6 @@ int main(int argc, char** argv) {
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(window->height,window->width);
     glutCreateWindow("CG@DI-UM");
-
 
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);

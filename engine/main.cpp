@@ -1,9 +1,13 @@
 #include "main.h"
 #include "parser.h"
 
+
 Camera* camera = new Camera();
+Group* group = new Group();
 
 bool axis = true;
+
+GLuint buffers[1];
 
 void drawAxis() {
 	glBegin(GL_LINES);
@@ -40,7 +44,12 @@ void renderScene(void) {
 
     //draw instructions
     if (axis) drawAxis();
-
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    int first = 0;
+    for (int i = 0; i < group->model.size(); i++) {
+        glDrawArrays(GL_TRIANGLES, first, group->model[i]);
+        first += group->model[i];
+    }
     //End of frame
     glutSwapBuffers();
 }
@@ -113,7 +122,7 @@ void keyboard(unsigned char key, int x, int y) {
 int main(int argc, char** argv) {
     Window* window = new Window();
     camera = new Camera();
-    Group* group = new Group();
+    group = new Group();
 
     vector<float> points;
 
@@ -130,8 +139,16 @@ int main(int argc, char** argv) {
     glutReshapeFunc(changeSize);
     glutKeyboardFunc(keyboard);
 
+    glewInit();
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+
+    glGenBuffers(1, buffers);
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, points.size()*sizeof(float), points, GL_STATIC_DRAW);
+
+    glVertexPointer(3, GL_FLOAT, 0, 0);
 
     glutMainLoop();
 

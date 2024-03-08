@@ -32,11 +32,11 @@ void generateSphere(char* argv[]) {
 	float slices = atoi(argv[3]);
 	float stacks = atoi(argv[4]);
 
-	int N = (stacks*slices*9)+(stacks*slices*18); //Número de pontos
+	int N = (stacks * slices * 9) + (stacks * slices * 18); //Número de pontos
 	std::vector<float> pontos(N);
 	int p = 0;
 
-	float altura = - radius;
+	float altura = -radius;
 
 	//Bases das stacks (de baixo para cima)
 	for (int i = 0; i < stacks; i++) {
@@ -66,7 +66,7 @@ void generateSphere(char* argv[]) {
 		altura_up += radius / stacks;
 		altura_down += radius / stacks;
 		float beta = M_PI * i / slices;
-		float next_beta = M_PI * (i+1) / slices; 
+		float next_beta = M_PI * (i + 1) / slices;
 		for (int j = 0; j < slices; j++) {
 			float alpha = 2.0 * M_PI * j / slices;
 			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
@@ -78,7 +78,7 @@ void generateSphere(char* argv[]) {
 			pontos[p] = radius * cos(beta) * cos(alpha); p++;
 			//P2 (baixo 1)
 			pontos[p] = radius * cos(next_beta) * sin(alpha); p++;
-			pontos[p] = altura; p++; 
+			pontos[p] = altura; p++;
 			pontos[p] = radius * cos(next_beta) * cos(alpha); p++;
 			//P3 (baixo 2)
 			pontos[p] = radius * cos(next_beta) * sin(next_alpha); p++;
@@ -88,16 +88,16 @@ void generateSphere(char* argv[]) {
 			//TRIANGULO 2
 			//P1 (cima)
 			pontos[p] = radius * cos(beta) * sin(next_alpha); p++;
-			pontos[p] = altura; p++; 
+			pontos[p] = altura; p++;
 			pontos[p] = radius * cos(beta) * cos(next_alpha); p++;
 			//P2 (baixo 1)
-			pontos[p] = radius * cos(next_beta) * sin(alpha); p++; 
-			pontos[p] = altura; p++; 
-			pontos[p] = radius * cos(next_beta) * cos(alpha); p++; 
+			pontos[p] = radius * cos(next_beta) * sin(alpha); p++;
+			pontos[p] = altura; p++;
+			pontos[p] = radius * cos(next_beta) * cos(alpha); p++;
 			//P3 (baixo 2)
-			pontos[p] = radius * cos(next_beta) * sin(next_alpha); p++; 
-			pontos[p] = altura; p++; 
-			pontos[p] = radius * cos(next_beta) * cos(next_alpha); p++; 
+			pontos[p] = radius * cos(next_beta) * sin(next_alpha); p++;
+			pontos[p] = altura; p++;
+			pontos[p] = radius * cos(next_beta) * cos(next_alpha); p++;
 		}
 	}
 
@@ -113,6 +113,7 @@ void generateBox(char* argv[]) {
 	float length = atoi(argv[2]);
 	float grid = atoi(argv[3]);
 	float half = length / 2;
+	float portion = length / grid;
 	int N = grid * grid * 18 * 6; //Número de pontos
 	std::vector<float> pontos(N);
 	int p = 0;
@@ -121,18 +122,18 @@ void generateBox(char* argv[]) {
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
-				float x = i * length - half;
-				float z = j * length - half;
+				float x = i * portion - half;
+				float z = j * portion - half;
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = x + length; p++;
+				pontos[p] = x + portion; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = z + portion; p++;
 				//P2
-				pontos[p] = x+length; p++;
+				pontos[p] = x + portion; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z ; p++;
+				pontos[p] = z; p++;
 				//P3
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
@@ -142,11 +143,11 @@ void generateBox(char* argv[]) {
 				//P1
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = z + portion; p++;
 				//P2
-				pontos[p] = x + length; p++;
+				pontos[p] = x + portion; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = z + portion; p++;
 				//P3
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
@@ -158,17 +159,17 @@ void generateBox(char* argv[]) {
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
-				float y = i * length - half;
-				float z = j * length - half;
+				float y = i * portion - half;
+				float z = j * portion - half;
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
 				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = y + portion; p++;
+				pontos[p] = z + portion; p++;
 				//P2
 				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
+				pontos[p] = y + portion; p++;
 				pontos[p] = z; p++;
 				//P3
 				pontos[p] = a * half; p++;
@@ -179,11 +180,11 @@ void generateBox(char* argv[]) {
 				//P1
 				pontos[p] = a * half; p++;
 				pontos[p] = y; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = z + portion; p++;
 				//P2
 				pontos[p] = a * half; p++;
-				pontos[p] = y + length; p++;
-				pontos[p] = z + length; p++;
+				pontos[p] = y + portion; p++;
+				pontos[p] = z + portion; p++;
 				//P3
 				pontos[p] = a * half; p++;
 				pontos[p] = y; p++;
@@ -195,16 +196,16 @@ void generateBox(char* argv[]) {
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
-				float x = i * length - half;
-				float y = j * length - half;
+				float x = i * portion - half;
+				float y = j * portion - half;
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = x + length; p++;
-				pontos[p] = y + length; p++;;
+				pontos[p] = x + portion; p++;
+				pontos[p] = y + portion; p++;;
 				pontos[p] = a * half; p++;
 				//P2
-				pontos[p] = x + length; p++;
+				pontos[p] = x + portion; p++;
 				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
 				//P3
@@ -214,15 +215,15 @@ void generateBox(char* argv[]) {
 
 				//Triangulo 2
 				//P1
-				pontos[p] = x + length; p++;
-				pontos[p] = y + length; p++;
+				pontos[p] = x + portion; p++;
+				pontos[p] = y + portion; p++;
 				pontos[p] = a * half; p++;
 				//P2
 				pontos[p] = x; p++;
-				pontos[p] = y + length; p++;
+				pontos[p] = y + portion; p++;
 				pontos[p] = a * half; p++;
 				//P3
-				pontos[p] = x + length; p++;
+				pontos[p] = x + portion; p++;
 				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
 			}
@@ -261,15 +262,15 @@ void generateCone(char* argv[]) {
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * i); p++;
 		//P3
-		pontos[p] = radius * sin(alpha * (i+1)); p++;
+		pontos[p] = radius * sin(alpha * (i + 1)); p++;
 		pontos[p] = 0; p++;
-		pontos[p] = radius * cos(alpha * (i+1)); p++;
+		pontos[p] = radius * cos(alpha * (i + 1)); p++;
 	}
 	//Bases de Stacks (Começar da ponta do cone até à base)
 	float altura = height;
 	float raio = 0.0;
 	for (int i = 0; i < stacks; i++) {
-		altura -= (height/stacks);
+		altura -= (height / stacks);
 		for (int j = 0; j < slices; j++) {
 			float new_alpha = 2.0f * M_PI * j / slices;
 			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
@@ -293,7 +294,7 @@ void generateCone(char* argv[]) {
 	float next_altura = 0.0;
 	for (int i = 0; i < stacks; i++) {
 		altura = next_altura;
-            	next_altura = altura + height / stacks;
+		next_altura = altura + height / stacks;
 		for (int j = 0; j < slices; j++) {
 			float new_alpha = 2.0f * M_PI * j / slices;
 			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
@@ -303,11 +304,11 @@ void generateCone(char* argv[]) {
 			pontos[p] = raio * sin(new_alpha); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio * cos(new_alpha); p++;
-			  // Ponto 2
+			// Ponto 2
 			pontos[p] = raio * sin(next_alpha); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio * cos(next_alpha); p++;
-			  // Ponto 3
+			// Ponto 3
 			pontos[p] = raio * sin(new_alpha); p++;
 			pontos[p] = next_altura; p++;
 			pontos[p] = raio * cos(new_alpha); p++;
@@ -316,11 +317,11 @@ void generateCone(char* argv[]) {
 			pontos[p] = raio * sin(new_alpha); p++;
 			pontos[p] = next_altura; p++;
 			pontos[p] = raio * cos(new_alpha); p++;
-			  // Ponto 2
+			// Ponto 2
 			pontos[p] = raio * sin(next_alpha); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio * cos(next_alpha); p++;
-			  // Ponto 3
+			// Ponto 3
 			pontos[p] = raio * sin(next_alpha); p++;
 			pontos[p] = next_altura; p++;
 			pontos[p] = raio * cos(next_alpha); p++;
@@ -331,10 +332,10 @@ void generateCone(char* argv[]) {
 	file.close();
 }
 
-void generatePlane(char *argv[]) {
+void generatePlane(char* argv[]) {
 	ofstream file(argv[4]);
 	//generator plane length divisions plane.3d
-	
+
 	file << "plane\n";
 
 	float length = atoi(argv[2]);
@@ -354,7 +355,7 @@ void generatePlane(char *argv[]) {
 			pontos[p] = (i + 1) * tr - (length / 2); p++;
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
-			pontos[p] = 0 ; p++;
+			pontos[p] = 0; p++;
 			pontos[p] = i * tr - (length / 2); p++;
 			//P3
 			pontos[p] = j * tr - (length / 2); p++;
@@ -369,7 +370,7 @@ void generatePlane(char *argv[]) {
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
-			pontos[p] = (i+1) * tr - (length / 2); p++;
+			pontos[p] = (i + 1) * tr - (length / 2); p++;
 			//P3
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
@@ -382,9 +383,9 @@ void generatePlane(char *argv[]) {
 	file.close();
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 
-	if (strcmp(argv[1],"sphere") == 0) {
+	if (strcmp(argv[1], "sphere") == 0) {
 		generateSphere(argv);
 	}
 	else if (strcmp(argv[1], "box") == 0) {

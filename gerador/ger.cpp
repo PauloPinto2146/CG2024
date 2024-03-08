@@ -290,6 +290,9 @@ void generateCone(char* argv[]) {
 	std::vector<float> pontos(N);
 	int p = 0;
 	float alpha = 2 * M_PI / slices;
+	float rinc = (radius / stacks);
+	float hinc = (height / stacks);
+
 	//Bases da stack (A contar com a de baixo)
 	for (int i = 0; i < slices; i++) {
 		pontos[p] = radius * sin(alpha*i); p++;
@@ -304,8 +307,7 @@ void generateCone(char* argv[]) {
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * (i + 1)); p++;
 	}
-	float rinc = (radius / stacks);
-	float hinc = (height / stacks);
+
 	//Laterais
 	for (int i = 0; i < stacks; i++) {
 		for (int j = 0; j < slices; j++) {
@@ -331,12 +333,12 @@ void generateCone(char* argv[]) {
 			pontos[p] = nextraio * cos(alpha * (j + 1)); p++;
 
 			pontos[p] = nextraio * sin(alpha * j); p++;
-			pontos[p] = nextaltura ; p++;
+			pontos[p] = nextaltura; p++;
 			pontos[p] = nextraio * cos(alpha * j); p++;
 
-			pontos[p] = radius * sin(alpha * (j + 1)); p++;
+			pontos[p] = raio * sin(alpha * (j + 1)); p++;
 			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(alpha * (j + 1)); p++;
+			pontos[p] = raio * cos(alpha * (j + 1)); p++;
 		}
 	}
 

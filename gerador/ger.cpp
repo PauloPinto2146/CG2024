@@ -216,7 +216,7 @@ void generateCone(char* argv[]) {
 	float stackHeight = height / stacks;
 	float currentRadius = radius;
 
-	int N = (stacks * slices * 9);
+	int N = (stacks * slices * 18);
 	std::vector<float> pontos(N);
 	int p = 0;
 

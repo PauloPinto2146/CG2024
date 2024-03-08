@@ -295,21 +295,18 @@ void generateCone(char* argv[]) {
 		float alpha = 0;
 		float nextalpha = alpha + 2 * M_PI / slices;
 		float beta = 0;
-		for (int j = 0; j < stacks; j++) {
-			//Triangulo 1
-			pontos[p] = radius * cos(beta) * sin(alpha); p++;
-			pontos[p] = radius * sin(beta); p++;
-			pontos[p] = radius * cos(beta) * cos(alpha); p++;
+		
+		pontos[p] = radius * sin(alpha); p++;
+		pontos[p] = 0; p++;
+		pontos[p] = radius * cos(alpha); p++;
 
-			pontos[p] = 0;
-			pontos[p] = radius * sin(beta); p++;
-			pontos[p] = 0;
+		pontos[p] = 0; p++;
+		pontos[p] = 0; p++;
+		pontos[p] = 0; p++;
 
-			pontos[p] = radius * cos(beta) * sin(nextalpha); p++;
-			pontos[p] = radius * sin(beta); p++;
-			pontos[p] = radius * cos(beta) * cos(nextalpha); p++;
-		}
-		beta += M_PI * sin(beta);
+		pontos[p] = radius * sin(nextalpha); p++;
+		pontos[p] = 0; p++;
+		pontos[p] = radius * cos(nextalpha); p++;
 	}
 	float beta = 0;
 

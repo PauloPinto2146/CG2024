@@ -289,27 +289,22 @@ void generateCone(char* argv[]) {
 	int N = (stacks * slices * 9)*(stacks * slices * 18);
 	std::vector<float> pontos(N);
 	int p = 0;
-
+	float alpha = 2 * M_PI / slices;
 	//Bases da stack (A contar com a de baixo)
 	for (int i = 0; i < slices; i++) {
-		float alpha = 0;
-		float nextalpha = alpha + 2 * M_PI / slices;
-		float beta = 0;
-		
-		pontos[p] = radius * sin(alpha); p++;
+		pontos[p] = radius * sin(alpha*i); p++;
 		pontos[p] = 0; p++;
-		pontos[p] = radius * cos(alpha); p++;
+		pontos[p] = radius * cos(alpha*i); p++;
 
 		pontos[p] = 0; p++;
 		pontos[p] = 0; p++;
 		pontos[p] = 0; p++;
 
-		pontos[p] = radius * sin(nextalpha); p++;
+		pontos[p] = radius * sin(alpha * (i+1)); p++;
 		pontos[p] = 0; p++;
-		pontos[p] = radius * cos(nextalpha); p++;
+		pontos[p] = radius * cos(alpha * (i + 1)); p++;
 	}
 	float beta = 0;
-
 	//Laterais
 	for (int i = 0; i < slices; i++) {
 		float alpha = 0;
@@ -345,7 +340,6 @@ void generateCone(char* argv[]) {
 			beta += M_PI * sin(beta);
 		}
 	}
-
 
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(),sizeof(float)*N);

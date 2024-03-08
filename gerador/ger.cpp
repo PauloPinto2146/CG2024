@@ -293,7 +293,7 @@ void generateCone(char* argv[]) {
 	float rinc = (radius / stacks);
 	float hinc = (height / stacks);
 
-	//Bases da stack (A contar com a de baixo)
+	//Base
 	for (int i = 0; i < slices; i++) {
 		pontos[p] = radius * sin(alpha*i); p++;
 		pontos[p] = 0; p++;

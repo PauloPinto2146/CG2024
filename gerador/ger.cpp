@@ -97,55 +97,55 @@ void generateBox(char* argv[]) {
 			//BAIXO
 			//Triangulo 1 
 			//P1
-			pontos[p] = x + portion; p++;
+			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
-			pontos[p] = z + portion; p++;
+			pontos[p] = z; p++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z; p++;
 			//P3
-			pontos[p] = x; p++;
+			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
-			pontos[p] = z; p++;
+			pontos[p] = z + portion; p++;
 			//Triangulo 2
 			//P1
-			pontos[p] = x; p++;
+			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
-			pontos[p] = z; p++;
+			pontos[p] = z + portion; p++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z + portion; p++;
 			//P3
-			pontos[p] = x + portion; p++;
+			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
-			pontos[p] = z + portion; p++;
+			pontos[p] = z; p++;
 			// CIMA
-			pontos[p] = x; p++;
+			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
-			pontos[p] = z; p++;
+			pontos[p] = z + portion; p++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z; p++;
 			//P3
-			pontos[p] = x + portion; p++;
+			pontos[p] = x; p++;
 			pontos[p] = half; p++;
-			pontos[p] = z + portion; p++;
+			pontos[p] = z; p++;
 			//Triangulo 2
 			//P1
-			pontos[p] = x + portion; p++;
+			pontos[p] = x; p++;
 			pontos[p] = half; p++;
-			pontos[p] = z + portion; p++;
+			pontos[p] = z; p++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z + portion; p++;
 			//P3
-			pontos[p] = x; p++;
+			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
-			pontos[p] = z; p++;
+			pontos[p] = z + portion; p++;
 		}
 	}
 	//plano da trás e de frente (x estável)
@@ -220,16 +220,16 @@ void generateBox(char* argv[]) {
 			//DIREITA
 			//Triangulo 1 
 			//P1
-			pontos[p] = x + portion; p++;
-			pontos[p] = y + portion; p++;;
+			pontos[p] = x; p++;
+			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
 			//P3
-			pontos[p] = x; p++;
-			pontos[p] = y; p++;
+			pontos[p] = x + portion; p++;
+			pontos[p] = y + portion; p++;
 			pontos[p] = -half; p++;
 			//Triangulo 2
 			//P1

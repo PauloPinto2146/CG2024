@@ -26,8 +26,6 @@ void generateSphere(char* argv[]) {
 	ofstream file(argv[5]);
 	//generator generateSphere radius slices stacks sphere.3d
 
-	file << "sphere\n";
-
 	float radius = atoi(argv[2]);
 	float slices = atoi(argv[3]);
 	float stacks = atoi(argv[4]);
@@ -36,71 +34,44 @@ void generateSphere(char* argv[]) {
 	std::vector<float> pontos(N);
 	int p = 0;
 
-	float altura = -radius;
+	float const R = 1.0f / slices;
+	float const S = 1.0f / stacks;
 
 	//Bases das stacks (de baixo para cima)
 	for (int i = 0; i < stacks; i++) {
-		altura += radius / stacks;
-		float alpha = 2.0 * M_PI * i / slices;
-		float next_alpha = 2.0f * M_PI * (i + 1) / slices;
-		float beta = M_PI * i / slices;
+		float const phi = M_PI * i * S;
+		float const phi1 = M_PI * (i + 1) * S;
 		for (int j = 0; j < slices; j++) {
+			float const theta = 2.0f * M_PI * j * R;
+			float const theta1 = 2.0f * M_PI * (j+1) * R;
+			//Triangulo1
 			//P1
-			pontos[p] = radius * cos(beta) * sin(alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(beta) * cos(alpha); p++;
-			//Centro
-			pontos[p] = altura; p++;
-			pontos[p] = altura; p++;
-			pontos[p] = altura; p++;
+			pontos[p] = radius * cos(theta) * sin(phi); p++; //x0
+			pontos[p] = radius * cos(phi); p++; //y0
+			pontos[p] = radius * sin(theta) * sin(phi); p++; //z0
 			//P2
-			pontos[p] = radius * cos(beta) * sin(next_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(beta) * cos(next_alpha); p++;
+			pontos[p] = radius * cos(theta1) * sin(phi); p++; //x2
+			pontos[p] = radius * cos(phi); p++; //y2
+			pontos[p] = radius * sin(theta1) * sin(phi); p++; //z2
+			//P3
+			pontos[p] = radius * cos(theta) * sin(phi1); p++; //x1
+			pontos[p] = radius * cos(phi1); p++; //y1
+			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
+			//Triangulo2
+			//P1
+			pontos[p] = radius * cos(theta1) * sin(phi); p++; //x2
+			pontos[p] = radius * cos(phi); p++; //y2
+			pontos[p] = radius * sin(theta1) * sin(phi); p++; //z2
+			//P2
+			pontos[p] = radius * cos(theta1) * sin(phi1); p++;
+			pontos[p] = radius * cos(phi1); p++;
+			pontos[p] = radius * sin(theta1) * sin(phi1); p++;
+			//P3
+			pontos[p] = radius * cos(theta) * sin(phi1); p++; //x1
+			pontos[p] = radius * cos(phi1); p++; //y1
+			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
 		}
 	}
-	float altura_up = -radius;
-	float altura_down = -radius + radius / stacks;
-	//laterais (de baixo para cima)
-	for (int i = 0; i < stacks; i++) {
-		altura_up += radius / stacks;
-		altura_down += radius / stacks;
-		float beta = M_PI * i / slices;
-		float next_beta = M_PI * (i + 1) / slices;
-		for (int j = 0; j < slices; j++) {
-			float alpha = 2.0 * M_PI * j / slices;
-			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
-			//Cada face tem 2 tringulos
-			//TRIANGULO 1
-			//P1 (cima)
-			pontos[p] = radius * cos(beta) * sin(alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(beta) * cos(alpha); p++;
-			//P2 (baixo 1)
-			pontos[p] = radius * cos(next_beta) * sin(alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(next_beta) * cos(alpha); p++;
-			//P3 (baixo 2)
-			pontos[p] = radius * cos(next_beta) * sin(next_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(next_beta) * cos(next_alpha); p++;
-
-			//TRIANGULO 2
-			//P1 (cima)
-			pontos[p] = radius * cos(beta) * sin(next_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(beta) * cos(next_alpha); p++;
-			//P2 (baixo 1)
-			pontos[p] = radius * cos(next_beta) * sin(alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(next_beta) * cos(alpha); p++;
-			//P3 (baixo 2)
-			pontos[p] = radius * cos(next_beta) * sin(next_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = radius * cos(next_beta) * cos(next_alpha); p++;
-		}
-	}
-
 	for (int i = 0; i < N; i++)
 		file << pontos[i] << "\n";
 
@@ -138,12 +109,11 @@ void generateBox(char* argv[]) {
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
 				pontos[p] = z; p++;
-
 				//Triangulo 2
 				//P1
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + portion; p++;
+				pontos[p] = z; p++;
 				//P2
 				pontos[p] = x + portion; p++;
 				pontos[p] = a * half; p++;
@@ -151,11 +121,11 @@ void generateBox(char* argv[]) {
 				//P3
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
+				pontos[p] = z + portion; p++;
 			}
 		}
 	}
-	//plano da frente e de trás (x estável)
+	//plano da trás e de frente (x estável)
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
@@ -192,7 +162,7 @@ void generateBox(char* argv[]) {
 			}
 		}
 	}
-	//plano da esquerda e da direita (z estável)
+	//plano da direita e da esquerda (z estável)
 	for (int a = -1; a < 2; a += 2) {
 		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 			for (int j = 0; j < grid; j++) {
@@ -212,7 +182,6 @@ void generateBox(char* argv[]) {
 				pontos[p] = x; p++;
 				pontos[p] = y; p++;
 				pontos[p] = a * half; p++;
-
 				//Triangulo 2
 				//P1
 				pontos[p] = x + portion; p++;
@@ -238,94 +207,65 @@ void generateCone(char* argv[]) {
 	ofstream file(argv[6]);
 	//generator cone radius height slices stacks cone.3d
 
-	file << "cone\n";
-
 	float radius = atoi(argv[2]);
 	float height = atoi(argv[3]);
 	float slices = atoi(argv[4]);
 	float stacks = atoi(argv[5]);
-	float alpha = 2 * M_PI / slices;
-	float next_alpha = alpha;
 
-	int N = (slices * 9) + (stacks * slices * 9) + (stacks * slices * 18);
+	float angleStep = (2 * M_PI) / slices;
+	float stackHeight = height / stacks;
+	float currentRadius = radius;
+
+	int N = (stacks * slices * 9);
 	std::vector<float> pontos(N);
 	int p = 0;
 
-	//Base de baixo
-	for (int i = 0; i < slices; i++) {
-		//centro (P1)
-		pontos[p] = 0; p++;
-		pontos[p] = 0; p++;
-		pontos[p] = 0; p++;
-		//P2
-		pontos[p] = radius * sin(alpha * i); p++;
-		pontos[p] = 0; p++;
-		pontos[p] = radius * cos(alpha * i); p++;
-		//P3
-		pontos[p] = radius * sin(alpha * (i + 1)); p++;
-		pontos[p] = 0; p++;
-		pontos[p] = radius * cos(alpha * (i + 1)); p++;
-	}
-	//Bases de Stacks (Começar da ponta do cone até à base)
-	float altura = height;
-	float raio = 0.0;
 	for (int i = 0; i < stacks; i++) {
-		altura -= (height / stacks);
-		for (int j = 0; j < slices; j++) {
-			float new_alpha = 2.0f * M_PI * j / slices;
-			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
-			raio += radius / stacks;
-			//Centro da circunferência atual
-			pontos[p] = 0; p++;
-			pontos[p] = altura; p++;
-			pontos[p] = 0; p++;
-			//P1
-			pontos[p] = raio * sin(new_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = raio * cos(new_alpha); p++;
-			//P2
-			pontos[p] = raio * sin(next_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = raio * cos(next_alpha); p++;
-		}
-	}
-	//Laterais (baixo para cima)
-	altura = 0;
-	float next_altura = 0.0;
-	for (int i = 0; i < stacks; i++) {
-		altura = next_altura;
-		next_altura = altura + height / stacks;
-		for (int j = 0; j < slices; j++) {
-			float new_alpha = 2.0f * M_PI * j / slices;
-			float next_alpha = 2.0f * M_PI * (j + 1) / slices;
-			//Cada face 2 triângulos
+		float nextRadius = radius * (1.0f - (float)(i + 1) / stacks);
+		for (int j = 0; j < slices; ++j) {
+			float angle1 = j * angleStep;
+			float angle2 = (j + 1) * angleStep;
+
+			// Vertices for the current stack
+			float x1 = currentRadius * cos(angle1);
+			float y1 = i * stackHeight;
+			float z1 = currentRadius * sin(angle1);
+			float x2 = currentRadius * cos(angle2);
+			float y2 = (i + 1) * stackHeight;
+			float z2 = currentRadius * sin(angle2);
+
+			// Vertices for the next stack
+			float nx1 = nextRadius * cos(angle1);
+			float nz1 = nextRadius * sin(angle1);
+			float nx2 = nextRadius * cos(angle2);
+			float nz2 = nextRadius * sin(angle2);
 			//Triangulo 1
-			  // Ponto 1
-			pontos[p] = raio * sin(new_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = raio * cos(new_alpha); p++;
-			// Ponto 2
-			pontos[p] = raio * sin(next_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = raio * cos(next_alpha); p++;
-			// Ponto 3
-			pontos[p] = raio * sin(new_alpha); p++;
-			pontos[p] = next_altura; p++;
-			pontos[p] = raio * cos(new_alpha); p++;
+			pontos[p] = x1; p++;
+			pontos[p] = y1; p++;
+			pontos[p] = z1; p++; 
+
+			pontos[p] = nx1; p++;
+			pontos[p] = y2; p++;
+			pontos[p] = nz1; p++; 
+
+			pontos[p] = x2; p++;
+			pontos[p] = y1; p++;
+			pontos[p] = z2; p++;
+			
 			//Triangulo 2
-			  // Ponto 1
-			pontos[p] = raio * sin(new_alpha); p++;
-			pontos[p] = next_altura; p++;
-			pontos[p] = raio * cos(new_alpha); p++;
-			// Ponto 2
-			pontos[p] = raio * sin(next_alpha); p++;
-			pontos[p] = altura; p++;
-			pontos[p] = raio * cos(next_alpha); p++;
-			// Ponto 3
-			pontos[p] = raio * sin(next_alpha); p++;
-			pontos[p] = next_altura; p++;
-			pontos[p] = raio * cos(next_alpha); p++;
+			pontos[p] = x2; p++; 
+			pontos[p] = y1; p++; 
+			pontos[p] = z2; p++;
+
+			pontos[p] = nx1; p++;
+			pontos[p] = y2; p++; 
+			pontos[p] = nz1; p++;
+
+			pontos[p] = nx2; p++;
+			pontos[p] = y2; p++;
+			pontos[p] = nz2; p++;
 		}
+		currentRadius = nextRadius;
 	}
 	for (int i = 0; i < N; i++)
 		file << pontos[i] << "\n";
@@ -335,8 +275,6 @@ void generateCone(char* argv[]) {
 void generatePlane(char* argv[]) {
 	ofstream file(argv[4]);
 	//generator plane length divisions plane.3d
-
-	file << "plane\n";
 
 	float length = atoi(argv[2]);
 	float divisions = atoi(argv[3]);

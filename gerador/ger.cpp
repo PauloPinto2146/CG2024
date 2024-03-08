@@ -26,8 +26,6 @@ void generateSphere(char* argv[]) {
 	ofstream file(argv[5]);
 	//generator generateSphere radius slices stacks sphere.3d
 
-	file << "sphere\n";
-
 	float radius = atoi(argv[2]);
 	float slices = atoi(argv[3]);
 	float stacks = atoi(argv[4]);
@@ -48,7 +46,7 @@ void generateSphere(char* argv[]) {
 			float const theta1 = 2.0f * M_PI * (j+1) * R;
 			//P1
 			pontos[p] = radius * cos(theta) * sin(phi); p++;
-			pontos[p] = radius * cos(phi);; p++;
+			pontos[p] = radius * cos(phi); p++;
 			pontos[p] = radius * sin(theta) * sin(phi); p++;
 			//P2
 			pontos[p] = radius * cos(theta) * sin(phi1); p++;
@@ -128,22 +126,22 @@ void generateBox(char* argv[]) {
 				//Triangulo 1 
 				//P1
 				pontos[p] = a * half; p++;
-				pontos[p] = y + portion; p++;
-				pontos[p] = z + portion; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z; p++;
 				//P2
 				pontos[p] = a * half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z; p++;
 				//P3
 				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
-				pontos[p] = z; p++;
+				pontos[p] = y + portion; p++;
+				pontos[p] = z + portion; p++;
 
 				//Triangulo 2
 				//P1
 				pontos[p] = a * half; p++;
 				pontos[p] = y; p++;
-				pontos[p] = z + portion; p++;
+				pontos[p] = z; p++;
 				//P2
 				pontos[p] = a * half; p++;
 				pontos[p] = y + portion; p++;
@@ -151,7 +149,7 @@ void generateBox(char* argv[]) {
 				//P3
 				pontos[p] = a * half; p++;
 				pontos[p] = y; p++;
-				pontos[p] = z; p++;
+				pontos[p] = z + portion; p++;
 			}
 		}
 	}
@@ -200,8 +198,6 @@ void generateBox(char* argv[]) {
 void generateCone(char* argv[]) {
 	ofstream file(argv[6]);
 	//generator cone radius height slices stacks cone.3d
-
-	file << "cone\n";
 
 	float radius = atoi(argv[2]);
 	float height = atoi(argv[3]);
@@ -262,8 +258,6 @@ void generateCone(char* argv[]) {
 void generatePlane(char* argv[]) {
 	ofstream file(argv[4]);
 	//generator plane length divisions plane.3d
-
-	file << "plane\n";
 
 	float length = atoi(argv[2]);
 	float divisions = atoi(argv[3]);

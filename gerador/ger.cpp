@@ -308,10 +308,10 @@ void generateCone(char* argv[]) {
 	//Laterais
 	for (int i = 0; i < stacks; i++) {
 		for (int j = 0; j < slices; j++) {
-			float raio = radius - i * radius / slices;
-			float nextraio = raio - radius / slices;
-			float altura = i * height / stacks;
-			float nextaltura = altura + height / slices;
+			float raio = radius - i * (radius / slices);
+			float nextraio = raio - (radius / slices);
+			float altura = i * (height / stacks);
+			float nextaltura = altura + (height / slices);
 			//Triangulo 1
 			pontos[p] = nextraio * sin(alpha*j); p++;
 			pontos[p] = nextaltura; p++;

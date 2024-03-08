@@ -304,40 +304,38 @@ void generateCone(char* argv[]) {
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * (i + 1)); p++;
 	}
-	float beta = 0;
+
 	//Laterais
-	for (int i = 0; i < slices; i++) {
-		float alpha = 0;
-		float nextalpha = alpha + 2 * M_PI / slices;
-		float nextbeta = beta + M_PI / stacks;
-		float nextradius = radius * cos(nextbeta);
-		for (int j = 0; j < stacks; j++) {
+	for (int i = 0; i < stacks; i++) {
+		for (int j = 0; j < slices; j++) {
+			float raio = radius - i * radius / slices;
+			float nextraio = raio * radius / slices;
+			float altura = i * height / stacks;
+			float nextaltura = altura + height / slices;
 			//Triangulo 1
-			pontos[p] = radius * cos(beta) * sin(nextalpha); p++;
-			pontos[p] = radius * sin(beta); p++;
-			pontos[p] = radius * cos(beta) * cos(nextalpha); p++;
+			pontos[p] = nextraio * sin(alpha*j); p++;
+			pontos[p] = nextaltura; p++;
+			pontos[p] = nextraio * cos(alpha*j); p++;
 
-			pontos[p] = nextradius * cos(nextbeta) * sin(nextalpha); p++;
-			pontos[p] = nextradius * sin(nextbeta); p++;
-			pontos[p] = nextradius * cos(nextbeta) * cos(nextalpha); p++;
+			pontos[p] = raio * sin(alpha * j); p++;
+			pontos[p] = altura; p++;
+			pontos[p] = raio *  cos(alpha * j); p++;
 
-			pontos[p] = nextradius * cos(nextbeta) * sin(alpha); p++;
-			pontos[p] = nextradius * sin(nextbeta); p++;
-			pontos[p] = nextradius * cos(nextbeta) * cos(alpha); p++;
+			pontos[p] = raio *  sin(alpha * (j+1)); p++;
+			pontos[p] = altura; p++;
+			pontos[p] = raio *  cos(alpha * (j + 1)); p++;
 			//Triangulo 2
-			pontos[p] = radius * cos(beta) * sin(nextalpha); p++;
-			pontos[p] = radius * sin(beta); p++;
-			pontos[p] = radius * cos(beta) * cos(nextalpha); p++;
+			pontos[p] = nextraio * sin(alpha * (j + 1)); p++;
+			pontos[p] = nextaltura; p++;
+			pontos[p] = nextraio * cos(alpha * (j + 1)); p++;
 
-			pontos[p] = nextradius * cos(nextbeta) * sin(alpha); p++;
-			pontos[p] = nextradius * sin(nextbeta); p++;
-			pontos[p] = nextradius * cos(nextbeta) * cos(alpha); p++;
+			pontos[p] = nextraio * sin(alpha * j); p++;
+			pontos[p] = nextaltura ; p++;
+			pontos[p] = nextraio * cos(alpha * j); p++;
 
-			pontos[p] = radius * cos(beta) * sin(alpha); p++;
-			pontos[p] = radius * sin(beta); p++;
-			pontos[p] = radius * cos(beta) * cos(alpha); p++;
-
-			beta += M_PI * sin(beta);
+			pontos[p] = radius * sin(alpha * (j + 1)); p++;
+			pontos[p] = altura; p++;
+			pontos[p] = radius * cos(alpha * (j + 1)); p++;
 		}
 	}
 

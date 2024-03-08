@@ -287,61 +287,33 @@ void generateCone(char* argv[]) {
 	float slices = atoi(argv[4]);
 	float stacks = atoi(argv[5]);
 
-	float angleStep = (2 * M_PI) / slices;
-	float stackHeight = height / stacks;
-	float currentRadius = radius;
-
 	int N = (stacks * slices * 18);
 	std::vector<float> pontos(N);
 	int p = 0;
 
-	for (int i = 0; i < stacks; i++) {
-		float nextRadius = radius * (1.0f - (float)(i + 1) / stacks);
-		for (int j = 0; j < slices; ++j) {
-			float angle1 = j * angleStep;
-			float angle2 = (j + 1) * angleStep;
-
-			// Vertices for the current stack
-			float x1 = currentRadius * cos(angle1);
-			float y1 = i * stackHeight;
-			float z1 = currentRadius * sin(angle1);
-			float x2 = currentRadius * cos(angle2);
-			float y2 = (i + 1) * stackHeight;
-			float z2 = currentRadius * sin(angle2);
-
-			// Vertices for the next stack
-			float nx1 = nextRadius * cos(angle1);
-			float nz1 = nextRadius * sin(angle1);
-			float nx2 = nextRadius * cos(angle2);
-			float nz2 = nextRadius * sin(angle2);
+	//Bases da stack (A contar com a de baixo)
+	for (int i = 0; i < slices; i++) {
+		float alpha = 0;
+		float nextalpha = alpha + 2 * M_PI / slices;
+		float beta = 0;
+		float newradius = radius * cos(beta);
+		for (int j = 0; j < stacks; j++) {
 			//Triangulo 1
-			pontos[p] = x1; p++;
-			pontos[p] = y1; p++;
-			pontos[p] = z1; p++; 
+			pontos[p] = radius * cos(beta) * sin(alpha); p++;
+			pontos[p] = radius * sin(beta); p++;
+			pontos[p] = radius * cos(beta) * cos(alpha); p++;
 
-			pontos[p] = nx1; p++;
-			pontos[p] = y2; p++;
-			pontos[p] = nz1; p++; 
+			pontos[p] = 0;
+			pontos[p] = radius * sin(beta); p++;
+			pontos[p] = 0;
 
-			pontos[p] = x2; p++;
-			pontos[p] = y1; p++;
-			pontos[p] = z2; p++;
-			
-			//Triangulo 2
-			pontos[p] = x2; p++; 
-			pontos[p] = y1; p++; 
-			pontos[p] = z2; p++;
-
-			pontos[p] = nx1; p++;
-			pontos[p] = y2; p++; 
-			pontos[p] = nz1; p++;
-
-			pontos[p] = nx2; p++;
-			pontos[p] = y2; p++;
-			pontos[p] = nz2; p++;
+			pontos[p] = radius * cos(beta) * sin(nextalpha); p++;
+			pontos[p] = radius * sin(beta); p++;
+			pontos[p] = radius * cos(beta) * cos(nextalpha); p++;
 		}
-		currentRadius = nextRadius;
+		beta += M_PI * sin(beta);
 	}
+
 	for (int i = 0; i < N; i++)
 		file << pontos[i] << "\n";
 	file.close();

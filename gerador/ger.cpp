@@ -186,7 +186,7 @@ void generateBox(char* argv[]) {
 				//P3
 				pontos[p] = x + portion; p++;
 				pontos[p] = y + portion; p++;
-				pontos[p] = a * half; p++
+				pontos[p] = a * half; p++;
 			}
 		}
 	}

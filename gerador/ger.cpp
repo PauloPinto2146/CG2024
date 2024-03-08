@@ -286,7 +286,7 @@ void generateCone(char* argv[]) {
 	float slices = atoi(argv[4]);
 	float stacks = atoi(argv[5]);
 
-	int N = (stacks * slices * 9)*(stacks * slices * 18);
+	int N = (slices * 9)*(stacks * slices * 18);
 	std::vector<float> pontos(N);
 	int p = 0;
 	float alpha = 2 * M_PI / slices;
@@ -304,14 +304,15 @@ void generateCone(char* argv[]) {
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * (i + 1)); p++;
 	}
-
+	float rinc = (radius / slices);
+	float hinc = (height / stacks);
 	//Laterais
 	for (int i = 0; i < stacks; i++) {
 		for (int j = 0; j < slices; j++) {
-			float raio = radius - i * (radius / slices);
-			float nextraio = raio - (radius / slices);
-			float altura = i * (height / stacks);
-			float nextaltura = altura + (height / slices);
+			float raio = radius - i * rinc;
+			float nextraio = raio - rinc;
+			float altura = i * hinc;
+			float nextaltura = altura + hinc;
 			//Triangulo 1
 			pontos[p] = nextraio * sin(alpha*j); p++;
 			pontos[p] = nextaltura; p++;

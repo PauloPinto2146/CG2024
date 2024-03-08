@@ -23,7 +23,7 @@ void print(T collection) {
 }
 
 void generateSphere(char* argv[]) {
-	ofstream file(argv[5]);
+	ofstream file(argv[5],ios::binary);
 	//generator generateSphere radius slices stacks sphere.3d
 
 	float radius = atoi(argv[2]);
@@ -72,14 +72,13 @@ void generateSphere(char* argv[]) {
 			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
 		}
 	}
-	for (int i = 0; i < N; i++)
-		file << pontos[i] << "\n";
-
+	file << pontos.size();
+	file << pontos.data();
 	file.close();
 }
 
 void generateBox(char* argv[]) {
-	ofstream file(argv[4]);
+	ofstream file(argv[4], ios::binary);
 	//generator box length grid box.3d
 	float length = atoi(argv[2]);
 	float grid = atoi(argv[3]);
@@ -273,10 +272,10 @@ void generateBox(char* argv[]) {
 			pontos[p] = half; p++;
 		}
 	}
-		for (int i = 0; i < N; i++)
-			file << pontos[i] << "\n";
-		file.close();
-	}
+	file << pontos.size();
+	file << pontos.data();
+	file.close();
+}
 
 void generateCone(char* argv[]) {
 	ofstream file(argv[6], ios::binary);
@@ -320,7 +319,7 @@ void generateCone(char* argv[]) {
 }
 
 void generatePlane(char* argv[]) {
-	ofstream file(argv[4]);
+	ofstream file(argv[4], ios::binary);
 	//generator plane length divisions plane.3d
 
 	float length = atoi(argv[2]);
@@ -362,8 +361,8 @@ void generatePlane(char* argv[]) {
 			pontos[p] = i * tr - (length / 2); p++;
 		}
 	}
-	for (int i = 0; i < N; i++)
-		file << pontos[i] << "\n";
+	file << pontos.size();
+	file << pontos.data();
 
 	file.close();
 }

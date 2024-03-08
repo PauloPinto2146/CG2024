@@ -279,7 +279,7 @@ void generateBox(char* argv[]) {
 	}
 
 void generateCone(char* argv[]) {
-	ofstream file(argv[6]);
+	ofstream file(argv[6], ios::binary);
 	//generator cone radius height slices stacks cone.3d
 
 	float radius = atoi(argv[2]);
@@ -287,7 +287,7 @@ void generateCone(char* argv[]) {
 	float slices = atoi(argv[4]);
 	float stacks = atoi(argv[5]);
 
-	int N = (stacks * slices * 18);
+	int N = (stacks * slices * 9);
 	std::vector<float> pontos(N);
 	int p = 0;
 
@@ -314,8 +314,8 @@ void generateCone(char* argv[]) {
 		beta += M_PI * sin(beta);
 	}
 
-	for (int i = 0; i < N; i++)
-		file << pontos[i] << "\n";
+	file << pontos.size();
+	file << pontos.data();
 	file.close();
 }
 

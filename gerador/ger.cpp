@@ -88,23 +88,23 @@ void generateBox(char* argv[]) {
 				//Cada quadrado é formado por 2 triângulos:
 				//Triangulo 1 
 				//P1
-				pontos[p] = x + portion; p++;
+				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + portion; p++;
+				pontos[p] = z; p++;
 				//P2
 				pontos[p] = x + portion; p++;
 				pontos[p] = a * half; p++;
 				pontos[p] = z; p++;
 				//P3
-				pontos[p] = x; p++;
+				pontos[p] = x + portion; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
+				pontos[p] = z + portion; p++;
 
 				//Triangulo 2
 				//P1
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z + portion; p++;
+				pontos[p] = z; p++;
 				//P2
 				pontos[p] = x + portion; p++;
 				pontos[p] = a * half; p++;
@@ -112,7 +112,8 @@ void generateBox(char* argv[]) {
 				//P3
 				pontos[p] = x; p++;
 				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
+				pontos[p] = z + portion; p++;
+				
 			}
 		}
 	}
@@ -212,7 +213,6 @@ void generateCone(char* argv[]) {
 	std::vector<float> pontos(N);
 	int p = 0;
 
-	//Base de baixo
 	for (int i = 0; i < slices; i++) {
 		float nextRadius = radius * (1.0f - (float)(i + 1) / stacks);
 		for (int j = 0; j < slices; ++j) {

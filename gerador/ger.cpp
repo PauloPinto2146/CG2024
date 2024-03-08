@@ -90,118 +90,193 @@ void generateBox(char* argv[]) {
 	int p = 0;
 
 	//plano de baixo e de cima (y estável)
-	for (int a = -1; a < 2; a += 2) {
-		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
-			for (int j = 0; j < grid; j++) {
-				float x = i * portion - half;
-				float z = j * portion - half;
-				//Cada quadrado é formado por 2 triângulos:
-				//Triangulo 1 
-				//P1
-				pontos[p] = x + portion; p++;
-				pontos[p] = a * half; p++;
-				pontos[p] = z + portion; p++;
-				//P2
-				pontos[p] = x + portion; p++;
-				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
-				//P3
-				pontos[p] = x; p++;
-				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
-				//Triangulo 2
-				//P1
-				pontos[p] = x; p++;
-				pontos[p] = a * half; p++;
-				pontos[p] = z; p++;
-				//P2
-				pontos[p] = x + portion; p++;
-				pontos[p] = a * half; p++;
-				pontos[p] = z + portion; p++;
-				//P3
-				pontos[p] = x; p++;
-				pontos[p] = a * half; p++;
-				pontos[p] = z + portion; p++;
-			}
+	for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+		for (int j = 0; j < grid; j++) {
+			float x = i * portion - half;
+			float z = j * portion - half;
+			//BAIXO
+			//Triangulo 1 
+			//P1
+			pontos[p] = x + portion; p++;
+			pontos[p] = -half; p++;
+			pontos[p] = z + portion; p++;
+			//P2
+			pontos[p] = x + portion; p++;
+			pontos[p] = -half; p++;
+			pontos[p] = z; p++;
+			//P3
+			pontos[p] = x; p++;
+			pontos[p] = -half; p++;
+			pontos[p] = z; p++;
+			//Triangulo 2
+			//P1
+			pontos[p] = x; p++;
+			pontos[p] = -half; p++;
+			pontos[p] = z; p++;
+			//P2
+			pontos[p] = x; p++;
+			pontos[p] = -half; p++;
+			pontos[p] = z + portion; p++;
+			//P3
+			pontos[p] = x + portion; p++;
+			pontos[p] = -half; p++;
+			pontos[p] = z + portion; p++;
+			// CIMA
+			pontos[p] = x; p++;
+			pontos[p] = half; p++;
+			pontos[p] = z; p++;
+			//P2
+			pontos[p] = x + portion; p++;
+			pontos[p] = half; p++;
+			pontos[p] = z; p++;
+			//P3
+			pontos[p] = x + portion; p++;
+			pontos[p] = half; p++;
+			pontos[p] = z + portion; p++;
+			//Triangulo 2
+			//P1
+			pontos[p] = x + portion; p++;
+			pontos[p] = half; p++;
+			pontos[p] = z + portion; p++;
+			//P2
+			pontos[p] = x; p++;
+			pontos[p] = half; p++;
+			pontos[p] = z + portion; p++;
+			//P3
+			pontos[p] = x; p++;
+			pontos[p] = half; p++;
+			pontos[p] = z; p++;
 		}
 	}
 	//plano da trás e de frente (x estável)
-	for (int a = -1; a < 2; a += 2) {
-		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
-			for (int j = 0; j < grid; j++) {
+	for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+		for (int j = 0; j < grid; j++) {
 				float y = i * portion - half;
 				float z = j * portion - half;
-				//Cada quadrado é formado por 2 triângulos:
+				//FRENTE
 				//Triangulo 1 
 				//P1
-				pontos[p] = a * half; p++;
+				pontos[p] = half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z; p++;
+				//P2
+				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z + portion; p++;
+				//P3
+				pontos[p] = half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z + portion; p++;
+
+				//Triangulo 2
+				//P1
+				pontos[p] = half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z; p++;
 				//P2
-				pontos[p] = a * half; p++;
+				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z; p++;
 				//P3
-				pontos[p] = a * half; p++;
+				pontos[p] = half; p++;
+				pontos[p] = y + portion; p++;
+				pontos[p] = z + portion; p++;
+
+				//TRAS
+				//Triangulo 1 
+				//P1
+				pontos[p] = -half; p++;
+				pontos[p] = y; p++;
+				pontos[p] = z + portion; p++;
+				//P2
+				pontos[p] = -half; p++;
+				pontos[p] = y + portion; p++;
+				pontos[p] = z + portion; p++;
+				//P3
+				pontos[p] = -half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z; p++;
 
 				//Triangulo 2
 				//P1
-				pontos[p] = a * half; p++;
-				pontos[p] = y; p++;
-				pontos[p] = z + portion; p++;
-				//P2
-				pontos[p] = a * half; p++;
+				pontos[p] = -half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z + portion; p++;
+				//P2
+				pontos[p] = -half; p++;
+				pontos[p] = y + portion; p++;
+				pontos[p] = z; p++;
 				//P3
-				pontos[p] = a * half; p++;
+				pontos[p] = -half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z; p++;
-			}
 		}
 	}
 	//plano da direita e da esquerda (z estável)
-	for (int a = -1; a < 2; a += 2) {
-		for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
-			for (int j = 0; j < grid; j++) {
-				float x = i * portion - half;
-				float y = j * portion - half;
-				//Cada quadrado é formado por 2 triângulos:
-				//Triangulo 1 
-				//P1
-				pontos[p] = x + portion; p++;
-				pontos[p] = y + portion; p++;;
-				pontos[p] = a * half; p++;
-				//P2
-				pontos[p] = x + portion; p++;
-				pontos[p] = y; p++;
-				pontos[p] = a * half; p++;
-				//P3
-				pontos[p] = x; p++;
-				pontos[p] = y; p++;
-				pontos[p] = a * half; p++;
-				//Triangulo 2
-				//P1
-				pontos[p] = x + portion; p++;
-				pontos[p] = y + portion; p++;
-				pontos[p] = a * half; p++;
-				//P2
-				pontos[p] = x; p++;
-				pontos[p] = y + portion; p++;
-				pontos[p] = a * half; p++;
-				//P3
-				pontos[p] = x + portion; p++;
-				pontos[p] = y; p++;
-				pontos[p] = a * half; p++;
-			}
+	for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+		for (int j = 0; j < grid; j++) {
+			float x = i * portion - half;
+			float y = j * portion - half;
+			//DIREITA
+			//Triangulo 1 
+			//P1
+			pontos[p] = x + portion; p++;
+			pontos[p] = y + portion; p++;;
+			pontos[p] = -half; p++;
+			//P2
+			pontos[p] = x + portion; p++;
+			pontos[p] = y; p++;
+			pontos[p] = -half; p++;
+			//P3
+			pontos[p] = x; p++;
+			pontos[p] = y; p++;
+			pontos[p] = -half; p++;
+			//Triangulo 2
+			//P1
+			pontos[p] = x + portion; p++;
+			pontos[p] = y + portion; p++;
+			pontos[p] = -half; p++;
+			//P2
+			pontos[p] = x; p++;
+			pontos[p] = y + portion; p++;
+			pontos[p] = -half; p++;
+			//P3
+			pontos[p] = x + portion; p++;
+			pontos[p] = y; p++;
+			pontos[p] = -half; p++;
+			//ESQUERDA
+			//Triangulo 1 
+			//P1
+			pontos[p] = x; p++;
+			pontos[p] = y; p++;;
+			pontos[p] = half; p++;
+			//P2
+			pontos[p] = x + portion; p++;
+			pontos[p] = y; p++;
+			pontos[p] = half; p++;
+			//P3
+			pontos[p] = x + portion; p++;
+			pontos[p] = y + portion; p++;
+			pontos[p] = half; p++;
+			//Triangulo 2
+			//P1
+			pontos[p] = x + portion; p++;
+			pontos[p] = y + portion; p++;
+			pontos[p] = half; p++;
+			//P2
+			pontos[p] = x; p++;
+			pontos[p] = y + portion; p++;
+			pontos[p] = half; p++;
+			//P3
+			pontos[p] = x; p++;
+			pontos[p] = y; p++;
+			pontos[p] = half; p++;
 		}
 	}
-	for (int i = 0; i < N; i++)
-		file << pontos[i] << "\n";
-	file.close();
-}
+		for (int i = 0; i < N; i++)
+			file << pontos[i] << "\n";
+		file.close();
+	}
 
 void generateCone(char* argv[]) {
 	ofstream file(argv[6]);

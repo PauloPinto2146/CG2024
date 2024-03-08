@@ -23,7 +23,7 @@ void print(T collection) {
 }
 
 void generateSphere(char* argv[]) {
-	ofstream file(argv[5],ios::binary);
+	ofstream file(argv[5],ios::binary | ios::out);
 	//generator generateSphere radius slices stacks sphere.3d
 
 	float radius = atoi(argv[2]);
@@ -72,13 +72,13 @@ void generateSphere(char* argv[]) {
 			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
 		}
 	}
-	file << pontos.size();
-	file << pontos.data();
+	file.write((char*)&N, sizeof(int));
+	file.write((char*)pontos.data(), sizeof(float) * N);
 	file.close();
 }
 
 void generateBox(char* argv[]) {
-	ofstream file(argv[4], ios::binary);
+	ofstream file(argv[4], ios::binary|ios::out);
 	//generator box length grid box.3d
 	float length = atoi(argv[2]);
 	float grid = atoi(argv[3]);
@@ -272,13 +272,13 @@ void generateBox(char* argv[]) {
 			pontos[p] = half; p++;
 		}
 	}
-	file << pontos.size();
-	file << pontos.data();
+	file.write((char*)&N, sizeof(int));
+	file.write((char*)pontos.data(), sizeof(float)* N);
 	file.close();
 }
 
 void generateCone(char* argv[]) {
-	ofstream file(argv[6], ios::binary);
+	ofstream file(argv[6], ios::binary|ios::out);
 	//generator cone radius height slices stacks cone.3d
 
 	float radius = atoi(argv[2]);
@@ -286,7 +286,7 @@ void generateCone(char* argv[]) {
 	float slices = atoi(argv[4]);
 	float stacks = atoi(argv[5]);
 
-	int N = (stacks * slices * 9);
+	int N = (stacks * slices * 9)*(stacks * slices * 18);
 	std::vector<float> pontos(N);
 	int p = 0;
 
@@ -295,7 +295,6 @@ void generateCone(char* argv[]) {
 		float alpha = 0;
 		float nextalpha = alpha + 2 * M_PI / slices;
 		float beta = 0;
-		float newradius = radius * cos(beta);
 		for (int j = 0; j < stacks; j++) {
 			//Triangulo 1
 			pontos[p] = radius * cos(beta) * sin(alpha); p++;
@@ -312,14 +311,52 @@ void generateCone(char* argv[]) {
 		}
 		beta += M_PI * sin(beta);
 	}
+	float beta = 0;
 
-	file << pontos.size();
-	file << pontos.data();
+	//Laterais
+	for (int i = 0; i < slices; i++) {
+		float alpha = 0;
+		float nextalpha = alpha + 2 * M_PI / slices;
+		float nextbeta = beta + M_PI / stacks;
+		float nextradius = radius * cos(nextbeta);
+		for (int j = 0; j < stacks; j++) {
+			//Triangulo 1
+			pontos[p] = radius * cos(beta) * sin(nextalpha); p++;
+			pontos[p] = radius * sin(beta); p++;
+			pontos[p] = radius * cos(beta) * cos(nextalpha); p++;
+
+			pontos[p] = nextradius * cos(nextbeta) * sin(nextalpha); p++;
+			pontos[p] = nextradius * sin(nextbeta); p++;
+			pontos[p] = nextradius * cos(nextbeta) * cos(nextalpha); p++;
+
+			pontos[p] = nextradius * cos(nextbeta) * sin(alpha); p++;
+			pontos[p] = nextradius * sin(nextbeta); p++;
+			pontos[p] = nextradius * cos(nextbeta) * cos(alpha); p++;
+			//Triangulo 2
+			pontos[p] = radius * cos(beta) * sin(nextalpha); p++;
+			pontos[p] = radius * sin(beta); p++;
+			pontos[p] = radius * cos(beta) * cos(nextalpha); p++;
+
+			pontos[p] = nextradius * cos(nextbeta) * sin(alpha); p++;
+			pontos[p] = nextradius * sin(nextbeta); p++;
+			pontos[p] = nextradius * cos(nextbeta) * cos(alpha); p++;
+
+			pontos[p] = radius * cos(beta) * sin(alpha); p++;
+			pontos[p] = radius * sin(beta); p++;
+			pontos[p] = radius * cos(beta) * cos(alpha); p++;
+
+			beta += M_PI * sin(beta);
+		}
+	}
+
+
+	file.write((char*)&N, sizeof(int));
+	file.write((char*)pontos.data(),sizeof(float)*N);
 	file.close();
 }
 
 void generatePlane(char* argv[]) {
-	ofstream file(argv[4], ios::binary);
+	ofstream file(argv[4], ios::binary | ios::out);
 	//generator plane length divisions plane.3d
 
 	float length = atoi(argv[2]);
@@ -361,8 +398,8 @@ void generatePlane(char* argv[]) {
 			pontos[p] = i * tr - (length / 2); p++;
 		}
 	}
-	file << pontos.size();
-	file << pontos.data();
+	file.write((char*)&N, sizeof(int));
+	file.write((char*)pontos.data(), sizeof(float) * N);
 
 	file.close();
 }

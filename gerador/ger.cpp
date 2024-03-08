@@ -220,21 +220,21 @@ void generateBox(char* argv[]) {
 			//DIREITA
 			//Triangulo 1 
 			//P1
-			pontos[p] = x; p++;
-			pontos[p] = y; p++;
+			pontos[p] = x + portion; p++;
+			pontos[p] = y + portion; p++;
 			pontos[p] = -half; p++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
 			//P3
-			pontos[p] = x + portion; p++;
-			pontos[p] = y + portion; p++;
+			pontos[p] = x; p++;
+			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x + portion; p++;
-			pontos[p] = y + portion; p++;
+			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
 			//P2
 			pontos[p] = x; p++;
@@ -242,7 +242,7 @@ void generateBox(char* argv[]) {
 			pontos[p] = -half; p++;
 			//P3
 			pontos[p] = x + portion; p++;
-			pontos[p] = y; p++;
+			pontos[p] = y + portion; p++;
 			pontos[p] = -half; p++;
 			//ESQUERDA
 			//Triangulo 1 

@@ -304,7 +304,7 @@ void generateCone(char* argv[]) {
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * (i + 1)); p++;
 	}
-	float rinc = (radius / slices);
+	float rinc = (radius / stacks);
 	float hinc = (height / stacks);
 	//Laterais
 	for (int i = 0; i < stacks; i++) {

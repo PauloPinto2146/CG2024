@@ -79,7 +79,14 @@ void parse_camera(xml_node<>* camera_node, Camera* camera) {
 }
 
 void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
+
 	xml_node<>* models = group_node->first_node("models");
+	xml_node<>* transform = group_node->first_node("transform");
+	xml_node<>* translate = camera_node->first_node("translate");
+	xml_node<>* rotate = camera_node->first_node("rotate");
+	xml_node<>* scale = camera_node->first_node("scale");
+
+	xml_attribute<>* tx,ty,tz,rotatealpha,rx,ry,rz,sx,sy,sz;
 
 	if (models) {
 		for(xml_node<>* model = models->first_node("model"); model; model = model->next_sibling()) {
@@ -103,6 +110,48 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 			group->model.push_back(points->size());
 
 			fich.close();
+		}
+	}
+	if (translate) {
+		if (node = group_node->first_node("transform")) {
+			if (translatex = node->first_attribute("translate")) {
+				group->tx = atof(translatex->value()); 
+			}
+			if (translatey = node->first_attribute("translate")) {
+				group->ty = atof(translatey->value());
+			}
+			if (translatez = node->first_attribute("translate")) {
+				group->tz = atof(translatez->value());
+			}
+		}
+	}
+	if (rotate) {
+		if (node = group_node->first_node("transform")) {
+			if (rotatealpha = node->first_attribute("rotate")) {
+				group->ralpha = atof(rotatealpha->value());
+			}
+			if (rotatex = node->first_attribute("rotate")) {
+				group->rx = atof(rotatex->value());
+			}
+			if (rotatey = node->first_attribute("rotate")) {
+				group->ry = atof(rotatey->value());
+			}
+			if (rotatez = node->first_attribute("rotate")) {
+				group->rz = atof(rotatez->value());
+			}
+		}
+	}
+	if (scale) {
+		if (node = group_node->first_node("transform")) {
+			if (scalex = node->first_attribute("scale")) {
+				group->sx = atof(scalex->value());
+			}
+			if (scaley = node->first_attribute("scale")) {
+				group->sy = atof(scaley->value());
+			}
+			if (scalez = node->first_attribute("scale")) {
+				group->sz = atof(scalez->value());
+			}
 		}
 	}
 }

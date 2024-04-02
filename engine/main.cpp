@@ -34,17 +34,20 @@ void drawAxis() {
 void renderScene(void) {
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     // set the camera
     glLoadIdentity();
     gluLookAt(camera->pos[0], camera->pos[1], camera->pos[2],
         camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
         camera->up[0], camera->up[1], camera->up[2]);
-    glRotatef(camera->rotate[0], 1.0f, 0.0f, 0.0f);
-    glRotatef(camera->rotate[1], 0.0f, 1.0f, 0.0f);
-    glRotatef(camera->rotate[2], 0.0f, 0.0f, 1.0f);
-    glScalef(camera->zoom, camera->zoom, camera->zoom);
-
+    glPushMatrix();
+    glTranslatef(group->tx, group->ty, group->tz);
+    glPopMatrix();
+    glPushMatrix();
+    glRotatef(group->rotatealpha, group->rx, group->ry, group->rz);
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(group->sx, group->sy, group->sz);
+    glPopMatrix();
 
     //draw instructions
     if (axis) drawAxis();

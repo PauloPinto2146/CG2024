@@ -82,9 +82,6 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 
 	xml_node<>* models = group_node->first_node("models");
 	xml_node<>* transform = group_node->first_node("transform");
-	xml_node<>* translate = camera_node->first_node("translate");
-	xml_node<>* rotate = camera_node->first_node("rotate");
-	xml_node<>* scale = camera_node->first_node("scale");
 
 	xml_attribute<>* tx,ty,tz,rotatealpha,rx,ry,rz,sx,sy,sz;
 
@@ -112,47 +109,50 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 			fich.close();
 		}
 	}
-	if (translate) {
-		if (node = group_node->first_node("transform")) {
-			if (translatex = node->first_attribute("translate")) {
-				group->tx = atof(translatex->value()); 
+
+	if (transform) {
+		xml_node<>* translate = transform->first_node("translate");
+		xml_node<>* rotate = transform->first_node("rotate");
+		xml_node<>* scale = transform->first_node("scale");
+		if (translate) {
+			if (translatex = translate->first_attribute("translate")) {
+				group->tx = atof(translatex->value());
 			}
-			if (translatey = node->first_attribute("translate")) {
+			if (translatey = translate->first_attribute("translate")) {
 				group->ty = atof(translatey->value());
 			}
-			if (translatez = node->first_attribute("translate")) {
+			if (translatez = translate->first_attribute("translate")) {
 				group->tz = atof(translatez->value());
 			}
 		}
-	}
-	if (rotate) {
-		if (node = group_node->first_node("transform")) {
-			if (rotatealpha = node->first_attribute("rotate")) {
+		if (rotate) {
+			if (rotatealpha = rotate->first_attribute("rotate")) {
 				group->ralpha = atof(rotatealpha->value());
 			}
-			if (rotatex = node->first_attribute("rotate")) {
+			if (rotatex = rotate->first_attribute("rotate")) {
 				group->rx = atof(rotatex->value());
 			}
-			if (rotatey = node->first_attribute("rotate")) {
+			if (rotatey = rotate->first_attribute("rotate")) {
 				group->ry = atof(rotatey->value());
 			}
-			if (rotatez = node->first_attribute("rotate")) {
+			if (rotatez = norotatede->first_attribute("rotate")) {
 				group->rz = atof(rotatez->value());
 			}
 		}
-	}
-	if (scale) {
-		if (node = group_node->first_node("transform")) {
-			if (scalex = node->first_attribute("scale")) {
+		if (scale) {
+			if (scalex = scale->first_attribute("scale")) {
 				group->sx = atof(scalex->value());
 			}
-			if (scaley = node->first_attribute("scale")) {
+			if (scaley = scale->first_attribute("scale")) {
 				group->sy = atof(scaley->value());
 			}
-			if (scalez = node->first_attribute("scale")) {
+			if (scalez = scale->first_attribute("scale")) {
 				group->sz = atof(scalez->value());
 			}
 		}
+	}
+	for (node = node->first_node("group"); node != NULL; node = node->next_sibling("group")) {
+		group->groups.push_back(parse_group((*group_node, *group, *points)));
 	}
 }
 

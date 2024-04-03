@@ -1,1 +1,0 @@
-Aplicação que, com um ficheiro XML que explicita as dimensões da janela, posição da câmara, etc e com o ficheiro .3d gerado pela aplicação do gerador cria o desejado em 3 dimensões na linguagem C++ (OpenGL)

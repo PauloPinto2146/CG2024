@@ -39,13 +39,17 @@ void renderScene(void) {
     gluLookAt(camera->pos[0], camera->pos[1], camera->pos[2],
         camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
         camera->up[0], camera->up[1], camera->up[2]);
+    
+    while (group->group.empty()) {
+        glPushMatrix();
+        glTranslatef(group->tx, group->ty, group->tz);
+        glRotatef(group->rotatealpha, group->rx, group->ry, group->rz);
+        glScalef(group->sx, group->sy, group->sz);
+        glPopMatrix();
+    }
     glPushMatrix();
     glTranslatef(group->tx, group->ty, group->tz);
-    glPopMatrix();
-    glPushMatrix();
     glRotatef(group->rotatealpha, group->rx, group->ry, group->rz);
-    glPopMatrix();
-    glPushMatrix();
     glScalef(group->sx, group->sy, group->sz);
     glPopMatrix();
 

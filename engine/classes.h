@@ -8,6 +8,8 @@ class Camera {
         float lookAt[3] = { 0, 0, 0 };
         float up[3] = { 0, 1, 0 };
         float projection[3] = { 60, 1, 1000 };
+        //float position = { 0,0,0 };
+        //float rotation = 0; 
 };
 #endif
 
@@ -26,7 +28,7 @@ class Group {
         float sx = 1.0;
         float sy = 1.0;
         float sz = 1.0;
-        std::vector<Group> group;
+        std::vector<Group> nextgroup;
 };
 #endif
 

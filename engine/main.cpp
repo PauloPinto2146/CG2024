@@ -39,18 +39,21 @@ void renderScene(void) {
     gluLookAt(camera->pos[0], camera->pos[1], camera->pos[2],
         camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
         camera->up[0], camera->up[1], camera->up[2]);
-    
-    while (group->group.empty()) {
+
+    Group it = group;
+
+    while (it->nextgroup.empty()) {
         glPushMatrix();
-        glTranslatef(group->tx, group->ty, group->tz);
-        glRotatef(group->rotatealpha, group->rx, group->ry, group->rz);
-        glScalef(group->sx, group->sy, group->sz);
+        glTranslatef(it->tx, it->ty, it->tz);
+        glRotatef(it->rotatealpha, it->rx, it->ry, it->rz);
+        glScalef(it->sx, it->sy, it->sz);
         glPopMatrix();
+        it = it->nextgroup;
     }
     glPushMatrix();
-    glTranslatef(group->tx, group->ty, group->tz);
-    glRotatef(group->rotatealpha, group->rx, group->ry, group->rz);
-    glScalef(group->sx, group->sy, group->sz);
+    glTranslatef(it->tx, it->ty, it->tz);
+    glRotatef(it->rotatealpha, it->rx, it->ry, it->rz);
+    glScalef(it->sx, it->sy, it->sz);
     glPopMatrix();
 
     //draw instructions

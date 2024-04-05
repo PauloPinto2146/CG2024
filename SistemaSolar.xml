@@ -1,0 +1,106 @@
+<world> 
+    <window width="512" height="512" />
+    <camera> 
+	    <position x="10" y="3" z="10" /><!--Posicionado de maneira a ver de lado o SS-->
+	    <lookAt x="0" y="0" z="0" />
+	    <up x="0" y="1" z="0" /> 
+        <projection fov="60" near="1" far="1000" /> <!-- optional, use these values as default-->
+    </camera>
+
+    <group> 
+        <transform> 
+		    <scale x="1000" y="1000" z="1000" />
+        </transform>
+        <models> 
+            <model file="sphere_965.5_10_10.3d" /> <!--Sol : generator sphere 965.5 10 10 -->
+        </models>
+        <group>
+            <transform>
+                <translate x="57.910" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_2.44_10_10.3d"/> <!--Mercurio : generator sphere 2.44 10 10-->
+            </models> 
+        </group>
+        <group>
+            <transform>
+                <translate x="108.200" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_6_10_10.3d"/> <!--Venus : generator sphere 6 10 10-->
+            </models> 
+        </group>
+        <group>
+            <transform>
+                <translate x="149.600" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_6.382_10_10.3d"/> <!--Terra : generator sphere 6.382 10 10-->
+            </models> 
+            <group>
+                <transform>
+                    <translate x = "-384.400" y = "0.5" z = "0.5"> <!--Distância da lua da terra-->
+                </transform>
+                <models>
+                    <model file = "sphere_1.737_5_5.3d"/> <!--Lua da terra : generator sphere 1.737 10 10-->
+                </models>
+            </group>
+        </group>  
+        <group>
+            <transform>
+                <translate x="227.490" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_3.397_10_10.3d"/> <!--Marte : generator sphere 3.397 10 10-->
+            </models> 
+            <group>
+                <transform>
+                    <translate x = "9.375" y = "0.5" z = "0.5"> <!--Distância da lua de Marte (fobos)-->
+                </transform>
+                <models>
+                    <model file = "sphere_0.011_5_5.3d"/> <!--1ª Lua de Marte (fobos) : generator sphere 1.737 10 10-->
+                </models>
+            </group>
+            <group>
+                <transform>
+                    <translate x = "23.5" y = "0.3" z = "0.75"> <!--Distância da lua de Marte (deimos)-->
+                </transform>
+                <models>
+                    <model file = "sphere_0.006_5_5.3d"/> <!--2ª Lua de Marte (deimos) : generator sphere 1.737 10 10-->
+                </models>
+            </group>
+        </group>
+        <group>
+            <transform>
+                <translate x="778.330" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_71.492_10_10.3d"/> <!--Jupiter : generator sphere 71.492 10 10-->
+            </models> 
+        </group>  
+        <group>
+            <transform>
+                <translate x="1429.400" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_60.268_10_10.3d"/> <!--Saturno : generator sphere 60.268 10 10-->
+            </models> 
+        </group>  
+        <group>
+            <transform>
+                <translate x="2870.990" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_25.559_10_10.3d"/> <!--Urano : generator sphere 25.559 10 10-->
+            </models> 
+        </group>  
+        <group>
+            <transform>
+                <translate x="4504.000" y ="0" z = "0"/>
+            </transform>
+            <models>
+                <model file="sphere_24.766_10_10.3d"/> <!--Neptuno : generator sphere 24.766 10 10-->
+            </models> 
+        </group>        
+    </group>
+</world>

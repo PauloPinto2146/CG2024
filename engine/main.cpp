@@ -31,6 +31,18 @@ void drawAxis() {
 
 }
 
+void renderGroup(Group g) {
+    glPushMatrix();
+    glTranslatef(g->tx, g->ty, g->tz);
+    glRotatef(itgrotatealpha, g->rx, g->ry, g->rz);
+    glScalef(g->sx, g->sy, g->sz);
+
+    while (const auto & subgrupo : g->nextgroup) {
+        renderGroup(g->nextgroup);
+    }
+    glPopMatrix();
+}
+
 void renderScene(void) {
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -40,24 +52,10 @@ void renderScene(void) {
         camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
         camera->up[0], camera->up[1], camera->up[2]);
 
-    Group it = group;
-
-    while (it->nextgroup.empty()) {
-        glPushMatrix();
-        glTranslatef(it->tx, it->ty, it->tz);
-        glRotatef(it->rotatealpha, it->rx, it->ry, it->rz);
-        glScalef(it->sx, it->sy, it->sz);
-        glPopMatrix();
-        it = it->nextgroup;
-    }
-    glPushMatrix();
-    glTranslatef(it->tx, it->ty, it->tz);
-    glRotatef(it->rotatealpha, it->rx, it->ry, it->rz);
-    glScalef(it->sx, it->sy, it->sz);
-    glPopMatrix();
+    renderGroup(group);
 
     //draw instructions
-    if (axis) drawAxis();
+    if (axis) drawAxis();o
 
     glColor3f(1.0f, 1.0f, 1.0f);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

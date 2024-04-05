@@ -12,7 +12,7 @@
 		    <scale x="1000" y="1000" z="1000" />
         </transform>
         <models> 
-            <model file="sphere_965.5_10_10.3d" /> <!--Sol : generator sphere 965.5 10 10 -->
+            <model file="sphere_965.5_500_500.3d" /> <!--Sol : generator sphere 965.5 10 10 -->
         </models>
         <group>
             <transform>

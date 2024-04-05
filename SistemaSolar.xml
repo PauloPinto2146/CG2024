@@ -77,7 +77,160 @@
             <models>
                 <model file="sphere_71.492_10_10.3d"/> <!--Jupiter : generator sphere 71.492 10 10-->
             </models> 
-        </group>  
+        </group>
+        <!--Io  1821km de raio / 421700km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "421.700" y = "0.1" z = "0.2">
+                </transform>
+                <models>
+                    <model file = "sphere_1.821_5_5.3d"/>
+                </models>
+            </group>
+        <!--Europa  1565,8km de raio / 671034km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "671.034" y = "0.7" z = "0.1">
+                </transform>
+                <models>
+                    <model file = "sphere_1.565_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Ganimedes 2.634,1km de raio / 1.070.412km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "1070.412" y = "0.3" z = "0.543">
+                </transform>
+                <models>
+                    <model file = "sphere_2.6341_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Calisto 2.410,3km de raio / 1.882.709km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "1882.709" y = "0.37" z = "0.779">
+                </transform>
+                <models>
+                    <model file = "sphere_2.41_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Amalteia 83,4km de raio / 181.366km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "181.366" y = "0.93" z = "0.124">
+                </transform>
+                <models>
+                    <model file = "sphere_0.0834_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Tebe 49,3km de raio / 221.886km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "221.886" y = "0.12" z = "0.940">
+                </transform>
+                <models>
+                    <model file = "sphere_0.0493_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Himalia 85km de raio / 11.461.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "11461.000" y = "0.43" z = "0.348">
+                </transform>
+                <models>
+                    <model file = "sphere_0.085_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Elara 43km de raio / 11.741.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "11741.000" y = "0.85" z = "0.583">
+                </transform>
+                <models>
+                    <model file = "sphere_0.043_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Pasiphae 30km de raio / 23.624.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "23624.000" y = "0.3125" z = "0.693">
+                </transform>
+                <models>
+                    <model file = "sphere_0.03_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Sinope  22km de raio / 23.939.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "23939.000" y = "0.694" z = "0.325">
+                </transform>
+                <models>
+                    <model file = "sphere_0.022_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Lysithea  18km de raio / 11.717.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "11717" y = "0.2932" z = "0.0684">
+                </transform>
+                <models>
+                    <model file = "sphere_0.018_5_5.3d"/> 
+                </models>
+            </group>
+        <!--Carpo  17km de raio / 17.140.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "17140" y = "0.0583" z = "0.3297">
+                </transform>
+                <models>
+                    <model file = "sphere_0.017_5_5.3d"/> 
+                </models>
+            </group>
+        <!--S/2003 J10  15km de raio / 23.242.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "23242" y = "0.942" z = "0.459">
+                </transform>
+                <models>
+                    <model file = "sphere_0.015_5_5.3d"/> 
+                </models>
+            </group>
+        <!--S/2003 J12  15km de raio / 23.387.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "23387" y = "0.285" z = "0.0984">
+                </transform>
+                <models>
+                    <model file = "sphere_0.015_5_5.3d"/> 
+                </models>
+            </group>
+        <!--S/2003 J16  15km de raio / 23.279.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "23279" y = "0.493" z = "0.9848">
+                </transform>
+                <models>
+                    <model file = "sphere_0.015_5_5.3d"/> 
+                </models>
+            </group>
+        <!--S/2003 J18  15km de raio / 23.361.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "23361" y = "0.683" z = "0.125">
+                </transform>
+                <models>
+                    <model file = "sphere_0.015_5_5.3d"/> 
+                </models>
+            </group>
+        <!--S/2003 J19  15km de raio / 23.354.000km distancia de Jupiter-->
+            <group>
+                <transform>
+                    <translate x = "23354" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.015_5_5.3d"/> 
+                </models>
+            </group>
         <group>
             <transform>
                 <translate x="1429.400" y ="0" z = "0"/>
@@ -85,6 +238,77 @@
             <models>
                 <model file="sphere_60.268_10_10.3d"/> <!--Saturno : generator sphere 60.268 10 10-->
             </models> 
+            <!--Mimas 198,8km de raio / 185.540km de distância de Saturno-->
+            <group>
+                <transform>
+                    <translate x = "185.54" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.1988_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Encélado 252,1km de raio /238.000km de distância de Saturno-->
+                <transform>
+                    <translate x = "238" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.252_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Tetis 583,2km de raio /294.670km de distância de Saturno-->
+            <group>
+                <transform>
+                    <translate x = "294.670" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.5832_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Dione 568,4km de raio /377.400km de distância de Saturno-->
+            <group>
+                <transform>
+                    <translate x = "377.400" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.5684_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Reia 764,1km de raio /527.040km de distância de Saturno-->
+            <group>
+                <transform>
+                    <translate x = "527.040" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.764_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Titã 2.575,1km de raio /1.221.870km de distância de Saturno-->
+            <group>
+                <transform>
+                    <translate x = "1221.870" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_2.575_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Hiperion 270,6km de raio /1.461.010km de distância de Saturno-->
+            <group>
+                <transform>
+                    <translate x = "14610" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.2706_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Jápeto 735,9km de raio /3.561.300km de distância de Saturno-->
+            <group>
+                <transform>
+                    <translate x = "3561.3" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.7359_5_5.3d"/> 
+                </models>
+            </group>
         </group>  
         <group>
             <transform>
@@ -92,7 +316,52 @@
             </transform>
             <models>
                 <model file="sphere_25.559_10_10.3d"/> <!--Urano : generator sphere 25.559 10 10-->
-            </models> 
+            </models>
+            <!--Miranda 235,8km de raio/129.380km de distância de Urano-->
+            <group>
+                <transform>
+                    <translate x = "129.380" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.2358_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Ariel   578,9km de raio/191.020km de distância de Urano-->
+            <group>
+                <transform>
+                    <translate x = "191.020" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.5789_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Umbriel 584,7km de raio/266.300km de distância de Urano-->
+            <group>
+                <transform>
+                    <translate x = "266.300" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.5847_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Titânia 788,9km de raio/436.300km de distância de Urano-->
+            <group>
+                <transform>
+                    <translate x = "436.300" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.7889_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Oberon  761,4km de raio/583.520km de distância de Urano-->
+            <group>
+                <transform>
+                    <translate x = "583.520" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.7614_5_5.3d"/> 
+                </models>
+            </group>
         </group>  
         <group>
             <transform>
@@ -100,7 +369,52 @@
             </transform>
             <models>
                 <model file="sphere_24.766_10_10.3d"/> <!--Neptuno : generator sphere 24.766 10 10-->
-            </models> 
+            </models>
+            <!--Tritão 1353,4km de raio/354.760km de distância de Neptuno-->
+            <group>
+                <transform>
+                    <translate x = "354.760" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_1.353_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Proteu 210,0km de raio/422.000km de distância de Neptuno-->
+            <group>
+                <transform>
+                    <translate x = "422" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.210_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Larissa 190,0km de raio/220.000km de distância de Neptuno-->
+            <group>
+                <transform>
+                    <translate x = "220.000k" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.190_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Despina 75,0km de raio/52.520km de distância de Neptuno-->
+            <group>
+                <transform>
+                    <translate x = "52.520" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.075_5_5.3d"/> 
+                </models>
+            </group>
+            <!--Galateia 42,0km de raio/62.190km de distância de Neptuno-->
+            <group>
+                <transform>
+                    <translate x = "62.190" y = "0.6037" z = "0.683">
+                </transform>
+                <models>
+                    <model file = "sphere_0.042_5_5.3d"/> 
+                </models>
+            </group>
         </group>        
     </group>
 </world>

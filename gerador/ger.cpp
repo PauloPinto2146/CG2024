@@ -28,129 +28,135 @@ void print(T collection) {
 #include <vector>
 #include <string>
 #include <tuple>
+#include <algorithm>
+#include <cstdlib>
 
-void multMatrixVector(float* m[4][4], float* v, float *res) {
+void multMatrixVector(float* m, float* v, float* res) {
 		for (int j = 0; j < 4; ++j) {
 			res[j] = 0;
 			for (int k = 0; k < 4; ++k) {
-				res[j] += v[k] * m[j][k];
+				res[j] += v[k] * m[j*4+k];
 			}
 		}
 }
 
 tuple<float, float, float> B(float u, float v, vector<vector<float>> controlPoints, vector<vector<float>> patchIndexs, int patch) {
-	float M[4][4] = { {-1,3,-3,1},{3,-6,3,0},{-3,3,0,0},{1,0,0,0} }; // M = Mt
-	float u[4] = { pow(u,3),pow(u,2),u,1};
-	float v[4] = { pow(v,3),pow(v,2),v,1 };
-	float P[4][4] = { {patchIndexs[patch][0],patchIndexs[patch][1],patchIndexs[patch][2],patchIndexs[patch][3]},
-					{patchIndexs[patch][4],patchIndexs[patch][5],patchIndexs[patch][6],patchIndexs[patch][7]},
-					{patchIndexs[patch][8],patchIndexs[patch][9],patchIndexs[patch][10],patchIndexs[patch][11]},
-					{patchIndexs[patch][12],patchIndexs[patch][13],patchIndexs[patch][14],patchIndexs[patch][15]} };
+	float M[16] = {-1,3,-3,1,3,-6,3,0,-3,3,0,0,1,0,0,0 }; // M = Mt
+	float umatrix[4] = { float(pow(u,3)),float(pow(u,2)),u,1};
+	float vmatrix[4] = { float(pow(v,3)),float(pow(v,2)),v,1};
+	float P[16] = { patchIndexs[patch][0], patchIndexs[patch][1], patchIndexs[patch][2], patchIndexs[patch][3],
+					patchIndexs[patch][4], patchIndexs[patch][5], patchIndexs[patch][6], patchIndexs[patch][7],
+					patchIndexs[patch][8], patchIndexs[patch][9], patchIndexs[patch][10], patchIndexs[patch][11],
+					patchIndexs[patch][12], patchIndexs[patch][13], patchIndexs[patch][14], patchIndexs[patch][15] };
 	float MV[4];
-	multMatrixVector(M, v, MV);
+	multMatrixVector(M, vmatrix, MV);
 	float PMV[4];
 	multMatrixVector(P, MV, PMV);
 	float MPMV[4];
 	multMatrixVector(M, PMV, MPMV);
 	float UMPMV[4];
-	multMatrixVector(U, MPMV, UMPMV);
+	multMatrixVector(umatrix, MPMV, UMPMV);
 	return make_tuple(UMPMV[0], UMPMV[1], UMPMV[2]);
 }
 
-tuple<int, int> readPatchFile(char* ficheiroPatch, vector<vector<float>>* controlPoints, vector<vector<float>>* patchIndexs) {
+tuple<int, int, vector<vector<float>>, vector<vector<float>>> readPatchFile(char* ficheiroPatch) {
 	int nPatches;
 	int nControlPoints;
-
+	int commaCount;
+	vector<vector<float>> controlPoints;
+	vector<vector<float>> patchIndexs;
 	ifstream file;
 	file.open(ficheiroPatch, ios::in);
 
 	file >> nPatches;
-
-	while (getline(file, line)) {
+	string line;
+	getline(file, line,'\n');
+	for (int i = 0; i < nPatches; i++) {
 		vector<float> patchIndicesRow;
+		getline(file, line, '\n');
 		stringstream ss(line);
 		string value;
-
-		size_t commaCount = count(line.begin(), line.end(), ',');
+		commaCount = count(line.begin(), line.end(), ',');
 		if (commaCount < 1) {
 			file >> nControlPoints;
+			getline(file, line, '\n');
 			break;
 		}
-
 		while (getline(ss, value, ',')) {
 			patchIndicesRow.push_back(stof(value));
 		}
-
 		patchIndexs.push_back(patchIndicesRow);
+		commaCount = 0;
 	}
-	while (getline(file, line)) {
-		vector<float> controlPointRow;
+	file >> nControlPoints;
+	getline(file, line, '\n');
+	for (int i = 0; i < nControlPoints; i++) {
+		vector<float> controlPointsRow;
 		stringstream ss(line);
 		string value;
-
 		while (getline(ss, value, ',')) {
 			controlPointsRow.push_back(stof(value));
 		}
-		controlPoint.push_back(controlPointRow);
+		controlPoints.push_back(controlPointsRow);
 	}
 	file.close();
 
-	return make_tuple(nPatches, nControlPoints);
+	return make_tuple(nPatches, nControlPoints, controlPoints, patchIndexs);
 }
 
 void generatePatch(char* argv[]) {
 	ofstream file(argv[4], ios::binary | ios::out);
 	//generator patch teapot.patch 10 bezier_10.3d
-
 	char* ficheiroPatch = argv[2];
-	vector<float>* controlPoints;
-	vector<float>* patchIndexs;
-	auto res = readPatchFile(ficheiroPatch, &controlPoints, &patchIndexs);
+	auto res = readPatchFile(ficheiroPatch);
 
 	int nPatches = get<0>(res);
 	int nControlPoints = get<1>(res);
+	vector<vector<float>> controlPoints = get<2>(res);
+	vector<vector<float>> patchIndexs = get<3>(res);
 
 	float tessellation = atoi(argv[3]);
 
 	int patchesSize = nPatches * 16;
 	int controlPointsSize = nControlPoints * 3;
 	int u, v;
-
 	vector<float> pontos;
 	tuple<float, float, float> pontoTriangulo;
-
 	for(int patch = 0; patch<patchIndexs.size(); patch++){
 		for (u = 0; u < tessellation; u++){
 			for (v = 0; v < tessellation; v++){
 				//Triangulo 1
-				pontoTriangulo = B(u / tesselation, v / tesselation, patchIndexs, controlPoints,patch);
+				pontoTriangulo = B(u / tessellation, v / tessellation, controlPoints, patchIndexs,patch);
 				pontos.push_back(get<0>(pontoTriangulo)); //px
 				pontos.push_back(get<1>(pontoTriangulo)); //py
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
-				pontoTriangulo = B((u + 1) / tesselation, v / tesselation, patchIndexs, controlPoints, patch);
+				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints,patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
-				pontoTriangulo = B((u + 1) / tesselation, (v+1) / tesselation, patchIndexs, controlPoints, patch);
+				pontoTriangulo = B((u + 1) / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
 				//Triangulo 2 
-				pontoTriangulo = B((u + 1) / tesselation, v / tesselation, patchIndexs, controlPoints, patch);
+				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo)); //px
 				pontos.push_back(get<1>(pontoTriangulo)); //py
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
-				pontoTriangulo = B((u + 1) / tesselation, (v + 1) / tesselation, patchIndexs, controlPoints, patch);
+				pontoTriangulo = B((u + 1) / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
-				pontoTriangulo = B(u / tesselation, (v + 1) / tesselation, patchIndexs, controlPoints, patch);
+				pontoTriangulo = B(u / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
 			}
 		}
 	}
+	for(int i = 0; i<pontos.size();i++)
+		cout<<pontos[i]<<endl;
+	int N = pontos.size();
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float) * N);
 	file.close();

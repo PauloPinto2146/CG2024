@@ -22,6 +22,70 @@ void print(T collection) {
 	print(collection, collection.size());
 }
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+
+
+void generatePatch(char* argv[]) {
+	ofstream file(argv[4], ios::binary | ios::out);
+	//generator patch teapot.patch 10 bezier_10.3d
+
+	char* ficheiroPatch = argv[2];
+	std::vector<float>* controlPoints;
+	std::vector<float>* patchIndexs;
+	readPatchFile(ficheiroPatch,&controlPoints, &patchIndexs);
+	float tessellation = atoi(argv[3]);
+
+	int N = ;
+	std::vector<float> pontos(N);
+	int p = 0;
+
+	file.write((char*)&N, sizeof(int));
+	file.write((char*)pontos.data(), sizeof(float) * N);
+	file.close();
+}
+
+void readPatchFile(char* ficheiroPatch, std::vector<float>* controlPoints, std::vector<std::vector<float>>* patchIndexs) {
+	int nPatches;
+	int nControlPoints;
+
+	ifstream file;
+	file.open(ficheiroPatch, ios::in);
+
+	file >> nPatches;
+
+	while (std::getline(file, line)) {
+		std::vector<float> patchIndicesRow;
+		std::stringstream ss(line);
+		std::string value;
+
+		size_t commaCount = std::count(line.begin(), line.end(), ',');
+		if (commaCount < 1) {
+			file >> nControlPoints;
+			break;
+		}
+
+		while (std::getline(ss, value, ',')) {
+			patchIndicesRow.push_back(std::stof(value));
+		}
+
+		patchIndexs.push_back(patchIndicesRow);
+	}
+	while (std::getline(file, line)) {
+		float controlPoint;
+		std::stringstream ss(line);
+		std::string value;
+
+		while (std::getline(ss, value, ',')) {
+			controlPoints.push_back(std::stof(value));
+		}
+	}
+	file.close();
+}
+
 void generateSphere(char* argv[]) {
 	ofstream file(argv[5],ios::binary | ios::out);
 	//generator generateSphere radius slices stacks sphere.3d
@@ -409,6 +473,9 @@ int main(int argc, char* argv[]) {
 	}
 	else if (strcmp(argv[1], "plane") == 0) {
 		generatePlane(argv);
+	}
+	else if (strcmp(argv[1], "patch") == 0) {
+		generatePatch(argv);
 	}
 	else {
 		cout << "ERROR: Nao existe nenhuma funcao: " << argv[1] << endl;

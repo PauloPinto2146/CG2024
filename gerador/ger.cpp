@@ -27,28 +27,37 @@ void print(T collection) {
 #include <sstream>
 #include <vector>
 #include <string>
+#include <tuple>
 
-
-void generatePatch(char* argv[]) {
-	ofstream file(argv[4], ios::binary | ios::out);
-	//generator patch teapot.patch 10 bezier_10.3d
-
-	char* ficheiroPatch = argv[2];
-	std::vector<float>* controlPoints;
-	std::vector<float>* patchIndexs;
-	readPatchFile(ficheiroPatch,&controlPoints, &patchIndexs);
-	float tessellation = atoi(argv[3]);
-
-	int N = ;
-	std::vector<float> pontos(N);
-	int p = 0;
-
-	file.write((char*)&N, sizeof(int));
-	file.write((char*)pontos.data(), sizeof(float) * N);
-	file.close();
+void multMatrixVector(float* m[4][4], float* v, float *res) {
+		for (int j = 0; j < 4; ++j) {
+			res[j] = 0;
+			for (int k = 0; k < 4; ++k) {
+				res[j] += v[k] * m[j][k];
+			}
+		}
 }
 
-void readPatchFile(char* ficheiroPatch, std::vector<float>* controlPoints, std::vector<std::vector<float>>* patchIndexs) {
+tuple<float, float, float> B(float u, float v, vector<vector<float>> controlPoints, vector<vector<float>> patchIndexs, int patch) {
+	float M[4][4] = { {-1,3,-3,1},{3,-6,3,0},{-3,3,0,0},{1,0,0,0} }; // M = Mt
+	float u[4] = { pow(u,3),pow(u,2),u,1};
+	float v[4] = { pow(v,3),pow(v,2),v,1 };
+	float P[4][4] = { {patchIndexs[patch][0],patchIndexs[patch][1],patchIndexs[patch][2],patchIndexs[patch][3]},
+					{patchIndexs[patch][4],patchIndexs[patch][5],patchIndexs[patch][6],patchIndexs[patch][7]},
+					{patchIndexs[patch][8],patchIndexs[patch][9],patchIndexs[patch][10],patchIndexs[patch][11]},
+					{patchIndexs[patch][12],patchIndexs[patch][13],patchIndexs[patch][14],patchIndexs[patch][15]} };
+	float MV[4];
+	multMatrixVector(M, v, MV);
+	float PMV[4];
+	multMatrixVector(P, MV, PMV);
+	float MPMV[4];
+	multMatrixVector(M, PMV, MPMV);
+	float UMPMV[4];
+	multMatrixVector(U, MPMV, UMPMV);
+	return make_tuple(UMPMV[0], UMPMV[1], UMPMV[2]);
+}
+
+tuple<int, int> readPatchFile(char* ficheiroPatch, vector<vector<float>>* controlPoints, vector<vector<float>>* patchIndexs) {
 	int nPatches;
 	int nControlPoints;
 
@@ -57,32 +66,93 @@ void readPatchFile(char* ficheiroPatch, std::vector<float>* controlPoints, std::
 
 	file >> nPatches;
 
-	while (std::getline(file, line)) {
-		std::vector<float> patchIndicesRow;
-		std::stringstream ss(line);
-		std::string value;
+	while (getline(file, line)) {
+		vector<float> patchIndicesRow;
+		stringstream ss(line);
+		string value;
 
-		size_t commaCount = std::count(line.begin(), line.end(), ',');
+		size_t commaCount = count(line.begin(), line.end(), ',');
 		if (commaCount < 1) {
 			file >> nControlPoints;
 			break;
 		}
 
-		while (std::getline(ss, value, ',')) {
-			patchIndicesRow.push_back(std::stof(value));
+		while (getline(ss, value, ',')) {
+			patchIndicesRow.push_back(stof(value));
 		}
 
 		patchIndexs.push_back(patchIndicesRow);
 	}
-	while (std::getline(file, line)) {
-		float controlPoint;
-		std::stringstream ss(line);
-		std::string value;
+	while (getline(file, line)) {
+		vector<float> controlPointRow;
+		stringstream ss(line);
+		string value;
 
-		while (std::getline(ss, value, ',')) {
-			controlPoints.push_back(std::stof(value));
+		while (getline(ss, value, ',')) {
+			controlPointsRow.push_back(stof(value));
+		}
+		controlPoint.push_back(controlPointRow);
+	}
+	file.close();
+
+	return make_tuple(nPatches, nControlPoints);
+}
+
+void generatePatch(char* argv[]) {
+	ofstream file(argv[4], ios::binary | ios::out);
+	//generator patch teapot.patch 10 bezier_10.3d
+
+	char* ficheiroPatch = argv[2];
+	vector<float>* controlPoints;
+	vector<float>* patchIndexs;
+	auto res = readPatchFile(ficheiroPatch, &controlPoints, &patchIndexs);
+
+	int nPatches = get<0>(res);
+	int nControlPoints = get<1>(res);
+
+	float tessellation = atoi(argv[3]);
+
+	int patchesSize = nPatches * 16;
+	int controlPointsSize = nControlPoints * 3;
+	int u, v;
+
+	vector<float> pontos;
+	tuple<float, float, float> pontoTriangulo;
+
+	for(int patch = 0; patch<patchIndexs.size(); patch++){
+		for (u = 0; u < tessellation; u++){
+			for (v = 0; v < tessellation; v++){
+				//Triangulo 1
+				pontoTriangulo = B(u / tesselation, v / tesselation, patchIndexs, controlPoints,patch);
+				pontos.push_back(get<0>(pontoTriangulo)); //px
+				pontos.push_back(get<1>(pontoTriangulo)); //py
+				pontos.push_back(get<2>(pontoTriangulo)); //pz
+				pontoTriangulo = B((u + 1) / tesselation, v / tesselation, patchIndexs, controlPoints, patch);
+				pontos.push_back(get<0>(pontoTriangulo));
+				pontos.push_back(get<1>(pontoTriangulo));
+				pontos.push_back(get<2>(pontoTriangulo));
+				pontoTriangulo = B((u + 1) / tesselation, (v+1) / tesselation, patchIndexs, controlPoints, patch);
+				pontos.push_back(get<0>(pontoTriangulo));
+				pontos.push_back(get<1>(pontoTriangulo));
+				pontos.push_back(get<2>(pontoTriangulo));
+				//Triangulo 2 
+				pontoTriangulo = B((u + 1) / tesselation, v / tesselation, patchIndexs, controlPoints, patch);
+				pontos.push_back(get<0>(pontoTriangulo)); //px
+				pontos.push_back(get<1>(pontoTriangulo)); //py
+				pontos.push_back(get<2>(pontoTriangulo)); //pz
+				pontoTriangulo = B((u + 1) / tesselation, (v + 1) / tesselation, patchIndexs, controlPoints, patch);
+				pontos.push_back(get<0>(pontoTriangulo));
+				pontos.push_back(get<1>(pontoTriangulo));
+				pontos.push_back(get<2>(pontoTriangulo));
+				pontoTriangulo = B(u / tesselation, (v + 1) / tesselation, patchIndexs, controlPoints, patch);
+				pontos.push_back(get<0>(pontoTriangulo));
+				pontos.push_back(get<1>(pontoTriangulo));
+				pontos.push_back(get<2>(pontoTriangulo));
+			}
 		}
 	}
+	file.write((char*)&N, sizeof(int));
+	file.write((char*)pontos.data(), sizeof(float) * N);
 	file.close();
 }
 
@@ -95,7 +165,7 @@ void generateSphere(char* argv[]) {
 	float stacks = atoi(argv[4]);
 
 	int N = (stacks * slices * 9) + (stacks * slices * 18); //Número de pontos
-	std::vector<float> pontos(N);
+	vector<float> pontos(N);
 	int p = 0;
 
 	float const R = 1.0f / slices;
@@ -149,7 +219,7 @@ void generateBox(char* argv[]) {
 	float half = length / 2;
 	float portion = length / grid;
 	int N = grid * grid * 18 * 6; //Número de pontos
-	std::vector<float> pontos(N);
+	vector<float> pontos(N);
 	int p = 0;
 
 	//plano de baixo e de cima (y estável)
@@ -351,7 +421,7 @@ void generateCone(char* argv[]) {
 	float stacks = atoi(argv[5]);
 
 	int N = (slices * 9)*(stacks * slices * 18);
-	std::vector<float> pontos(N);
+	vector<float> pontos(N);
 	int p = 0;
 	float alpha = 2 * M_PI / slices;
 	float rinc = (radius / stacks);
@@ -419,7 +489,7 @@ void generatePlane(char* argv[]) {
 	float divisions = atoi(argv[3]);
 	float tr = length / divisions;
 	int N = divisions * divisions * 18;
-	std::vector<float> pontos(N);
+	vector<float> pontos(N);
 	int p = 0;
 
 	for (int i = 0; i < divisions; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2

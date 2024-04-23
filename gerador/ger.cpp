@@ -41,22 +41,36 @@ void multMatrixVector(float* m, float* v, float* res) {
 }
 
 tuple<float, float, float> B(float u, float v, vector<vector<float>> controlPoints, vector<vector<float>> patchIndexs, int patch) {
+	float pp;
 	float M[16] = {-1,3,-3,1,3,-6,3,0,-3,3,0,0,1,0,0,0 }; // M = Mt
 	float umatrix[4] = { float(pow(u,3)),float(pow(u,2)),u,1};
 	float vmatrix[4] = { float(pow(v,3)),float(pow(v,2)),v,1};
-	float P[16] = { patchIndexs[patch][0], patchIndexs[patch][1], patchIndexs[patch][2], patchIndexs[patch][3],
-					patchIndexs[patch][4], patchIndexs[patch][5], patchIndexs[patch][6], patchIndexs[patch][7],
-					patchIndexs[patch][8], patchIndexs[patch][9], patchIndexs[patch][10], patchIndexs[patch][11],
-					patchIndexs[patch][12], patchIndexs[patch][13], patchIndexs[patch][14], patchIndexs[patch][15] };
-	float MV[4];
-	multMatrixVector(M, vmatrix, MV);
-	float PMV[4];
-	multMatrixVector(P, MV, PMV);
-	float MPMV[4];
-	multMatrixVector(M, PMV, MPMV);
-	float UMPMV[4];
-	multMatrixVector(umatrix, MPMV, UMPMV);
-	return make_tuple(UMPMV[0], UMPMV[1], UMPMV[2]);
+	tuple <float, float, float> res;
+	for (int i = 0; i < 3; i++) { //Para coordenadas x,y e z
+		float P[16];
+		for (int j = 0; j < 16; j++) {
+			pp = patchIndexs[patch][j];
+			P[j] = controlPoints[pp][i];
+			//float P[16] = { controlPoints[patchIndexs[patch][0]][i], controlPoints[patchIndexs[patch][1]][i], controlPoints[patchIndexs[patch][2]][i], controlPoints[patchIndexs[patch][3]][i],
+			//				controlPoints[patchIndexs[patch][4]][i], controlPoints[patchIndexs[patch][5]][i], controlPoints[patchIndexs[patch][6]][i], controlPoints[patchIndexs[patch][7]][i],
+			//				controlPoints[patchIndexs[patch][8]][i], controlPoints[patchIndexs[patch][9]][i], controlPoints[patchIndexs[patch][10]][i], controlPoints[patchIndexs[patch][11]][i],
+			//				controlPoints[patchIndexs[patch][12]][i], controlPoints[patchIndexs[patch][13]][i], controlPoints[patchIndexs[patch][14]][i], controlPoints[patchIndexs[patch][15]][i] };
+		}
+		float MV[4];
+		multMatrixVector(M, vmatrix, MV);
+		float PMV[4];
+		multMatrixVector(P, MV, PMV);
+		float MPMV[4];
+		multMatrixVector(M, PMV, MPMV);
+		float UMPMV[4];
+		multMatrixVector(umatrix, MPMV, UMPMV);
+		switch (i) {
+			case 0 : get<0>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3];
+			case 1 : get<1>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3];
+			case 2 : get<2>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3];
+		}
+	}
+	return res;
 }
 
 tuple<int, int, vector<vector<float>>, vector<vector<float>>> readPatchFile(char* ficheiroPatch) {
@@ -92,6 +106,7 @@ tuple<int, int, vector<vector<float>>, vector<vector<float>>> readPatchFile(char
 	getline(file, line, '\n');
 	for (int i = 0; i < nControlPoints; i++) {
 		vector<float> controlPointsRow;
+		getline(file, line, '\n');
 		stringstream ss(line);
 		string value;
 		while (getline(ss, value, ',')) {
@@ -114,10 +129,8 @@ void generatePatch(char* argv[]) {
 	int nControlPoints = get<1>(res);
 	vector<vector<float>> controlPoints = get<2>(res);
 	vector<vector<float>> patchIndexs = get<3>(res);
-
 	float tessellation = atoi(argv[3]);
-
-	int patchesSize = nPatches * 16;
+	int patchesSize = nPatches * 16;	
 	int controlPointsSize = nControlPoints * 3;
 	int u, v;
 	vector<float> pontos;

@@ -34,16 +34,20 @@ void multMatrixVector(float m[4][4], float* v, float* res) {
             res[j] += v[k] * m[j][k];
         }
     }
-
 }
-void getCatmullRomPoint(float t, float* p0, float* p1, float* p2, float* p3, float* pos, float* deriv) {
 
+void cross(float* a, float* b, float* res) {
+    res[0] = a[1] * b[2] - a[2] * b[1];
+    res[1] = a[2] * b[0] - a[0] * b[2];
+    res[2] = a[0] * b[1] - a[1] * b[0];
+}
+
+void getCatmullRomPoint(float t, float* p0, float* p1, float* p2, float* p3, float* pos, float* deriv) {
 
     float m[4][4] = { {-0.5f,  1.5f, -1.5f,  0.5f},
                         { 1.0f, -2.5f,  2.0f, -0.5f},
                         {-0.5f,  0.0f,  0.5f,  0.0f},
                         { 0.0f,  1.0f,  0.0f,  0.0f} };
-
 
     for (int i = 0; i < 3; i++) {	 // i = x, y,
         float p[4] = { p0[i], p1[i], p2[i], p3[i] };
@@ -56,15 +60,12 @@ void getCatmullRomPoint(float t, float* p0, float* p1, float* p2, float* p3, flo
     }
 }
 
-
-// given  global t, returns the point in the curve
 void getGlobalCatmullRomPoint(float gt, float* pos, float* deriv) {
 
-    float t = gt * POINT_COUNT; // this is the real global t
-    int index = floor(t);  // which segment
-    t = t - index; // where within  the segment
+    float t = gt * POINT_COUNT; 
+    int index = floor(t); 
+    t = t - index;
 
-    // indices store the points
     int indices[4];
     indices[0] = (index + POINT_COUNT - 1) % POINT_COUNT;
     indices[1] = (indices[0] + 1) % POINT_COUNT;
@@ -74,6 +75,20 @@ void getGlobalCatmullRomPoint(float gt, float* pos, float* deriv) {
     getCatmullRomPoint(t, p[indices[0]], p[indices[1]], p[indices[2]], p[indices[3]], pos, deriv);
 }
 
+void renderCatmullRomCurve() {
+    float pos[3];
+    float deriv[3];
+    
+    glBegin(GL_LINE_LOOP);
+    float gt = 0;
+
+    while (gt < 1) {
+        getGlobalCatmullRomPoint(gt, pos, deriv);
+        glVertex3f(pos[0], pos[1], pos[2]);
+        gt += 1.0 / TESSELATION;
+    }
+    glEnd();
+}
 
 void drawAxis() {
     glBegin(GL_LINES);
@@ -106,20 +121,44 @@ void renderGroup(Group* g) {
         else if (code == 1) {
             glRotatef(g->ralpha, g->rx, g->ry, g->rz);
         }
-        else {
+        else if (code == 2){
             glScalef(g->sx, g->sy, g->sz);
+        }
+        else if (code == 3) {
+                float t = remainder(glutGet(GLUT_ELAPSED_TIME)/1000.0f,g->time);
+                glLoadIdentity();
+                renderCatmullRomCurve();
+                float pos[3];
+                float deriv[3];
+                getGlobalCatmullRomPoint(t, pos, deriv);
+                glTranslatef(pos[0], pos[1], pos[2]);
+                float x[3] = { deriv[0], deriv[1], deriv[2] };
+                normalize(x);
+                float z[3];
+                cross(x, prev_y, z);
+                normalize(z);
+                float y[3];
+                cross(z, x, y);
+                normalize(y);
+                memcpy(prev_y, y, 3 * sizeof(float));
+                float m[16];
+                buildRotMatrix(x, y, z, m);
+                glMultMatrixf(m);
+        }
+        else if (code == 4) {
+            float t = remainder(glutGet(GLUT_ELAPSED_TIME) / 1000.0f, g->time);
+            glRotatef((360*t, g->timerx, g->timery, g->timerz);)
         }
     }
 
     for (int i = 0; i < g->model.size(); i++) {
         glDrawArrays(GL_TRIANGLES, first / 3, g->model[i] / 3);
-        first += g->model[i];
+        first += g->model[i];   
     }
 
     for (Group*& subgroup : g->groups) {
         renderGroup(subgroup);
     }
-
     glPopMatrix();
 }
 

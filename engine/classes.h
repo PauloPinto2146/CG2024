@@ -27,6 +27,9 @@ public:
     float rx = 0.0;
     float ry = 0.0;
     float rz = 0.0;
+    float timerx = 0.0;
+    float timery = 0.0;
+    float timerz = 0.0;
     float sx = 1.0;
     float sy = 1.0;
     float sz = 1.0;

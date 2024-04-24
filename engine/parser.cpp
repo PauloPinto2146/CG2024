@@ -118,6 +118,15 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 			else if (strcmp(node->name(), "rotate") == 0) {
 				code = 1;
 			}
+			else if (strcmp(node->name(), "scale") == 0) {
+				code = 2;
+			}
+			else if (strcmp(node->name(), "timeTranslate") == 0) {
+				code = 3;
+			}
+			else if (strcmp(node->name(), "timeRotate") == 0) {
+				code = 4;
+			}
 
 			group->torder.push_back(code);
 		}
@@ -138,6 +147,10 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 		xml_attribute<>* rotatex;
 		xml_attribute<>* rotatey;
 		xml_attribute<>* rotatez;
+		
+		xml_attribute<>* timerotatex;
+		xml_attribute<>* timerotatey;
+		xml_attribute<>* timerotatez;
 
 		xml_attribute<>* scalex;
 		xml_attribute<>* scaley;
@@ -179,15 +192,15 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 					group->tesselation = atof(tesselation->value());
 				}
 				if (rotatex = rotate->first_attribute("x")) {
-					group->rx = atof(rotatex->value());
+					group->timerx = atof(rotatex->value());
 				}
 
 				if (rotatey = rotate->first_attribute("y")) {
-					group->ry = atof(rotatey->value());
+					group->timery = atof(rotatey->value());
 				}
 
 				if (rotatez = rotate->first_attribute("z")) {
-					group->rz = atof(rotatez->value());
+					group->timerz = atof(rotatez->value());
 				}
 			}
 			else {

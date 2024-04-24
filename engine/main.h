@@ -1,5 +1,6 @@
 #include "rapidxml.hpp"
 #define _USE_MATH_DEFINES
+#define GLEW_STATIC
 #include <tuple>
 #include <vector>
 #include <math.h>

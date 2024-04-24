@@ -36,7 +36,7 @@ void parse_camera(xml_node<>* camera_node, Camera* camera) {
 	}
 
 	if (lookat) {
-		if (node = camera_node->first_node("lookat")) {
+		if (node = camera_node->first_node("lookAt")) {
 			if (l1 = node->first_attribute("x")) {
 				camera->lookAt[0] = atof(l1->value());
 			}
@@ -79,14 +79,11 @@ void parse_camera(xml_node<>* camera_node, Camera* camera) {
 }
 
 void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
-
 	xml_node<>* models = group_node->first_node("models");
 	xml_node<>* transform = group_node->first_node("transform");
 
-	xml_attribute<>* tx,ty,tz,rotatealpha,rx,ry,rz,sx,sy,sz;
-
 	if (models) {
-		for(xml_node<>* model = models->first_node("model"); model; model = model->next_sibling()) {
+		for (xml_node<>* model = models->first_node("model"); model; model = model->next_sibling()) {
 
 			//Get file name and open it
 			char* file = model->first_attribute("file")->value();
@@ -98,61 +95,141 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 				exit(1);
 			}
 
-			char line[20];
+			int n;
+			fich.read((char*)&n, sizeof(int));
 
-			while (fich.getline(line, 20)) {
-				points->push_back(atof(line));
-			}
+			float* temp_points = (float*)malloc(n * sizeof(float));
+			fich.read((char*)temp_points, n * sizeof(float));
 
-			group->model.push_back(points->size());
+			points->insert(points->end(), temp_points, temp_points + n);
+			group->model.push_back(n);
 
 			fich.close();
 		}
 	}
 
 	if (transform) {
+		for (xml_node<>* node = transform->first_node(); node; node = node->next_sibling()) {
+			int code = 2;
+
+			if (strcmp(node->name(), "translate") == 0) {
+				code = 0;
+			}
+			else if (strcmp(node->name(), "rotate") == 0) {
+				code = 1;
+			}
+
+			group->torder.push_back(code);
+		}
+
 		xml_node<>* translate = transform->first_node("translate");
 		xml_node<>* rotate = transform->first_node("rotate");
 		xml_node<>* scale = transform->first_node("scale");
+		xml_node<>* pointNode;
+
+		xml_attribute<>* translatex;
+		xml_attribute<>* translatey;
+		xml_attribute<>* translatez;
+		xml_attribute<>* tesselation;
+		xml_attribute<>* align;
+		vector<float> catPoints;
+
+		xml_attribute<>* rotatealpha;
+		xml_attribute<>* rotatex;
+		xml_attribute<>* rotatey;
+		xml_attribute<>* rotatez;
+
+		xml_attribute<>* scalex;
+		xml_attribute<>* scaley;
+		xml_attribute<>* scalez;
+
 		if (translate) {
-			if (translatex = translate->first_attribute("translate")) {
-				group->tx = atof(translatex->value());
+			if (translate->first_attribute("time")) {
+				if(tesselation = translate->first_attribute("time")) {
+					group->tesselation = atof(tesselation->value());
+				}
+				if(strcmp(translate->first_attribute("align")->value(),"True") == 0) {
+					group->align = 1;
+				}
+				else {
+					group->align = 0;
+				}
+				while(pointNode->first_attribute("x")) {
+					group->catPoints.push_back(atof(translate->first_attribute("x")->value()));
+					group->catPoints.push_back(atof(translate->first_attribute("y")->value()));
+					group->catPoints.push_back(atof(translate->first_attribute("z")->value()));
+				}
 			}
-			if (translatey = translate->first_attribute("translate")) {
-				group->ty = atof(translatey->value());
-			}
-			if (translatez = translate->first_attribute("translate")) {
-				group->tz = atof(translatez->value());
+			else {
+				if (translatex = translate->first_attribute("x")) {
+					group->tx = atof(translatex->value());
+				}
+				if (translatey = translate->first_attribute("y")) {
+					group->ty = atof(translatey->value());
+				}
+				if (translatez = translate->first_attribute("z")) {
+					group->tz = atof(translatez->value());
+				}
 			}
 		}
+
 		if (rotate) {
-			if (rotatealpha = rotate->first_attribute("rotate")) {
-				group->ralpha = atof(rotatealpha->value());
+			if(rotate->first_attribute("time")) {
+				if(tesselation = rotate->first_attribute("time")) {
+					group->tesselation = atof(tesselation->value());
+				}
+				if (rotatex = rotate->first_attribute("x")) {
+					group->rx = atof(rotatex->value());
+				}
+
+				if (rotatey = rotate->first_attribute("y")) {
+					group->ry = atof(rotatey->value());
+				}
+
+				if (rotatez = rotate->first_attribute("z")) {
+					group->rz = atof(rotatez->value());
+				}
 			}
-			if (rotatex = rotate->first_attribute("rotate")) {
-				group->rx = atof(rotatex->value());
+			else {
+				if (rotatealpha = rotate->first_attribute("angle")) {
+					group->ralpha = atof(rotatealpha->value());
+				}
+				if (rotatex = rotate->first_attribute("x")) {
+					group->rx = atof(rotatex->value());
+				}
+
+				if (rotatey = rotate->first_attribute("y")) {
+					group->ry = atof(rotatey->value());
+				}
+
+				if (rotatez = rotate->first_attribute("z")) {
+					group->rz = atof(rotatez->value());
+				}
 			}
-			if (rotatey = rotate->first_attribute("rotate")) {
-				group->ry = atof(rotatey->value());
-			}
-			if (rotatez = norotatede->first_attribute("rotate")) {
-				group->rz = atof(rotatez->value());
-			}
-		}
+
 		if (scale) {
-			if (scalex = scale->first_attribute("scale")) {
+			if (scalex = scale->first_attribute("x")) {
 				group->sx = atof(scalex->value());
 			}
-			if (scaley = scale->first_attribute("scale")) {
+
+			if (scaley = scale->first_attribute("y")) {
 				group->sy = atof(scaley->value());
 			}
-			if (scalez = scale->first_attribute("scale")) {
+
+			if (scalez = scale->first_attribute("z")) {
 				group->sz = atof(scalez->value());
 			}
 		}
 	}
-	for (node = node->first_node("group"); node != NULL; node = node->next_sibling("group")) {
-		group->groups.push_back(parse_group((*group_node, *group, *points)));
+
+	xml_node<>* node;
+
+	for (node = group_node->first_node("group"); node != NULL; node = node->next_sibling("group")) {
+		Group* subgroup = new Group();
+
+		parse_group(node, subgroup, points);
+
+		group->groups.push_back(subgroup);
 	}
 }
 

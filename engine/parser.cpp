@@ -113,19 +113,19 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 			int code = 2;
 
 			if (strcmp(node->name(), "translate") == 0) {
-				code = 0;
+				if (node->first_attribute("time"))
+					code = 3;
+				else
+					code = 0;
 			}
 			else if (strcmp(node->name(), "rotate") == 0) {
-				code = 1;
+				if (node->first_attribute("time"))
+					code = 4;
+				else
+					code = 1;
 			}
 			else if (strcmp(node->name(), "scale") == 0) {
 				code = 2;
-			}
-			else if (strcmp(node->name(), "timeTranslate") == 0) {
-				code = 3;
-			}
-			else if (strcmp(node->name(), "timeRotate") == 0) {
-				code = 4;
 			}
 
 			group->torder.push_back(code);

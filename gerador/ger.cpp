@@ -139,15 +139,15 @@ void generatePatch(char* argv[]) {
 		for (u = 0; u < tessellation; u++){
 			for (v = 0; v < tessellation; v++){
 				//Triangulo 1
-				pontoTriangulo = B(u / tessellation, v / tessellation, controlPoints, patchIndexs,patch);
+				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs,patch);
 				pontos.push_back(get<0>(pontoTriangulo)); //px
 				pontos.push_back(get<1>(pontoTriangulo)); //py
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
-				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints,patchIndexs, patch);
+				pontoTriangulo = B(u / tessellation, v / tessellation, controlPoints,patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
-				pontoTriangulo = B((u + 1) / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
+				pontoTriangulo = B(u / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));

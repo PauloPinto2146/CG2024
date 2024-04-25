@@ -1,0 +1,360 @@
+﻿cl : command line warning D9002: ignoring unknown option '-pedantic'
+  parser.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\include\limits.h(70,5): warning C4668: '__STDC_WANT_SECURE_LIB__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(27,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(30,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(33,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(41,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(44,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(47,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(55,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(58,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(61,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(69,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(72,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(75,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(17,81): warning C4101: 'pro2': unreferenced local variable
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(105,27): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(158,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(168,37): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(169,37): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(170,37): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(175,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(178,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(181,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(189,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(192,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(196,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(200,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(205,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(208,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(212,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(216,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(223,21): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(227,21): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(231,21): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(143,20): warning C4101: 'align': unreferenced local variable
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2300,1): warning C4625: 'rapidxml::xml_document<Ch>': copy constructor was implicitly defined as deleted
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(248): message : see reference to class template instantiation 'rapidxml::xml_document<Ch>' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2300,1): warning C5026: 'rapidxml::xml_document<Ch>': move constructor was implicitly defined as deleted
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2300,1): warning C4626: 'rapidxml::xml_document<Ch>': assignment operator was implicitly defined as deleted
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2300,1): warning C5027: 'rapidxml::xml_document<Ch>': move assignment operator was implicitly defined as deleted
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(315,1): warning C4365: 'return': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1030): message : see reference to function template instantiation 'size_t rapidxml::internal::measure<Ch>(const Ch *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1026): message : while compiling class template member function 'rapidxml::xml_attribute<char> *rapidxml::xml_node<char>::first_attribute(const Ch *,size_t,bool) const'
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(5): message : see reference to function template instantiation 'rapidxml::xml_attribute<char> *rapidxml::xml_node<char>::first_attribute(const Ch *,size_t,bool) const' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(5): message : see reference to class template instantiation 'rapidxml::xml_node<char>' being compiled
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2047,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2090): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_element<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2090): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_element<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1404): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_node<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1404): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_node<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(255): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse<0>(Ch *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(255): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse<0>(Ch *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1893,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2107): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_pi<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2107): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_pi<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1910,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1802,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2123): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_comment<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2123): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_comment<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2025,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2134): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_cdata<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2134): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_cdata<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1861,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2146): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_doctype<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2146): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_doctype<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2251,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2053): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_attributes<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2053): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_attributes<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2090): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_element<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2090): message : see reference to function template instantiation 'rapidxml::xml_node<char> *rapidxml::xml_document<Ch>::parse_element<0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2284,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2198,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2059): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_contents<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2059): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_contents<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1975,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2228): message : see reference to function template instantiation 'Ch rapidxml::xml_document<Ch>::parse_and_append_data<0>(rapidxml::xml_node<Ch> *,Ch *&,Ch *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2228): message : see reference to function template instantiation 'Ch rapidxml::xml_document<Ch>::parse_and_append_data<0>(rapidxml::xml_node<Ch> *,Ch *&,Ch *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2059): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_contents<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2059): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_contents<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1982,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1517,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1663): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::insert_coded_character<0>(Ch *&,unsigned long)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1663): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::insert_coded_character<0>(Ch *&,unsigned long)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2279): message : see reference to function template instantiation 'Ch *rapidxml::xml_document<Ch>::skip_and_expand_character_refs<rapidxml::xml_document<Ch>::attribute_value_pred<39>,rapidxml::xml_document<Ch>::attribute_value_pure_pred<39>,0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2279): message : see reference to function template instantiation 'Ch *rapidxml::xml_document<Ch>::skip_and_expand_character_refs<rapidxml::xml_document<Ch>::attribute_value_pred<39>,rapidxml::xml_document<Ch>::attribute_value_pure_pred<39>,0>(Ch *&)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2053): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_attributes<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(2053): message : see reference to function template instantiation 'void rapidxml::xml_document<Ch>::parse_node_attributes<0>(Ch *&,rapidxml::xml_node<Ch> *)' being compiled
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1525,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1530,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1531,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1536,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1537,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1538,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1543,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1544,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1545,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(1546,1): warning C4365: '=': conversion from 'unsigned char' to 'Ch', signed/unsigned mismatch
+          with
+          [
+              Ch=char
+          ]
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(25): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(26): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(29): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(32): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(39): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(40): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(43): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(46): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(53): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(54): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(157): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(57): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(60): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(174): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(177): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(67): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(180): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(68): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(188): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(71): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(191): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(195): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(199): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(204): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(74): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(207): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(211): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(215): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(222): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(226): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\parser.cpp(230): warning C4706: assignment within conditional expression
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(333): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(332): message : index 'p1' range checked by comparison on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(333): message : feeds memory load on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(431): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(430): message : index 'value_size' range checked by comparison on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(431): message : feeds call on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(424): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(423): message : index 'name_size' range checked by comparison on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(424): message : feeds call on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(625): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(605): message : index '' range checked by comparison on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(630): message : feeds call on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(462): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(461): message : index 'value_size' range checked by comparison on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(462): message : feeds call on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(455): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(454): message : index 'name_size' range checked by comparison on this line
+C:\Users\pedro\Documents\Projetos\uni\CG2024\engine\rapidxml.hpp(455): message : feeds call on this line
+  engine.vcxproj -> C:\Users\pedro\Documents\Projetos\uni\CG2024\build\Debug\engine.exe

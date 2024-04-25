@@ -1,0 +1,3 @@
+C:/Users/pedro/Documents/Projetos/uni/CG2024/build/CMakeFiles/engine.dir
+C:/Users/pedro/Documents/Projetos/uni/CG2024/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/pedro/Documents/Projetos/uni/CG2024/build/CMakeFiles/ZERO_CHECK.dir

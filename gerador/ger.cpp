@@ -42,32 +42,29 @@ void multMatrixVector(float* m, float* v, float* res) {
 
 tuple<float, float, float> B(float u, float v, vector<vector<float>> controlPoints, vector<vector<float>> patchIndexs, int patch) {
 	float pp;
-	float M[16] = {-1,3,-3,1,3,-6,3,0,-3,3,0,0,1,0,0,0 }; // M = Mt
+	float M[4][4] = { { -1,3,-3,1},{3,-6,3,0},{-3,3,0,0},{1,0,0,0} }; // M = Mt
 	float umatrix[4] = { float(pow(u,3)),float(pow(u,2)),u,1};
 	float vmatrix[4] = { float(pow(v,3)),float(pow(v,2)),v,1};
 	tuple <float, float, float> res;
 	for (int i = 0; i < 3; i++) { //Para coordenadas x,y e z
-		float P[16];
-		for (int j = 0; j < 16; j++) {
-			pp = patchIndexs[patch][j];
-			P[j] = controlPoints[pp][i];
-			//float P[16] = { controlPoints[patchIndexs[patch][0]][i], controlPoints[patchIndexs[patch][1]][i], controlPoints[patchIndexs[patch][2]][i], controlPoints[patchIndexs[patch][3]][i],
-			//				controlPoints[patchIndexs[patch][4]][i], controlPoints[patchIndexs[patch][5]][i], controlPoints[patchIndexs[patch][6]][i], controlPoints[patchIndexs[patch][7]][i],
-			//				controlPoints[patchIndexs[patch][8]][i], controlPoints[patchIndexs[patch][9]][i], controlPoints[patchIndexs[patch][10]][i], controlPoints[patchIndexs[patch][11]][i],
-			//				controlPoints[patchIndexs[patch][12]][i], controlPoints[patchIndexs[patch][13]][i], controlPoints[patchIndexs[patch][14]][i], controlPoints[patchIndexs[patch][15]][i] };
+		float P[4][4];
+		for (int j1 = 0; j1 < 4; j1++) {
+			for (int j2 = 0; j2 < 4; j2++) {
+				pp = patchIndexs[patch][j1*4+j2];
+				P[j1][j2] = controlPoints[pp][i];
+			}
 		}
 		float MV[4];
-		multMatrixVector(M, vmatrix, MV);
+		multMatrixVector(&M[0][0], vmatrix, MV);
 		float PMV[4];
-		multMatrixVector(P, MV, PMV);
+		multMatrixVector(&P[0][0], MV, PMV);
 		float MPMV[4];
-		multMatrixVector(M, PMV, MPMV);
-		float UMPMV[4];
-		multMatrixVector(umatrix, MPMV, UMPMV);
+		multMatrixVector(&M[0][0], PMV, MPMV);
+		float UMPMV[4] = { umatrix[0] * MPMV[0],umatrix[1] * MPMV[1], umatrix[2] * MPMV[2],MPMV[3] };
 		switch (i) {
-			case 0 : get<0>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3];
-			case 1 : get<1>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3];
-			case 2 : get<2>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3];
+			case 0 : get<0>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //px
+			case 1 : get<1>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //py
+			case 2 : get<2>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //pz
 		}
 	}
 	return res;
@@ -77,14 +74,17 @@ tuple<int, int, vector<vector<float>>, vector<vector<float>>> readPatchFile(char
 	int nPatches;
 	int nControlPoints;
 	int commaCount;
+
 	vector<vector<float>> controlPoints;
 	vector<vector<float>> patchIndexs;
+
 	ifstream file;
 	file.open(ficheiroPatch, ios::in);
 
 	file >> nPatches;
 	string line;
-	getline(file, line,'\n');
+	getline(file, line, '\n');
+
 	for (int i = 0; i < nPatches; i++) {
 		vector<float> patchIndicesRow;
 		getline(file, line, '\n');
@@ -129,17 +129,17 @@ void generatePatch(char* argv[]) {
 	int nControlPoints = get<1>(res);
 	vector<vector<float>> controlPoints = get<2>(res);
 	vector<vector<float>> patchIndexs = get<3>(res);
+
 	float tessellation = atoi(argv[3]);
-	int patchesSize = nPatches * 16;	
-	int controlPointsSize = nControlPoints * 3;
 	int u, v;
 	vector<float> pontos;
 	tuple<float, float, float> pontoTriangulo;
+
 	for(int patch = 0; patch<patchIndexs.size(); patch++){
 		for (u = 0; u < tessellation; u++){
 			for (v = 0; v < tessellation; v++){
 				//Triangulo 1
-				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs,patch);
+				pontoTriangulo = B((u+1) / tessellation, v / tessellation, controlPoints, patchIndexs,patch);
 				pontos.push_back(get<0>(pontoTriangulo)); //px
 				pontos.push_back(get<1>(pontoTriangulo)); //py
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
@@ -152,11 +152,11 @@ void generatePatch(char* argv[]) {
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
 				//Triangulo 2 
-				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				pontoTriangulo = B((u + 1) / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo)); //px
 				pontos.push_back(get<1>(pontoTriangulo)); //py
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
-				pontoTriangulo = B((u + 1) / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
+				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
@@ -167,8 +167,6 @@ void generatePatch(char* argv[]) {
 			}
 		}
 	}
-	for(int i = 0; i<pontos.size();i++)
-		cout<<pontos[i]<<endl;
 	int N = pontos.size();
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float) * N);

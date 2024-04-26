@@ -141,7 +141,6 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 		xml_attribute<>* translatez;
 		xml_attribute<>* tesselation;
 		xml_attribute<>* align;
-		vector<float> catPoints;
 
 		xml_attribute<>* rotatealpha;
 		xml_attribute<>* rotatex;
@@ -165,9 +164,13 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 				}
 
 				for (pointNode = translate->first_node("point"); pointNode != NULL; pointNode = pointNode->next_sibling("point")) {
-					group->catPoints.push_back(atof(pointNode->first_attribute("x")->value()));
-					group->catPoints.push_back(atof(pointNode->first_attribute("y")->value()));
-					group->catPoints.push_back(atof(pointNode->first_attribute("z")->value()));
+					float* points = (float*)malloc(sizeof(float) * 3);
+
+					points[0] = atof(pointNode->first_attribute("x")->value());
+					points[1] = atof(pointNode->first_attribute("y")->value());
+					points[2] = atof(pointNode->first_attribute("z")->value());
+
+					group->catPoints.push_back(points);
 				}
 			}
 			else {

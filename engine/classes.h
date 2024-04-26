@@ -35,8 +35,7 @@ public:
     float sz = 1.0;
     float tesselation = 0.0;
     int align = 0;
-    float time = 0.0;
-    std::vector<float> catPoints;
+    std::vector<float*> catPoints;
     std::vector<Group*> groups;
 };
 #endif

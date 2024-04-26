@@ -1,527 +1,375 @@
-<world> 
+<world>
     <window width="512" height="512" />
     <camera> 
-	    <position x="10" y="3" z="10" /><!--Posicionado de maneira a ver de lado o SS-->
-	    <lookAt x="0" y="0" z="0" />
-	    <up x="0" y="1" z="0" /> 
-        <projection fov="60" near="1" far="1000" /> <!-- optional, use these values as default-->
+	    <position x="350" y="0" z="250" />
+	    <lookAt x="500" y="0" z="0" />
+	    <up x="0" y="1" z="0" />
+        <projection fov="60" near="1" far="100000" />
     </camera>
 
-    <group> 
-        <transform> 
-		    <scale x="1000" y="1000" z="1000" />
-        </transform>
+    <group>
+		<transform>
+			<scale x="25" y="25" z="25" />
+		</transform>
+        <!-- Sol -->
         <group>
             <transform>
-                <scale x="965.5" y="965.5" z="965.5" />
-                <rotate time = "26" x="0" y="0" z="0"/>
+                <scale x="3" y="3" z="3" />
             </transform>
             <models>
-                <model file="sphere_1_100_100.3d" /> <!--Sol : generator sphere 965.5 10 10 -->
+                <model file="C:\Users\pedro\Downloads\sphere_1_100_100.3d" />
             </models>
         </group>
-        <group>
-            <transform>
-                <rotate time = "17" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="57.910" y ="0" z = "0"/>
-                <scale x="2.44" y="2.44" z="2.44" />
-                <rotate time = "120" x="0" y="0" z="0"/> <!--Rotação-->
-            </transform>
-            <models>
-                <model file="sphere_1_10_10.3d"/> <!--Mercurio : generator sphere 2.44 10 10-->
-            </models> 
-        </group>
-        <group>
-            <transform>
-                <rotate time = "45" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="108.200" y ="0" z = "0"/>
-                <scale x="6" y="6" z="6" />
-                <rotate time = "486" x="0" y="0" z="0"/> <!--Rotação-->
-            </transform>
-            <models>
-                <model file="sphere_1_10_10.3d"/> <!--Venus : generator sphere 6 10 10-->
-            </models> 
-        </group>
-        <group>
-            <transform>
-                <rotate time = "73" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="149.600" y ="0" z = "0"/>
-                <scale x="6.382" y="6.382" z="6.382" />
-                <rotate time = "2" x="0" y="0" z="0"/> <!--Rotação-->
-            </transform>
-            <models>
-                <model file="sphere_1_10_10.3d"/> <!--Terra : generator sphere 6.382 10 10-->
-            </models> 
+        <!-- Mercúrio: 1x -->
+		<group>
+			<transform>
+				<rotate time = "17" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="4" y="0" z="0" />
+				<scale x="0.1" y="0.1" z="0.1" />
+				<rotate time = "120" x="0" y="1" z="0"/> <!--Rotação-->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+		</group>
+        <!-- Venus: 2x -->
+		<group>
+			<transform>
+				<rotate time = "45" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="8" y="0" z="0" />
+				<scale x="0.2" y="0.2" z="0.2" />
+				<rotate time = "486" x="0" y="1" z="0"/> <!--Rotação-->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+		</group>
+        <!-- Terra: 3x -->
+		<group>
+			<transform>
+				<rotate time = "73" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="12" y="0" z="0" />
+				<scale x="0.24" y="0.24" z="0.24" />
+				<rotate time = "2" x="0" y="1" z="0"/> <!--Rotação-->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+			<!-- Lua -->
+			<group>
+			<transform>
+				<rotate time = "52" x="0" y="1" z="0"/> <!--Translação em torno da Terra-->
+				<translate x="1" y="1" z="0" />
+				<scale x="0.2" y="0.2" z="0.2" />
+				<rotate time = "52" x="0" y="1" z="0"/> <!--Translação em torno da si-->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+			</group>
+		</group>
+        <!-- Marte: 4x -->
+		<group>
+			<transform>
+				<rotate time = "131" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="16" y="0" z="0" />
+				<scale x="0.12" y="0.12" z="0.12" />
+				<rotate time = "2" x="0" y="1" z="0"/> <!--rotação -->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+			<!-- Phobos -->
+			<group> 
+				<transform> 
+					 <rotate time = "20" x="0" y="1" z="0"/> <!--Translação em torno de Marte-->
+					<translate x="2.5" y ="0" z="0"/> 
+					<scale x="0.1" y="0.1" z="0.1" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Deimos -->
+			<group> 
+				<transform> 
+					<rotate time = "45" x="0" y="1" z="0"/> <!--Translação em torno de Marte-->
+					<translate x="2.5" y ="0" z="0"/> 
+					<scale x="0.06" y="0.06" z="0.06" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+		</group>
+        <!-- Jupíter: 16x -->
+		<group>
+			<transform>
+				<rotate time = "803" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="64" y="0" z="0" />
+				<scale x="2" y="2" z="2" />
+				<rotate time = "1" x="0" y="1" z="0"/> <!--Rotação-->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+			<!-- Io -->
+			<group> 
+				<transform> 
+					<rotate time = "20" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+					<translate x="2.5" y ="0" z="0"/> 
+					<scale x="0.05" y="0.05" z="0.05" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Europa -->
+			<group> 
+				<transform> 
+					<rotate time = "54" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+					<translate x="1.4" y ="0" z="0"/> 
+					<scale x="0.05" y="0.05" z="0.05" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Ganimedes -->
+			<group> 
+				<transform> 
+					<rotate time = "34" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+					<translate x="2.4" y ="0" z="0"/> 
+					<scale x="0.05" y="0.05" z="0.05" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Calisto -->
+			<group> 
+				<transform> 
+					<rotate time = "21" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+					<translate x="1.3" y ="0" z="0"/> 
+					<scale x="0.05" y="0.05" z="0.05" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Amalteia -->
+			<group> 
+				<transform> 
+					<rotate time = "10" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter--> 
+					<translate x="2.4" y ="0" z="0"/> 
+					<scale x="0.02" y="0.02" z="0.02" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Tebe -->
+			<group> 
+				<transform> 
+					<rotate time = "12" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+					<translate x="2.4" y ="0" z="0"/> 
+					<scale x="0.02" y="0.02" z="0.02" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Himalia -->
+			<group> 
+				<transform> 
+					<rotate angle="260" x="0" y="1" z="0" /> 
+					<translate x="2.5" y ="0" z="0"/> 
+					<scale x="0.015" y="0.015" z="0.015" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Sinope -->
+			<group> 
+				<transform> 
+					<rotate time = "57" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+					<translate x="2.4" y ="0" z="0"/> 
+					<scale x="0.01" y="0.01" z="0.01" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+            <!-- Elara -->
             <group>
                 <transform>
-                    <rotate time = "52" x="0" y="0" z="0"/> <!--Translação em torno da Terra-->
-                    <translate x = "-384.400" y = "0.5" z = "0.5"> <!--Distância da lua da terra-->
-                    <scale x="1.737" y="1.737" z="1.737" />    
-                    <rotate time = "52" x="0" y="0" z="0"/> <!--Translação em torno da si-->
+                    <rotate time = "50" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+                    <translate x="1.05" y="0" z="0"/>
+                    <scale x="0.005" y="0.005" z="0.005" />   
                 </transform>
                 <models>
-                    <model file = "sphere_1_5_5.3d"/> <!--Lua da terra : generator sphere 1.737 10 10-->
+                    <model file="C:\Users\pedro\Downloads\sphere_1_5_5.3d"/> 
                 </models>
             </group>
-        </group>  
-        <group>
-            <transform>
-                <rotate time = "131" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="227.490" y ="0" z = "0"/>
-                <scale x="3.397" y="3.397" z="3.397" /> 
-                <rotate time = "2" x="0" y="0" z="0"/> <!--rotação -->
-            </transform>
-            <models>
-                <model file="sphere_1_10_10.3d"/> <!--Marte : generator sphere 3.397 10 10-->
-            </models> 
+            <!-- Pasiphae -->
             <group>
                 <transform>
-                    <rotate time = "20" x="0" y="0" z="0"/> <!--Translação em torno de Marte-->
-                    <translate x = "9.375" y = "0.5" z = "0.5"> <!--Distância da lua de Marte (fobos)-->
-                    <scale x="0.011" y="0.011" z="0.011" />     
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> <!--1ª Lua de Marte (fobos) : generator sphere 1.737 10 10-->
-                </models>
-            </group>
-            <group>
-                <transform>
-                    <rotate time = "45" x="0" y="0" z="0"/> <!--Translação em torno de Marte-->
-                    <translate x = "23.5" y = "0.3" z = "0.75"> <!--Distância da lua de Marte (deimos)-->
-                    <scale x="0.006" y="0.006" z="0.006" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> <!--2ª Lua de Marte (deimos) : generator sphere 1.737 10 10-->
-                </models>
-            </group>
-        </group>
-        <group>
-            <transform>
-                <rotate time = "803" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="778.330" y ="0" z = "0"/>
-                <scale x="71.492" y="71.492" z="71.492" />
-                <rotate time = "1" x="0" y="0" z="0"/> <!--Rotação-->
-            </transform>
-            <models>
-                <model file="sphere_1_10_10.3d"/> <!--Jupiter : generator sphere 71.492 10 10-->
-            </models> 
-        </group>
-        <!--Io  1821km de raio / 421700km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "20" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "421.700" y = "0.1" z = "0.2">
-                    <scale x="1.821" y="1.821" z="1.821" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/>
-                </models>
-            </group>
-        <!--Europa  1565,8km de raio / 671034km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "54" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "671.034" y = "0.7" z = "0.1">
-                    <scale x="1.565" y="1.565" z="1.565" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Ganimedes 2.634,1km de raio / 1.070.412km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "34" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "1070.412" y = "0.3" z = "0.543">
-                    <scale x="2.6341" y="2.6341" z="2.6341" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Calisto 2.410,3km de raio / 1.882.709km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "21" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "1882.709" y = "0.37" z = "0.779">
-                    <scale x="2.41" y="2.41" z="2.41" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Amalteia 83,4km de raio / 181.366km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "10" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "181.366" y = "0.93" z = "0.124">
-                    <scale x="0.0834" y="0.0834" z="0.0834" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Tebe 49,3km de raio / 221.886km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "12" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "221.886" y = "0.12" z = "0.940">
-                    <scale x="0.0493" y="0.0493" z="0.0493" />   
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Himalia 85km de raio / 11.461.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "57" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "11461.000" y = "0.43" z = "0.348">
-                    <scale x="0.085" y="0.085" z="0.085" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Elara 43km de raio / 11.741.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "50" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "11741.000" y = "0.85" z = "0.583">
-                    <scale x="0.043" y="0.043" z="0.043" />   
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Pasiphae 30km de raio / 23.624.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "48" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "23624.000" y = "0.3125" z = "0.693">
+                    <rotate time = "48" x="0" y="1" z="0"/> <!--Translação em torno de Jupiter-->
+                    <translate x="1.05" y="0" z="0"/>
                     <scale x="0.03" y="0.03" z="0.03" />   
                 </transform>
                 <models>
-                    <model file = "sphere_1_5_5.3d"/> 
+                    <model file="C:\Users\pedro\Downloads\sphere_1_5_5.3d"/> 
                 </models>
             </group>
-        <!--Sinope  22km de raio / 23.939.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "50" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "23939.000" y = "0.694" z = "0.325">
-                    <scale x="0.022" y="0.022" z="0.022" />   
-                </transform>
-                <models>
-                    <model file = "sphere_11_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Lysithea  18km de raio / 11.717.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "51" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "11717" y = "0.2932" z = "0.0684">
-                    <scale x="0.018" y="0.018" z="0.018" />   
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--Carpo  17km de raio / 17.140.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "10" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "17140" y = "0.0583" z = "0.3297">
-                    <scale x="0.017" y="0.017" z="0.017" />   
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--S/2003 J10  15km de raio / 23.242.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "13" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "23242" y = "0.942" z = "0.459">
-                    <scale x="0.015" y="0.015" z="0.015" />   
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--S/2003 J12  15km de raio / 23.387.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "8" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "23387" y = "0.285" z = "0.0984">
-                    <scale x="0.015" y="0.015" z="0.015" />  
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--S/2003 J16  15km de raio / 23.279.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "14" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "23279" y = "0.493" z = "0.9848">
-                    <scale x="0.015" y="0.015" z="0.015" />  
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--S/2003 J18  15km de raio / 23.361.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "15" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "23361" y = "0.683" z = "0.125">
-                    <scale x="0.015" y="0.015" z="0.015" />  
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <!--S/2003 J19  15km de raio / 23.354.000km distancia de Jupiter-->
-            <group>
-                <transform>
-                    <rotate time = "16" x="0" y="0" z="0"/> <!--Translação em torno de Jupiter-->
-                    <translate x = "23354" y = "0.6037" z = "0.683">
-                    <scale x="0.015" y="0.015" z="0.015" />  
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        <group>
-            <transform>
-                <rotate time = "1898" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="1429.400" y ="0" z = "0"/>
-                <scale x="60.268" y="60.268" z="60.268" />  
-                <rotate time = "1" x="0" y="0" z="0"/> <!--Rotação em torno do sol-->
-            </transform>
-            <models>
-                <model file="sphere_1_10_10.3d"/> <!--Saturno : generator sphere 60.268 10 10-->
-            </models> 
-            <!--Mimas 198,8km de raio / 185.540km de distância de Saturno-->
-            <group>
-                <transform>
-                    <rotate time = "30" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "185.54" y = "0.6037" z = "0.683">
-                    <scale x="0.1988" y="0.1988" z="0.1988" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Encélado 252,1km de raio /238.000km de distância de Saturno-->
-                <transform>
-                    <rotate time = "34" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "238" y = "0.6037" z = "0.683">
-                    <scale x="0.252" y="0.252" z="0.252" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Tetis 583,2km de raio /294.670km de distância de Saturno-->
-            <group>
-                <transform>
-                    <rotate time = "40" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "294.670" y = "0.6037" z = "0.683">
-                    <scale x="0.5832" y="0.5832" z="0.5832" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Dione 568,4km de raio /377.400km de distância de Saturno-->
-            <group>
-                <transform>
-                    <rotate time = "38" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "377.400" y = "0.6037" z = "0.683">
-                    <scale x="0.5684" y="0.5684" z="0.5684" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Reia 764,1km de raio /527.040km de distância de Saturno-->
-            <group>
-                <transform>
-                    <rotate time = "50" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "527.040" y = "0.6037" z = "0.683">
-                    <scale x="0.764" y="0.764" z="0.764" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Titã 2.575,1km de raio /1.221.870km de distância de Saturno-->
-            <group>
-                <transform>
-                    <rotate time = "60" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "1221.870" y = "0.6037" z = "0.683">
-                    <scale x="2.575" y="2.575" z="2.575" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Hiperion 270,6km de raio /1.461.010km de distância de Saturno-->
-            <group>
-                <transform>
-                    <rotate time = "21" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "14610" y = "0.6037" z = "0.683">
-                    <scale x="0.2706" y="0.2706" z="0.2706" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Jápeto 735,9km de raio /3.561.300km de distância de Saturno-->
-            <group>
-                <transform>
-                    <rotate time = "30" x="0" y="0" z="0"/> <!--Translação em torno de Saturno-->
-                    <translate x = "3561.3" y = "0.6037" z = "0.683">
-                    <scale x="0.7359" y="0.7359" z="0.7359" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        </group>  
-        <group>
-            <transform>
-                <rotate time = "6132" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="2870.990" y ="0" z = "0"/>
-                <scale x="25.559" y="25.559" z="25.559" /> 
-                <rotate time = "2" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-            </transform>
-            <models>
-                <model file="sphere_25.559_10_10.3d"/> <!--Urano : generator sphere 25.559 10 10-->
-            </models>
-            <!--Miranda 235,8km de raio/129.380km de distância de Urano-->
-            <group>
-                <transform>
-                    <rotate time = "12" x="0" y="0" z="0"/> <!--Translação em torno de Urano-->
-                    <translate x = "129.380" y = "0.6037" z = "0.683">
-                    <scale x="0.2358" y="0.2358" z="0.2358" /> 
-                </transform>
-                <models>
-                    <model file = "sphere_0.2358_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Ariel   578,9km de raio/191.020km de distância de Urano-->
-            <group>
-                <transform>
-                    <rotate time = "25" x="0" y="0" z="0"/> <!--Translação em torno de Urano-->
-                    <translate x = "191.020" y = "0.6037" z = "0.683">
-                    <scale x="0.5789" y="0.5789" z="0.5789" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Umbriel 584,7km de raio/266.300km de distância de Urano-->
-            <group>
-                <transform>
-                    <rotate time = "26" x="0" y="0" z="0"/> <!--Translação em torno de Urano-->
-                    <translate x = "266.300" y = "0.6037" z = "0.683">
-                    <scale x="0.5847" y="0.5847" z="0.5847" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Titânia 788,9km de raio/436.300km de distância de Urano-->
-            <group>
-                <transform>
-                    <rotate time = "32" x="0" y="0" z="0"/> <!--Translação em torno de Urano-->
-                    <translate x = "436.300" y = "0.6037" z = "0.683">
-                    <scale x="0.7889" y="0.7889" z="0.7889" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Oberon  761,4km de raio/583.520km de distância de Urano-->
-            <group>
-                <transform>
-                    <rotate time = "31" x="0" y="0" z="0"/> <!--Translação em torno de Urano-->
-                    <translate x = "583.520" y = "0.6037" z = "0.683">
-                    <scale x="0.7614" y="0.7614" z="0.7614" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        </group>  
-        <group>
-            <transform>
-                <rotate time = "11972" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
-                <translate x="4504.000" y ="0" z = "0"/>
-                <scale x="24.766" y="24.766" z="24.766" />
-                <rotate time = "2" x="0" y="0" z="0"/> <!--Rotação -->
-            </transform>
-            <models>
-                <model file="sphere_1_10_10.3d"/> <!--Neptuno : generator sphere 24.766 10 10-->
-            </models>
-            <!--Tritão 1353,4km de raio/354.760km de distância de Neptuno-->
-            <group>
-                <transform>
-                    <rotate time = "30" x="0" y="0" z="0"/> <!--Translação em torno de Neptuno-->
-                    <translate x = "354.760" y = "0.6037" z = "0.683">
-                    <scale x="1.353" y="1.353" z="1.353" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Proteu 210,0km de raio/422.000km de distância de Neptuno-->
-            <group>
-                <transform>
-                    <rotate time = "10" x="0" y="0" z="0"/> <!--Translação em torno de Neptuno-->
-                    <translate x = "422" y = "0.6037" z = "0.683">
-                    <scale x="0.210" y="0.210" z="0.210" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Larissa 190,0km de raio/220.000km de distância de Neptuno-->
-            <group>
-                <transform>
-                    <rotate time = "9" x="0" y="0" z="0"/> <!--Translação em torno de Neptuno-->
-                    <translate x = "220.000k" y = "0.6037" z = "0.683">
-                    <scale x="0.190" y="0.190" z="0.190" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Despina 75,0km de raio/52.520km de distância de Neptuno-->
-            <group>
-                <transform>
-                    <rotate time = "5" x="0" y="0" z="0"/> <!--Translação em torno de Neptuno-->
-                    <translate x = "52.520" y = "0.6037" z = "0.683">
-                    <scale x="0.075" y="0.075" z="0.075" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-            <!--Galateia 42,0km de raio/62.190km de distância de Neptuno-->
-            <group>
-                <transform>
-                    <rotate time = "4" x="0" y="0" z="0"/> <!--Translação em torno de Neptuno-->
-                    <translate x = "62.190" y = "0.6037" z = "0.683">
-                    <scale x="0.042" y="0.042" z="0.042" />
-                </transform>
-                <models>
-                    <model file = "sphere_1_5_5.3d"/> 
-                </models>
-            </group>
-        </group>        
-    </group>
+		</group>
+		<!-- Saturno: 32x -->
+		<group>
+			<transform>
+				<rotate time = "1898" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="128" y="0" z="0" />
+				<scale x="1.8" y="1.8" z="1.8" />
+				<rotate time = "1" x="0" y="0" z="1"/> <!--Rotação em torno do sol-->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+			<!-- Titan -->
+			<group> 
+				<transform> 
+					<rotate time = "60" x="0" y="1" z="0"/> <!--Translação em torno de Saturno--> 
+					<translate x="1.8" y ="0" z="0"/> 
+					<scale x="0.2" y="0.2" z="0.2" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Enceladus -->
+			<group> 
+				<transform> 
+					<rotate time = "34" x="0" y="1" z="0"/> <!--Translação em torno de Saturno-->
+					<translate x="1.9" y ="0" z="0"/> 
+					<scale x="0.1" y="0.1" z="0.1" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Rhea -->
+			<group> 
+				<transform> 
+					<rotate time = "50" x="0" y="1" z="0"/> <!--Translação em torno de Saturno-->
+					<translate x="1.8" y ="0" z="0"/> 
+					<scale x="0.1" y="0.1" z="0.1" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Dione -->
+			<group> 
+				<transform> 
+					<rotate time = "38" x="0" y="1" z="0"/> <!--Translação em torno de Saturno-->
+					<translate x="2" y ="0" z="0"/> 
+					<scale x="0.1" y="0.1" z="0.1" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+		</group>
+		<!-- Anel de Saturno -->
+		<group>
+			<transform>
+				<rotate time = "1898" x="0" y="1" z="0"/> <!--Translação em torno do Sol-->
+				<translate x="128" y="0" z="0" />
+				<scale x="3" y="0.001" z="3" />
+				<rotate time = "45" x="0" y="1" z="0"/> <!--Rotação em torno do Saturno-->
+			</transform>
+			<group>
+				<transform>
+					<rotate angle="45" x="0.9" y="0" z="1" />
+				</transform>
+				<models>
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				</models>
+			</group>
+		</group>
+		<!-- Urano: 64x -->
+		<group>
+			<transform>
+				<rotate time = "6132" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="256" y="0" z="0" />
+				<scale x="1.2" y="1.2" z="1.2" />
+				<rotate time = "2" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+			<!-- Titania -->
+			<group> 
+				<transform> 
+					<rotate time = "32" x="0" y="1" z="0"/> <!--Translação em torno de Urano-->
+					<translate x="2.5" y ="0" z="0"/> 
+					<scale x="0.05" y="0.05" z="0.05" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+		</group>
+		<!-- Anel de Urano-->
+		<group>
+			<transform>
+				<rotate time = "6132" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="256" y="0" z="0" />
+				<scale x="3" y="0.001" z="3" />
+				<rotate time = "20" x="0" y="1" z="0"/> <!--Translação em torno de Urano-->
+			</transform>
+			<group>
+				<transform>
+					<rotate angle="45" x="0.4" y="0" z="1" />
+				</transform>
+				<models>
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				</models>
+			</group>
+		</group>
+		<!-- Neptuno: 96x -->
+		<group>
+			<transform>
+				<rotate time = "11972" x="0" y="1" z="0"/> <!--Translação em torno do sol-->
+				<translate x="384" y="0" z="0" />
+				<scale x="1" y="1" z="1" />
+				<rotate time = "2" x="0" y="0" z="1"/> <!--Rotação -->
+			</transform>
+			<models>
+				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+			</models>
+			<!-- Triton -->
+			<group> 
+				<transform> 
+					<rotate time = "30" x="0" y="1" z="0"/> <!--Translação em torno de Neptuno-->
+					<translate x="2.4" y ="0" z="0"/> 
+					<scale x="0.1" y="0.1" z="0.1" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+			<!-- Proteus -->
+			<group> 
+				<transform> 
+					<rotate time = "10" x="0" y="1" z="0"/> <!--Translação em torno de Neptuno-->
+					<translate x="2.2" y ="0" z="0"/> 
+					<scale x="0.1" y="0.1" z="0.1" /> 
+				</transform> 
+				<models> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+				</models> 
+			</group>
+		</group>
+	</group>
 </world>

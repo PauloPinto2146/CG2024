@@ -374,10 +374,10 @@
 		<group>
 			<transform>
 				<translate time = "100" align="true"> 
-					<point x = "-10" y = "-5" z = "0" />
-					<point x = "0" y = "0" z = "12" />
-					<point x = "25" y = "5" z = "0" />
-					<point x = "0" y = "0" z = "-6" />
+					<point x = "-4" y = "-2" z = "0" />
+					<point x = "0" y = "0" z = "6" />
+					<point x = "15" y = "2" z = "0" />
+					<point x = "0" y = "0" z = "-3" />
 				</translate>
 				<rotate angle="-90" x="1" y="0" z="0" />
 				<scale x="0.1" y="0.05" z="0.05" />

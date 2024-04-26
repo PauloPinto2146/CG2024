@@ -9,8 +9,9 @@ bool axis = true;
 
 int first = 0;
 
-const float CAMERA_SPEED = 0.5f;
+const float CAMERA_SPEED = 10.0f;
 float prev_y[3] = {0, 1, 0};
+float tesselation = 100.0f;
 
 GLuint buffers[1];
 void buildRotMatrix(float* x, float* y, float* z, float* m) {
@@ -74,7 +75,7 @@ void getGlobalCatmullRomPoint(Group* g, float gt, float* pos, float* deriv) {
     indices[2] = (indices[1] + 1) % pointCount;
     indices[3] = (indices[2] + 1) % pointCount;
 
-    getCatmullRomPoint(t, &g->catPoints[indices[0]], &g->catPoints[indices[1]], &g->catPoints[indices[2]], &g->catPoints[indices[3]], pos, deriv);
+    getCatmullRomPoint(t, g->catPoints[indices[0]], g->catPoints[indices[1]], g->catPoints[indices[2]], g->catPoints[indices[3]], pos, deriv);
 }
 
 void renderCatmullRomCurve(Group* g) {
@@ -87,7 +88,7 @@ void renderCatmullRomCurve(Group* g) {
     while (gt < 1) {
         getGlobalCatmullRomPoint(g, gt, pos, deriv);
         glVertex3f(pos[0], pos[1], pos[2]);
-        gt += 1.0 / g->tesselation;
+        gt += 1.0 / tesselation;
     }
     glEnd();
 }
@@ -117,6 +118,18 @@ void renderGroup(Group* g) {
     glPushMatrix();
 
     for (int& code : g->torder) {
+        float t;
+
+        if (code == 3 || code == 4) {
+            t = remainder(glutGet(GLUT_ELAPSED_TIME) / 1000.0f, g->tesselation);
+            if (t < 0) {
+                t = (t + g->tesselation) / g->tesselation;
+            }
+            else {
+                t = t / g->tesselation;
+            }
+        }
+
         if (code == 0) {
             glTranslatef(g->tx, g->ty, g->tz);
         }
@@ -127,28 +140,26 @@ void renderGroup(Group* g) {
             glScalef(g->sx, g->sy, g->sz);
         }
         else if (code == 3) {
-                float t = remainder(glutGet(GLUT_ELAPSED_TIME)/1000.0f,g->time);
-                glLoadIdentity();
-                renderCatmullRomCurve(g);
-                float pos[3];
-                float deriv[3];
-                getGlobalCatmullRomPoint(g, t, pos, deriv);
-                glTranslatef(pos[0], pos[1], pos[2]);
-                float x[3] = { deriv[0], deriv[1], deriv[2] };
-                normalize(x);
-                float z[3];
-                cross(x, prev_y, z);
-                normalize(z);
-                float y[3];
-                cross(z, x, y);
-                normalize(y);
-                memcpy(prev_y, y, 3 * sizeof(float));
-                float m[16];
-                buildRotMatrix(x, y, z, m);
-                glMultMatrixf(m);
+            renderCatmullRomCurve(g);
+            float pos[3];
+            float deriv[3];
+            getGlobalCatmullRomPoint(g, t, pos, deriv);
+            glTranslatef(pos[0], pos[1], pos[2]);
+
+            float x[3] = { deriv[0], deriv[1], deriv[2] };
+            normalize(x);
+            float z[3];
+            cross(x, prev_y, z);
+            normalize(z);
+            float y[3];
+            cross(z, x, y);
+            normalize(y);
+            memcpy(prev_y, y, 3 * sizeof(float));
+            float m[16];
+            buildRotMatrix(x, y, z, m);
+            glMultMatrixf(m);
         }
         else if (code == 4) {
-            float t = remainder(glutGet(GLUT_ELAPSED_TIME) / 1000.0f, g->time);
             glRotatef(360 * t, g->timerx, g->timery, g->timerz);
         }
     }
@@ -274,6 +285,7 @@ int main(int argc, char** argv) {
     glewInit();
 
     glutDisplayFunc(renderScene);
+    glutIdleFunc(renderScene);
     glutReshapeFunc(changeSize);
     glutKeyboardFunc(keyboard);
 

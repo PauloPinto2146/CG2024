@@ -20,6 +20,23 @@ class Group {
 public:
     std::vector<float> model;
     std::vector<int> torder;
+
+    std::vector<float> texture;
+
+    float diffuseR = 0.0;
+    float diffuseG = 0.0;
+    float diffuseB = 0.0;
+    float ambientR = 0.0;
+    float ambientG = 0.0;
+    float ambientB = 0.0;
+    float specularR = 0.0;
+    float specularG = 0.0;
+    float specularB = 0.0;
+    float emissiveR = 0.0;
+    float emissiveG = 0.0;
+    float emissiveB = 0.0;
+    float shininessValue = 0.0;
+
     float tx = 0.0;
     float ty = 0.0;
     float tz = 0.0;
@@ -33,10 +50,26 @@ public:
     float sx = 1.0;
     float sy = 1.0;
     float sz = 1.0;
+
     float tesselation = 0.0;
     int align = 0;
     std::vector<float*> catPoints;
     std::vector<Group*> groups;
+};
+#endif
+
+#ifndef LIGHTS
+#define LIGHTS
+class Lights {
+public:
+    int type = 0; // 1 - point // 2 - directional // 3 - spotlight
+    float posX = 0.0;
+    float posY = 0.0;
+    float posZ = 0.0;
+    float dirX = 0.0;
+    float dirY = 0.0;
+    float dirZ = 0.0;
+    float cutoff = 0.0;
 };
 #endif
 

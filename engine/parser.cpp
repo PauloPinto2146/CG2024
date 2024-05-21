@@ -78,7 +78,7 @@ void parse_camera(xml_node<>* camera_node, Camera* camera) {
 	}
 }
 
-void parse_group(xml_node<>* lights_node, Lights* lights) {
+void parse_lights(xml_node<>* lights_node, Lights* lights) {
 	xml_node<>* lights = group_node->first_node("lights");
 	xml_attribute<>* type;
 	xml_attribute<>* posX;
@@ -90,20 +90,20 @@ void parse_group(xml_node<>* lights_node, Lights* lights) {
 	xml_attribute<>* cutoff;
 	if (lights) {
 		for (xml_node<>* node = lights->first_node(); node; node = node->next_sibling()) {
-			if (translate->first_attribute("light")) {
-				if (strcmp(translate->first_attribute("type")->value(), "point") == 0) {
+			if (node->first_attribute("light")) {
+				if (strcmp(node->first_attribute("type")->value(), "point") == 0) {
 					lights->type = 1;
 					lights->posX = atof(pointNode->first_attribute("posX")->value());
 					lights->posY = atof(pointNode->first_attribute("posY")->value());
 					lights->posZ = atof(pointNode->first_attribute("posZ")->value());
 				}
-				if (strcmp(translate->first_attribute("type")->value(), "directional") == 0) {
+				if (strcmp(node->first_attribute("type")->value(), "directional") == 0) {
 					lights->type = 2;
 					lights->dirX = atof(pointNode->first_attribute("dirX")->value());
 					lights->dirY = atof(pointNode->first_attribute("dirY")->value());
 					lights->dirZ = atof(pointNode->first_attribute("dirZ")->value());
 				}
-				if (strcmp(translate->first_attribute("type")->value(), "spotlight") == 0) {
+				if (strcmp(node->first_attribute("type")->value(), "spotlight") == 0) {
 					lights->type = 3;
 					lights->posX = atof(pointNode->first_attribute("posX")->value());
 					lights->posY = atof(pointNode->first_attribute("posY")->value());
@@ -113,6 +113,9 @@ void parse_group(xml_node<>* lights_node, Lights* lights) {
 					lights->dirZ = atof(pointNode->first_attribute("dirZ")->value());
 					lights->cutoff = atof(pointNode->first_attribute("cutoff")->value());
 				}
+			}
+		}
+	}
 }
 
 void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {

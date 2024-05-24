@@ -104,7 +104,7 @@ tuple<float, float, float> vetorV(float u, float v, vector<vector<float>> contro
 	float pp;
 	float M[4][4] = { { -1,3,-3,1},{3,-6,3,0},{-3,3,0,0},{1,0,0,0} }; // M = Mt
 	float umatrix[4] = { float(pow(u,3)),float(pow(u,2)),u,1 };
-	float vmatrixDerivada[4] = { r*float(pow(v,2)),2*v,1,0 };
+	float vmatrixDerivada[4] = { v*float(pow(v,2)),2*v,1,0 };
 	tuple <float, float, float> res;
 	for (int i = 0; i < 3; i++) { //Para coordenadas x,y e z
 		float P[4][4];
@@ -210,8 +210,8 @@ void generatePatch(char* argv[]) {
 	tuple<float, float, float> pontoTriangulo;
 	tuple<float, float, float> vU;
 	tuple<float, float, float> vV;
-	float vetorU[3];
-	float vetorV[3];
+	float vetor_U[3];
+	float vetor_V[3];
 	float vetorNormal[3];
 
 	for(int patch = 0; patch<patchIndexs.size(); patch++){
@@ -224,42 +224,42 @@ void generatePatch(char* argv[]) {
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
 				vU = vetorU((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				vV = vetorV((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
-				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
-				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
-				normalize(vetorU);
-				normalize(vetorV);
-				cross (vetorU,vetorV,vetorNormal);
-				normais.push_back(get<0>(vetorNormal));
-				normais.push_back(get<1>(vetorNormal));
-				normais.push_back(get<2>(vetorNormal));
+				vetor_U[0] = get<0>(vU); vetor_U[1] = get<1>(vU); vetor_U[2] = get<2>(vU);
+				vetor_V[0] = get<0>(vV); vetor_V[1] = get<1>(vV); vetor_V[2] = get<2>(vV);
+				normalize(vetor_U);
+				normalize(vetor_V);
+				cross (vetor_U, vetor_V,vetorNormal);
+				normais.push_back(vetorNormal[0]);
+				normais.push_back(vetorNormal[1]);
+				normais.push_back(vetorNormal[2]);
 				pontoTriangulo = B(u / tessellation, v / tessellation, controlPoints,patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
 				vU = vetorU(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				vV = vetorV(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
-				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
-				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
-				normalize(vetorU);
-				normalize(vetorV);
-				cross(vetorU, vetorV, vetorNormal);
-				normais.push_back(get<0>(vetorNormal));
-				normais.push_back(get<1>(vetorNormal));
-				normais.push_back(get<2>(vetorNormal));
+				vetor_U[0] = get<0>(vU); vetor_U[1] = get<1>(vU); vetor_U[2] = get<2>(vU);
+				vetor_V[0] = get<0>(vV); vetor_V[1] = get<1>(vV); vetor_V[2] = get<2>(vV);
+				normalize(vetor_U);
+				normalize(vetor_V);
+				cross(vetor_U, vetor_V, vetorNormal);
+				normais.push_back(vetorNormal[0]);
+				normais.push_back(vetorNormal[1]);
+				normais.push_back(vetorNormal[2]);
 				pontoTriangulo = B(u / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
 				vU = vetorU(u / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
 				vV = vetorV(u / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
-				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
-				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
-				normalize(vetorU);
-				normalize(vetorV);
-				cross(vetorU, vetorV, vetorNormal);
-				normais.push_back(get<0>(vetorNormal));
-				normais.push_back(get<1>(vetorNormal));
-				normais.push_back(get<2>(vetorNormal));
+				vetor_U[0] = get<0>(vU); vetor_U[1] = get<1>(vU); vetor_U[2] = get<2>(vU);
+				vetor_V[0] = get<0>(vV); vetor_V[1] = get<1>(vV); vetor_V[2] = get<2>(vV);
+				normalize(vetor_U);
+				normalize(vetor_V);
+				cross(vetor_U, vetor_V, vetorNormal);
+				normais.push_back(vetorNormal[0]);
+				normais.push_back(vetorNormal[1]);
+				normais.push_back(vetorNormal[2]);
 				//Triangulo 2 
 				pontoTriangulo = B((u + 1) / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo)); //px
@@ -267,42 +267,42 @@ void generatePatch(char* argv[]) {
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
 				vU = vetorU((u + 1) / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
 				vV = vetorV((u + 1) / tessellation, (v + 1)/ tessellation, controlPoints, patchIndexs, patch);
-				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
-				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
-				normalize(vetorU);
-				normalize(vetorV);
-				cross(vetorU, vetorV, vetorNormal);
-				normais.push_back(get<0>(vetorNormal));
-				normais.push_back(get<1>(vetorNormal));
-				normais.push_back(get<2>(vetorNormal));
+				vetor_U[0] = get<0>(vU); vetor_U[1] = get<1>(vU); vetor_U[2] = get<2>(vU);
+				vetor_V[0] = get<0>(vV); vetor_V[1] = get<1>(vV); vetor_V[2] = get<2>(vV);
+				normalize(vetor_U);
+				normalize(vetor_V);
+				cross(vetor_U, vetor_V, vetorNormal);
+				normais.push_back(vetorNormal[0]);
+				normais.push_back(vetorNormal[1]);
+				normais.push_back(vetorNormal[2]);
 				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
 				vU = vetorU((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				vV = vetorV((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
-				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
-				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
-				normalize(vetorU);
-				normalize(vetorV);
-				cross(vetorU, vetorV, vetorNormal);
-				normais.push_back(get<0>(vetorNormal));
-				normais.push_back(get<1>(vetorNormal));
-				normais.push_back(get<2>(vetorNormal));
+				vetor_U[0] = get<0>(vU); vetor_U[1] = get<1>(vU); vetor_U[2] = get<2>(vU);
+				vetor_V[0] = get<0>(vV); vetor_V[1] = get<1>(vV); vetor_V[2] = get<2>(vV);
+				normalize(vetor_U);
+				normalize(vetor_V);
+				cross(vetor_U, vetor_V, vetorNormal);
+				normais.push_back(vetorNormal[0]);
+				normais.push_back(vetorNormal[1]);
+				normais.push_back(vetorNormal[2]);
 				pontoTriangulo = B(u / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
 				vU = vetorU(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				vV = vetorV(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
-				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
-				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
-				normalize(vetorU);
-				normalize(vetorV);
-				cross(vetorU, vetorV, vetorNormal);
-				normais.push_back(get<0>(vetorNormal));
-				normais.push_back(get<1>(vetorNormal));
-				normais.push_back(get<2>(vetorNormal));
+				vetor_U[0] = get<0>(vU); vetor_U[1] = get<1>(vU); vetor_U[2] = get<2>(vU);
+				vetor_V[0] = get<0>(vV); vetor_V[1] = get<1>(vV); vetor_V[2] = get<2>(vV);
+				normalize(vetor_U);
+				normalize(vetor_V);
+				cross(vetor_U, vetor_V, vetorNormal);
+				normais.push_back(vetorNormal[0]);
+				normais.push_back(vetorNormal[1]);
+				normais.push_back(vetorNormal[2]);
 			}
 		}
 	}
@@ -742,11 +742,11 @@ void generateCone(char* argv[]) {
 		normais[n] = -1; n++;
 		normais[n] = 0; n++;
 	}
-	double norma = sqrt(radius^2 + height^2);
+	double norma = sqrt(pow(radius,2) + pow(height,2));
 
 	//float normalx = 0;
-	float ny = radius / norm;
-	float nz = height / norm;
+	float ny = radius / norma;
+	float nz = height / norma;
 	//Laterais
 	for (int i = 0; i < stacks; i++) {
 		for (int j = 0; j < slices; j++) {

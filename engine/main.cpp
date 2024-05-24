@@ -14,7 +14,7 @@ const float CAMERA_SPEED = 10.0f;
 float prev_y[3] = {0, 1, 0};
 float tesselation = 100.0f;
 
-GLuint buffers[1];
+GLuint buffers[2];
 void buildRotMatrix(float* x, float* y, float* z, float* m) {
 
     m[0] = x[0]; m[1] = x[1]; m[2] = x[2]; m[3] = 0;
@@ -167,9 +167,6 @@ void renderGroup(Group* g) {
     for (size_t  i = 0; i < g->model.size(); ++i) {
         Color* color = g->color[i];
         float diffuseColor[4] = { color->diffuseR, color->diffuseG, color->diffuseB, 1.0 };
-        cout << color->diffuseR<<"\n";
-        cout << color->diffuseG << "\n";
-        cout << color->diffuseB << "\n";
         float ambientColor[4] = { color->ambientR, color->ambientG, color->ambientB, 1.0 };
         float specularColor[4] = { color->specularR, color->specularG, color->specularB, 1.0 };
         float emissiveColor[4] = { color->emissiveR,color->emissiveG,color->emissiveB,1.0 };
@@ -179,9 +176,29 @@ void renderGroup(Group* g) {
         glMaterialfv(GL_FRONT, GL_EMISSION, emissiveColor);
         glMaterialf(GL_FRONT, GL_SHININESS, color->shininessValue);
 
+        glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+        glNormalPointer(GL_FLOAT, 0, 0);
+
         glDrawArrays(GL_TRIANGLES, first / 3, g->model[i] / 3);
 
-        first += g->model[i];   
+        first += g->model[i];
+
+        /*
+        glBindTexture(GL_TEXTURE_2D, groupModel->texID);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+		glVertexPointer(3, GL_FLOAT, 0, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
+		glNormalPointer(GL_FLOAT, 0, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
+		glTexCoordPointer(2, GL_FLOAT, 0, 0);
+
+		glDrawElements(groupModel->type, groupModel->modelInfo->size, GL_UNSIGNED_INT, (void*)(groupModel->modelInfo->index * sizeof(GLuint)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+        */
     }
 
     for (Group*& subgroup : g->groups) {
@@ -191,6 +208,7 @@ void renderGroup(Group* g) {
 }
 
 void renderScene(void) {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // set the camera
@@ -205,12 +223,36 @@ void renderScene(void) {
 
     first = 0;
 
-    //draw instructions
-    if (axis) drawAxis();
+    int i = 0;
+    
+    for (Lights* l : lights) {
 
-    glColor3f(1.0f, 1.0f, 1.0f);
+        float pos[4] = { l->posX, l->posY, l->posZ, 1.0f };
+        float dir[4] = { l->dirX, l->dirY, l->dirZ, 0.0f };
+
+        if (l->type == 2) {
+            glLightfv(GL_LIGHT0 + i, GL_POSITION, dir);
+        }
+        else {
+            glLightfv(GL_LIGHT0 + i, GL_POSITION, pos);
+        }
+
+        if (l->type == 3) {
+            glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, dir);
+            glLightfv(GL_LIGHT0 + i, GL_SPOT_CUTOFF, &l->cutoff);
+        }
+        i++;
+    }
+    
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glColor3f(1.0f, 1.0f, 1.0f);
     renderGroup(group);
+
+    if (axis) {
+        glEnable(GL_COLOR_MATERIAL);
+        drawAxis();
+        glDisable(GL_COLOR_MATERIAL);
+    }
 
     glutSwapBuffers();
 }
@@ -287,40 +329,12 @@ int main(int argc, char** argv) {
     group = new Group();
 
     vector<float> points;
+    vector<float> normals;
 
-    parser(argv[1], &lights, window, camera, group, &points);
+    parser(argv[1], &lights, window, camera, group, &points, &normals);
     //Init
     glutInit(&argc, argv);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-    float dark[4] = { 0.2, 0.2, 0.2, 1.0 };
-    float white[4] = { 1.0, 1.0, 1.0, 1.0 };
-    float black[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    int i = 0;
-    for (Lights* l : lights) {
-        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, dark);
-        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, white);
-        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, white);
-
-        float pos[4] = { l->posX, l->posY, l->posZ, 1.0f };
-        float dir[4] = { l->dirX, l->dirY, l->dirZ, 0.0f };
-
-        if (l->type == 2) {
-            glLightfv(GL_LIGHT0 + i, GL_POSITION, dir);
-        }
-        else {
-            glLightfv(GL_LIGHT0 + i, GL_POSITION, pos);
-        }
-
-        if (l->type == 3) {
-            glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, dir);
-            glLightfv(GL_LIGHT0 + i, GL_SPOT_CUTOFF, &l->cutoff);
-        }
-        i++;
-    }
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, black);
-
+    
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(window->height, window->width);
@@ -336,12 +350,26 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    glEnableClientState(GL_VERTEX_ARRAY);
 
-    glGenBuffers(1, buffers);
+    float amb[4] = { 1.0f, 1.0f, 1.0f, 1.0 };
+    float diff[4] = { 0.5f, 0.5f, 0.5f, 1.0 };
+    float spec[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
+    int i = 0;
+    if (!lights.empty()) glEnable(GL_LIGHTING);
+    for (Lights* l : lights) {
+        glEnable(GL_LIGHT0 + i);
+        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, amb);
+        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff);
+        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, spec);
+    }
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glGenBuffers(2, buffers);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(float), points.data(), GL_STATIC_DRAW);
-
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), normals.data(), GL_STATIC_DRAW);
     glVertexPointer(3, GL_FLOAT, 0, 0);
 
     glutMainLoop();

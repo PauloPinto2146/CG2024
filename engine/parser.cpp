@@ -120,7 +120,7 @@ void parse_lights(xml_node<>* lights_node, vector <Lights*>* lights) {
 }
 
 
-void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
+void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, vector<float>* normals) {
 	xml_node<>* models = group_node->first_node("models");
 	xml_node<>* transform = group_node->first_node("transform");
 	xml_node<>* texture = group_node->first_node("texture");
@@ -181,6 +181,8 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 			fich.read((char*)temp_points, n * sizeof(float));
 
 			points->insert(points->end(), temp_points, temp_points + n);
+			fich.read((char*)temp_points, n * sizeof(float));
+			normals->insert(normals->end(), temp_points, temp_points + n);
 			group->model.push_back(n);
 
 			fich.close();
@@ -345,13 +347,13 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 	for (node = group_node->first_node("group"); node != NULL; node = node->next_sibling("group")) {
 		Group* subgroup = new Group();
 
-		parse_group(node, subgroup, points);
+		parse_group(node, subgroup, points, normals);
 
 		group->groups.push_back(subgroup);
 	}
 }
 
-void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* camera, Group* group, vector<float>* points) {
+void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* camera, Group* group, vector<float>* points, vector<float>* normals) {
 	xml_document<> doc;
 	xml_node<>* root_node;
 
@@ -377,5 +379,5 @@ void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* cam
 
 	//Parse group
 	xml_node<>* group_node = root_node->first_node("group");
-	parse_group(group_node, group, points);
+	parse_group(group_node, group, points,normals);
 }

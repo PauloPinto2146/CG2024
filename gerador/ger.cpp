@@ -69,6 +69,79 @@ tuple<float, float, float> B(float u, float v, vector<vector<float>> controlPoin
 	}
 	return res;
 }
+tuple<float, float, float> vetorU(float u, float v, vector<vector<float>> controlPoints, vector<vector<float>> patchIndexs, int patch) {
+	float pp;
+	float M[4][4] = { { -1,3,-3,1},{3,-6,3,0},{-3,3,0,0},{1,0,0,0} }; // M = Mt
+	float umatrixDerivada[4] = {3*float(pow(u,2)),2*u,1,0 };
+	float vmatrix[4] = { float(pow(v,3)),float(pow(v,2)),v,1 };
+	tuple <float, float, float> res;
+	for (int i = 0; i < 3; i++) { //Para coordenadas x,y e z
+		float P[4][4];
+		for (int j1 = 0; j1 < 4; j1++) {
+			for (int j2 = 0; j2 < 4; j2++) {
+				pp = patchIndexs[patch][j1 * 4 + j2];
+				P[j1][j2] = controlPoints[pp][i];
+			}
+		}
+		//Não sei se Vt faz muita diferença
+		float MV[4];
+		multMatrixVector(&M[0][0], vmatrix, MV);
+		float PMV[4];
+		multMatrixVector(&P[0][0], MV, PMV);
+		float MPMV[4];
+		multMatrixVector(&M[0][0], PMV, MPMV);
+		float UMPMV[4] = { umatrixDerivada[0] * MPMV[0],umatrixDerivada[1] * MPMV[1], umatrixDerivada[2] * MPMV[2],umatrixDerivada[3] * MPMV[3] };
+		switch (i) {
+		case 0: get<0>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //px
+		case 1: get<1>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //py
+		case 2: get<2>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //pz
+		}
+	}
+	return res;
+}
+
+tuple<float, float, float> vetorV(float u, float v, vector<vector<float>> controlPoints, vector<vector<float>> patchIndexs, int patch) {
+	float pp;
+	float M[4][4] = { { -1,3,-3,1},{3,-6,3,0},{-3,3,0,0},{1,0,0,0} }; // M = Mt
+	float umatrix[4] = { float(pow(u,3)),float(pow(u,2)),u,1 };
+	float vmatrixDerivada[4] = { r*float(pow(v,2)),2*v,1,0 };
+	tuple <float, float, float> res;
+	for (int i = 0; i < 3; i++) { //Para coordenadas x,y e z
+		float P[4][4];
+		for (int j1 = 0; j1 < 4; j1++) {
+			for (int j2 = 0; j2 < 4; j2++) {
+				pp = patchIndexs[patch][j1 * 4 + j2];
+				P[j1][j2] = controlPoints[pp][i];
+			}
+		}
+		float MV[4];
+		multMatrixVector(&M[0][0], vmatrixDerivada, MV);
+		float PMV[4];
+		multMatrixVector(&P[0][0], MV, PMV);
+		float MPMV[4];
+		multMatrixVector(&M[0][0], PMV, MPMV);
+		float UMPMV[4] = { umatrix[0] * MPMV[0],umatrix[1] * MPMV[1], umatrix[2] * MPMV[2],MPMV[3] };
+		switch (i) {
+		case 0: get<0>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //px
+		case 1: get<1>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //py
+		case 2: get<2>(res) = UMPMV[0] + UMPMV[1] + UMPMV[2] + UMPMV[3]; //pz
+		}
+	}
+	return res;
+}
+
+void normalize(float* a) {
+	float l = sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+	a[0] = a[0] / l;
+	a[1] = a[1] / l;
+	a[2] = a[2] / l;
+}
+
+void cross(float* a, float* b, float* res) {
+	res[0] = a[1] * b[2] - a[2] * b[1];
+	res[1] = a[2] * b[0] - a[0] * b[2];
+	res[2] = a[0] * b[1] - a[1] * b[0];
+}
 
 tuple<int, int, vector<vector<float>>, vector<vector<float>>> readPatchFile(char* ficheiroPatch) {
 	int nPatches;
@@ -133,7 +206,13 @@ void generatePatch(char* argv[]) {
 	float tessellation = atoi(argv[3]);
 	int u, v;
 	vector<float> pontos;
+	vector<float> normais;
 	tuple<float, float, float> pontoTriangulo;
+	tuple<float, float, float> vU;
+	tuple<float, float, float> vV;
+	float vetorU[3];
+	float vetorV[3];
+	float vetorNormal[3];
 
 	for(int patch = 0; patch<patchIndexs.size(); patch++){
 		for (u = 0; u < tessellation; u++){
@@ -143,33 +222,94 @@ void generatePatch(char* argv[]) {
 				pontos.push_back(get<0>(pontoTriangulo)); //px
 				pontos.push_back(get<1>(pontoTriangulo)); //py
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
+				vU = vetorU((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vV = vetorV((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
+				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
+				normalize(vetorU);
+				normalize(vetorV);
+				cross (vetorU,vetorV,vetorNormal);
+				normais.push_back(get<0>(vetorNormal));
+				normais.push_back(get<1>(vetorNormal));
+				normais.push_back(get<2>(vetorNormal));
 				pontoTriangulo = B(u / tessellation, v / tessellation, controlPoints,patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
+				vU = vetorU(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vV = vetorV(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
+				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
+				normalize(vetorU);
+				normalize(vetorV);
+				cross(vetorU, vetorV, vetorNormal);
+				normais.push_back(get<0>(vetorNormal));
+				normais.push_back(get<1>(vetorNormal));
+				normais.push_back(get<2>(vetorNormal));
 				pontoTriangulo = B(u / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
+				vU = vetorU(u / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
+				vV = vetorV(u / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
+				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
+				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
+				normalize(vetorU);
+				normalize(vetorV);
+				cross(vetorU, vetorV, vetorNormal);
+				normais.push_back(get<0>(vetorNormal));
+				normais.push_back(get<1>(vetorNormal));
+				normais.push_back(get<2>(vetorNormal));
 				//Triangulo 2 
 				pontoTriangulo = B((u + 1) / tessellation, (v+1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo)); //px
 				pontos.push_back(get<1>(pontoTriangulo)); //py
 				pontos.push_back(get<2>(pontoTriangulo)); //pz
+				vU = vetorU((u + 1) / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
+				vV = vetorV((u + 1) / tessellation, (v + 1)/ tessellation, controlPoints, patchIndexs, patch);
+				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
+				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
+				normalize(vetorU);
+				normalize(vetorV);
+				cross(vetorU, vetorV, vetorNormal);
+				normais.push_back(get<0>(vetorNormal));
+				normais.push_back(get<1>(vetorNormal));
+				normais.push_back(get<2>(vetorNormal));
 				pontoTriangulo = B((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
+				vU = vetorU((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vV = vetorV((u + 1) / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
+				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
+				normalize(vetorU);
+				normalize(vetorV);
+				cross(vetorU, vetorV, vetorNormal);
+				normais.push_back(get<0>(vetorNormal));
+				normais.push_back(get<1>(vetorNormal));
+				normais.push_back(get<2>(vetorNormal));
 				pontoTriangulo = B(u / tessellation, (v + 1) / tessellation, controlPoints, patchIndexs, patch);
 				pontos.push_back(get<0>(pontoTriangulo));
 				pontos.push_back(get<1>(pontoTriangulo));
 				pontos.push_back(get<2>(pontoTriangulo));
+				vU = vetorU(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vV = vetorV(u / tessellation, v / tessellation, controlPoints, patchIndexs, patch);
+				vetorU = { get<0>(vU),get<1>(vU),get<2>(vU) };
+				vetorU = { get<0>(vV),get<1>(vV),get<2>(vV) };
+				normalize(vetorU);
+				normalize(vetorV);
+				cross(vetorU, vetorV, vetorNormal);
+				normais.push_back(get<0>(vetorNormal));
+				normais.push_back(get<1>(vetorNormal));
+				normais.push_back(get<2>(vetorNormal));
 			}
 		}
 	}
 	int N = pontos.size();
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float) * N);
+	file.write((char*)normais.data(), sizeof(float) * N);
 	file.close();
 }
 
@@ -183,7 +323,9 @@ void generateSphere(char* argv[]) {
 
 	int N = (stacks * slices * 9) + (stacks * slices * 18); //Número de pontos
 	vector<float> pontos(N);
+	vector<float> normais(N);
 	int p = 0;
+	int n = 0;
 
 	float const R = 1.0f / slices;
 	float const S = 1.0f / stacks;
@@ -198,33 +340,53 @@ void generateSphere(char* argv[]) {
 			//Triangulo1
 			//P1
 			pontos[p] = radius * cos(theta) * sin(phi); p++; //x0
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * cos(phi); p++; //y0
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * sin(theta) * sin(phi); p++; //z0
+			normais[n] = pontos[p - 1] / radius; n++;
+
 			//P2
 			pontos[p] = radius * cos(theta1) * sin(phi); p++; //x2
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * cos(phi); p++; //y2
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * sin(theta1) * sin(phi); p++; //z2
+			normais[n] = pontos[p - 1] / radius; n++;
 			//P3
 			pontos[p] = radius * cos(theta) * sin(phi1); p++; //x1
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * cos(phi1); p++; //y1
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
+			normais[n] = pontos[p - 1] / radius; n++;
 			//Triangulo2
 			//P1
 			pontos[p] = radius * cos(theta1) * sin(phi); p++; //x2
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * cos(phi); p++; //y2
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * sin(theta1) * sin(phi); p++; //z2
+			normais[n] = pontos[p - 1] / radius; n++;
 			//P2
 			pontos[p] = radius * cos(theta1) * sin(phi1); p++;
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * cos(phi1); p++;
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * sin(theta1) * sin(phi1); p++;
+			normais[n] = pontos[p - 1] / radius; n++;
 			//P3
 			pontos[p] = radius * cos(theta) * sin(phi1); p++; //x1
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * cos(phi1); p++; //y1
+			normais[n] = pontos[p - 1] / radius; n++;
 			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
+			normais[n] = pontos[p - 1] / radius; n++;
 		}
 	}
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float) * N);
+	file.write((char*)normais.data(), sizeof(float) * N);
 	file.close();
 }
 
@@ -237,7 +399,9 @@ void generateBox(char* argv[]) {
 	float portion = length / grid;
 	int N = grid * grid * 18 * 6; //Número de pontos
 	vector<float> pontos(N);
+	vector<float> normais(N);
 	int p = 0;
+	int n = 0;
 
 	//plano de baixo e de cima (y estável)
 	for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
@@ -250,56 +414,92 @@ void generateBox(char* argv[]) {
 			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z; p++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
+			normais[n] = 0; n++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z; p++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
+			normais[n] = 0; n++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z + portion; p++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
+			normais[n] = 0; n++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z + portion; p++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
+			normais[n] = 0; n++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z + portion; p++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
+			normais[n] = 0; n++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
 			pontos[p] = z; p++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
+			normais[n] = 0; n++;
 			// CIMA
 			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z + portion; p++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
+			normais[n] = 0; n++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z; p++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
+			normais[n] = 0; n++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z; p++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
+			normais[n] = 0; n++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z; p++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
+			normais[n] = 0; n++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z + portion; p++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
+			normais[n] = 0; n++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
 			pontos[p] = z + portion; p++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
+			normais[n] = 0; n++;
 		}
 	}
 	//plano da trás e de frente (x estável)
-	for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
+	for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor y e iterando pela linha dos x até length/2
 		for (int j = 0; j < grid; j++) {
 				float y = i * portion - half;
 				float z = j * portion - half;
@@ -309,28 +509,46 @@ void generateBox(char* argv[]) {
 				pontos[p] = half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z; p++;
+				normais[n] = 1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P2
 				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z + portion; p++;
+				normais[n] = 1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P3
 				pontos[p] = half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z + portion; p++;
+				normais[n] = 1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 
 				//Triangulo 2
 				//P1
 				pontos[p] = half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z; p++;
+				normais[n] = 1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P2
 				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z; p++;
+				normais[n] = 1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P3
 				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z + portion; p++;
+				normais[n] = 1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 
 				//TRAS
 				//Triangulo 1 
@@ -338,28 +556,46 @@ void generateBox(char* argv[]) {
 				pontos[p] = -half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z + portion; p++;
+				normais[n] = -1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P2
 				pontos[p] = -half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z + portion; p++;
+				normais[n] = -1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P3
 				pontos[p] = -half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z; p++;
+				normais[n] = -1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 
 				//Triangulo 2
 				//P1
 				pontos[p] = -half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z + portion; p++;
+				normais[n] = -1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P2
 				pontos[p] = -half; p++;
 				pontos[p] = y + portion; p++;
 				pontos[p] = z; p++;
+				normais[n] = -1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 				//P3
 				pontos[p] = -half; p++;
 				pontos[p] = y; p++;
 				pontos[p] = z; p++;
+				normais[n] = -1; n++;
+				normais[n] = 0; n++;
+				normais[n] = 0; n++;
 		}
 	}
 	//plano da direita e da esquerda (z estável)
@@ -373,58 +609,95 @@ void generateBox(char* argv[]) {
 			pontos[p] = x + portion; p++;
 			pontos[p] = y + portion; p++;
 			pontos[p] = -half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x + portion; p++;
 			pontos[p] = y; p++;
 			pontos[p] = -half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = y + portion; p++;
 			pontos[p] = -half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = y + portion; p++;
 			pontos[p] = -half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = 1; n++;
 			//ESQUERDA
 			//Triangulo 1 
 			//P1
 			pontos[p] = x; p++;
 			pontos[p] = y; p++;;
 			pontos[p] = half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = y; p++;
 			pontos[p] = half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = y + portion; p++;
 			pontos[p] = half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x + portion; p++;
 			pontos[p] = y + portion; p++;
 			pontos[p] = half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = y + portion; p++;
 			pontos[p] = half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = y; p++;
 			pontos[p] = half; p++;
+			normais[n] = 0; n++;
+			normais[n] = 0; n++;
+			normais[n] = -1; n++;
 		}
 	}
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float)* N);
+	file.write((char*)normais.data(), sizeof(float)* N);
 	file.close();
 }
 
@@ -439,7 +712,9 @@ void generateCone(char* argv[]) {
 
 	int N = (slices * 9)*(stacks * slices * 18);
 	vector<float> pontos(N);
+	vector<float> normais(N);
 	int p = 0;
+	int n = 0;
 	float alpha = 2 * M_PI / slices;
 	float rinc = (radius / stacks);
 	float hinc = (height / stacks);
@@ -449,16 +724,29 @@ void generateCone(char* argv[]) {
 		pontos[p] = radius * sin(alpha*i); p++;
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha*i); p++;
+		normais[n] = 0; n++;
+		normais[n] = -1; n++;
+		normais[n] = 0; n++;
 
 		pontos[p] = 0; p++;
 		pontos[p] = 0; p++;
 		pontos[p] = 0; p++;
+		normais[n] = 0; n++;
+		normais[n] = -1; n++;
+		normais[n] = 0; n++;
 
 		pontos[p] = radius * sin(alpha * (i+1)); p++;
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * (i + 1)); p++;
+		normais[n] = 0; n++;
+		normais[n] = -1; n++;
+		normais[n] = 0; n++;
 	}
+	double norma = sqrt(radius^2 + height^2);
 
+	//float normalx = 0;
+	float ny = radius / norm;
+	float nz = height / norm;
 	//Laterais
 	for (int i = 0; i < stacks; i++) {
 		for (int j = 0; j < slices; j++) {
@@ -470,26 +758,44 @@ void generateCone(char* argv[]) {
 			pontos[p] = nextraio * sin(alpha*j); p++;
 			pontos[p] = nextaltura; p++;
 			pontos[p] = nextraio * cos(alpha*j); p++;
+			normais[n] = nz * sin(alpha * j); n++;
+			normais[n] = ny; n++;
+			normais[n] = nz * sin(alpha * j); n++;
 
 			pontos[p] = raio * sin(alpha * j); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio *  cos(alpha * j); p++;
+			normais[n] = nz * sin(alpha * j); n++;
+			normais[n] = ny; n++;
+			normais[n] = nz * sin(alpha * j); n++;
 
 			pontos[p] = raio *  sin(alpha * (j+1)); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio *  cos(alpha * (j + 1)); p++;
+			normais[n] = nz * sin(alpha * j); n++;
+			normais[n] = ny; n++;
+			normais[n] = nz * sin(alpha * j); n++;
 			//Triangulo 2
 			pontos[p] = nextraio * sin(alpha * (j + 1)); p++;
 			pontos[p] = nextaltura; p++;
 			pontos[p] = nextraio * cos(alpha * (j + 1)); p++;
+			normais[n] = nz * sin(alpha * j); n++;
+			normais[n] = ny; n++;
+			normais[n] = nz * sin(alpha * j); n++;
 
 			pontos[p] = nextraio * sin(alpha * j); p++;
 			pontos[p] = nextaltura; p++;
 			pontos[p] = nextraio * cos(alpha * j); p++;
+			normais[n] = nz * sin(alpha * j); n++;
+			normais[n] = ny; n++;
+			normais[n] = nz * sin(alpha * j); n++;
 
 			pontos[p] = raio * sin(alpha * (j + 1)); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio * cos(alpha * (j + 1)); p++;
+			normais[n] = nz * sin(alpha * j); n++;
+			normais[n] = ny; n++;
+			normais[n] = nz * sin(alpha * j); n++;
 		}
 	}
 
@@ -507,7 +813,9 @@ void generatePlane(char* argv[]) {
 	float tr = length / divisions;
 	int N = divisions * divisions * 18;
 	vector<float> pontos(N);
+	vector<float> normais(N);
 	int p = 0;
+	int n = 0;
 
 	for (int i = 0; i < divisions; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 		for (int j = 0; j < divisions; j++) {
@@ -517,32 +825,51 @@ void generatePlane(char* argv[]) {
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
 			pontos[p] = (i + 1) * tr - (length / 2); p++;
+			normais[n] = 0.0f; n++;
+			normais[n] = 1.0f; n++;
+			normais[n] = 0.0f; n++;
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
 			pontos[p] = i * tr - (length / 2); p++;
+			normais[n] = 0.0f; n++;
+			normais[n] = 1.0f; n++;
+			normais[n] = 0.0f; n++;
 			//P3
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
 			pontos[p] = i * tr - (length / 2); p++;
+			normais[n] = 0.0f; n++;
+			normais[n] = 1.0f; n++;
+			normais[n] = 0.0f; n++;
 
 			//Triangulo 2
 			//P1
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
 			pontos[p] = (i + 1) * tr - (length / 2); p++;
+			normais[n] = 0.0f; n++;
+			normais[n] = 1.0f; n++;
+			normais[n] = 0.0f; n++;
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
 			pontos[p] = (i + 1) * tr - (length / 2); p++;
+			normais[n] = 0.0f; n++;
+			normais[n] = 1.0f; n++;
+			normais[n] = 0.0f; n++;
 			//P3
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
 			pontos[p] = i * tr - (length / 2); p++;
+			normais[n] = 0.0f; n++;
+			normais[n] = 1.0f; n++;
+			normais[n] = 0.0f; n++;
 		}
 	}
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float) * N);
+	file.write((char*)normais.data(), sizeof(float) * N);
 
 	file.close();
 }

@@ -1,8 +1,7 @@
-
 #include <vector>
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef CLASSES_H
+#define CLASSES_H
 class Camera {
 public:
     float pos[3] = { 3, 2, 1 };
@@ -12,17 +11,10 @@ public:
     float rotate[3] = { 0, 0 ,0 };
     float zoom = 1.0f;
 };
-#endif
 
-#ifndef GROUP_H
-#define GROUP_H
-class Group {
+
+class Color {
 public:
-    std::vector<float> model;
-    std::vector<int> torder;
-
-    std::vector<float> texture;
-
     float diffuseR = 0.0;
     float diffuseG = 0.0;
     float diffuseB = 0.0;
@@ -36,6 +28,14 @@ public:
     float emissiveG = 0.0;
     float emissiveB = 0.0;
     float shininessValue = 0.0;
+};
+
+class Group {
+public:
+    std::vector<float> model;
+    std::vector<int> torder;
+    std::vector<Color*> color;
+    std::vector<float> texture;
 
     float tx = 0.0;
     float ty = 0.0;
@@ -56,10 +56,7 @@ public:
     std::vector<float*> catPoints;
     std::vector<Group*> groups;
 };
-#endif
 
-#ifndef LIGHTS
-#define LIGHTS
 class Lights {
 public:
     int type = 0; // 1 - point // 2 - directional // 3 - spotlight
@@ -71,10 +68,7 @@ public:
     float dirZ = 0.0;
     float cutoff = 0.0;
 };
-#endif
 
-#ifndef WINDOW_H
-#define WINDOW_H
 class Window {
 public:
     int width = 512;

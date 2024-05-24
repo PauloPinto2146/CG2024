@@ -78,8 +78,7 @@ void parse_camera(xml_node<>* camera_node, Camera* camera) {
 	}
 }
 
-void parse_lights(xml_node<>* lights_node, Lights* lights) {
-	xml_node<>* lights = group_node->first_node("lights");
+void parse_lights(xml_node<>* lights_node, vector <Lights*>* lights) {
 	xml_attribute<>* type;
 	xml_attribute<>* posX;
 	xml_attribute<>* posY;
@@ -88,45 +87,81 @@ void parse_lights(xml_node<>* lights_node, Lights* lights) {
 	xml_attribute<>* dirY;
 	xml_attribute<>* dirZ;
 	xml_attribute<>* cutoff;
-	if (lights) {
-		for (xml_node<>* node = lights->first_node(); node; node = node->next_sibling()) {
+	if (lights_node->first_node("light")) {
+		cout << "passei da linha 90 boi";
+		for (xml_node<>* node = lights_node->first_node("light"); node; node = node->next_sibling()) {
+			Lights* light = new Lights();
 			if (node->first_attribute("light")) {
 				if (strcmp(node->first_attribute("type")->value(), "point") == 0) {
-					lights->type = 1;
-					lights->posX = atof(pointNode->first_attribute("posX")->value());
-					lights->posY = atof(pointNode->first_attribute("posY")->value());
-					lights->posZ = atof(pointNode->first_attribute("posZ")->value());
+					light->type = 1;
+					light->posX = atof(node->first_attribute("posX")->value());
+					light->posY = atof(node->first_attribute("posY")->value());
+					light->posZ = atof(node->first_attribute("posZ")->value());
 				}
 				if (strcmp(node->first_attribute("type")->value(), "directional") == 0) {
-					lights->type = 2;
-					lights->dirX = atof(pointNode->first_attribute("dirX")->value());
-					lights->dirY = atof(pointNode->first_attribute("dirY")->value());
-					lights->dirZ = atof(pointNode->first_attribute("dirZ")->value());
+					light->type = 2;
+					light->dirX = atof(node->first_attribute("dirX")->value());
+					light->dirY = atof(node->first_attribute("dirY")->value());
+					light->dirZ = atof(node->first_attribute("dirZ")->value());
 				}
 				if (strcmp(node->first_attribute("type")->value(), "spotlight") == 0) {
-					lights->type = 3;
-					lights->posX = atof(pointNode->first_attribute("posX")->value());
-					lights->posY = atof(pointNode->first_attribute("posY")->value());
-					lights->posZ = atof(pointNode->first_attribute("posZ")->value());
-					lights->dirX = atof(pointNode->first_attribute("dirX")->value());
-					lights->dirY = atof(pointNode->first_attribute("dirY")->value());
-					lights->dirZ = atof(pointNode->first_attribute("dirZ")->value());
-					lights->cutoff = atof(pointNode->first_attribute("cutoff")->value());
+					light->type = 3;
+					light->posX = atof(node->first_attribute("posX")->value());
+					light->posY = atof(node->first_attribute("posY")->value());
+					light->posZ = atof(node->first_attribute("posZ")->value());
+					light->dirX = atof(node->first_attribute("dirX")->value());
+					light->dirY = atof(node->first_attribute("dirY")->value());
+					light->dirZ = atof(node->first_attribute("dirZ")->value());
+					light->cutoff = atof(node->first_attribute("cutoff")->value());
 				}
 			}
+			lights->push_back(light);
 		}
 	}
 }
+
 
 void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 	xml_node<>* models = group_node->first_node("models");
 	xml_node<>* transform = group_node->first_node("transform");
 	xml_node<>* texture = group_node->first_node("texture");
-	xml_node<>* color = group_node->first_node("color");
 
 	if (models) {
 		for (xml_node<>* model = models->first_node("model"); model; model = model->next_sibling()) {
-
+			Color* color = new Color();
+			xml_node <>* diffuseNode;
+			xml_node <>* ambientNode;
+			xml_node <>* specularNode;
+			xml_node <>* emissiveNode;
+			xml_node <>* shininessNode;
+			xml_node <>* rgbNode;
+			xml_node <>* color_node;
+			if (color_node = models->first_node("color")) {
+				for (diffuseNode = color_node->first_node("diffuse"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("diffuse")) {
+					color->diffuseR = atof(diffuseNode->first_attribute("R")->value());
+					color->diffuseG = atof(diffuseNode->first_attribute("G")->value());
+					color->diffuseB = atof(diffuseNode->first_attribute("B")->value());
+				}
+				for (ambientNode = color_node->first_node("ambient"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("ambient")) {
+					color->ambientR = atof(ambientNode->first_attribute("R")->value());
+					color->ambientG = atof(ambientNode->first_attribute("G")->value());
+					color->ambientB = atof(ambientNode->first_attribute("B")->value());
+				}
+				for (specularNode = color_node->first_node("specular"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("specular")) {
+					color->specularR = atof(specularNode->first_attribute("R")->value());
+					color->specularG = atof(specularNode->first_attribute("G")->value());
+					color->specularB = atof(specularNode->first_attribute("B")->value());
+				}
+				for (emissiveNode = color_node->first_node("emissive"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("emissive")) {
+					color->emissiveR = atof(emissiveNode->first_attribute("R")->value());
+					color->emissiveG = atof(emissiveNode->first_attribute("G")->value());
+					color->emissiveB = atof(emissiveNode->first_attribute("B")->value());
+				}
+				if (shininessNode = color_node->first_node("shininess")) {
+					color->shininessValue = atof(shininessNode->first_attribute("value")->value());
+				}
+				group->color.push_back(color);
+			}
 			//Get file name and open it
 			char* file = model->first_attribute("file")->value();
 			ifstream fich;
@@ -148,7 +183,8 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 
 			fich.close();
 		}
-		for (xml_node<>* texture = models->first_node("texture"); model; texture = texture ->next_sibling()) {
+		/*
+		for (xml_node<>* texture = models->first_node("texture"); texture; texture = texture ->next_sibling()) {
 
 			//Get texturefile name and open it
 			char* texturefile = texture->first_attribute("file")->value();
@@ -170,37 +206,8 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 			group->texture.push_back(n);
 
 			fich.close();
-		}
-		xml_node <>* = diffuseNode;
-		xml_node <>* = ambientNode;
-		xml_node <>* = specularNode;
-		xml_node <>* = emissiveNode;
-		xml_node <>* = shininessNode;
-		if (color) {
-			for (diffuseNode = color->first_node("diffuse"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("diffuse")) {
-				group->diffuseR = atof(diffuseNode->first_attribute("R")->value());
-				group->diffuseG = atof(diffuseNode->first_attribute("G")->value());
-				group->diffuseB = atof(diffuseNode->first_attribute("B")->value());
-			}
-			for (ambientNode = color->first_node("ambient"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("ambient")) {
-				group->ambientR = atof(ambientNode->first_attribute("R")->value());
-				group->ambientG = atof(ambientNode->first_attribute("G")->value());
-				group->ambientB = atof(ambientNode->first_attribute("B")->value());
-			}
-			for (specularNode = color->first_node("specular"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("specular")) {
-				group->specularR = atof(specularNode->first_attribute("R")->value());
-				group->specularG = atof(specularNode->first_attribute("G")->value());
-				group->specularB = atof(specularNode->first_attribute("B")->value());
-			}
-			for (emissiveNode = color->first_node("emissive"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("emissive")) {
-				group->emissiveR = atof(emissiveNode->first_attribute("R")->value());
-				group->emissiveG = atof(emissiveNode->first_attribute("G")->value());
-				group->emissiveB = atof(emissiveNode->first_attribute("B")->value());
-			}
-			if (shininessNode = color->first_node("shininess") {
-				group->shininessValue = atof(shininessNode->first_attribute("value")->value())
-			}
-		}
+		}*/
+
 	}
 
 	if (transform) {
@@ -342,7 +349,7 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 	}
 }
 
-void parser(char* fileName, Window* window, Camera* camera, Group* group, vector<float>* points) {
+void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* camera, Group* group, vector<float>* points) {
 	xml_document<> doc;
 	xml_node<>* root_node;
 
@@ -354,13 +361,13 @@ void parser(char* fileName, Window* window, Camera* camera, Group* group, vector
 
 	root_node = doc.first_node("world");
 
-	//Parse lights
-	xml_node<>* window_node = root_node->first_node("lights");
-	parse_lights(window_node, lights);
-
 	//Parse window
 	xml_node<>* window_node = root_node->first_node("window");
 	parse_window(window_node, window);
+
+	//Parse lights
+	xml_node<>* lights_node = root_node->first_node("lights");
+	parse_lights(lights_node, lights);
 
 	//Parse camera
 	xml_node<>* camera_node = root_node->first_node("camera");

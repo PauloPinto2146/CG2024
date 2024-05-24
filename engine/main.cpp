@@ -4,6 +4,7 @@
 
 Camera* camera = new Camera();
 Group* group = new Group();
+vector <Lights*> lights;
 
 bool axis = true;
 
@@ -165,6 +166,16 @@ void renderGroup(Group* g) {
     }
 
     for (int i = 0; i < g->model.size(); i++) {
+        Color* color = g->color[i];
+        float diffuseColor[4] = { color->diffuseR, color->diffuseG, color->diffuseB, 1.0 };
+        float ambientColor[4] = { color->ambientR, color->ambientG, color->ambientB, 1.0 };
+        float specularColor[4] = { color->specularR, color->specularG, color->specularB, 1.0 };
+        float emissiveColor[4] = { color->emissiveR,color->emissiveG,color->emissiveB,1.0 };
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuseColor);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, ambientColor);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
+        glMaterialfv(GL_FRONT, GL_EMISSION, emissiveColor);
+        glMaterialf(GL_FRONT, GL_SHININESS, color->shininessValue);
         glDrawArrays(GL_TRIANGLES, first / 3, g->model[i] / 3);
         first += g->model[i];   
     }
@@ -194,7 +205,7 @@ void renderScene(void) {
     if (axis) drawAxis();
 
     glColor3f(1.0f, 1.0f, 1.0f);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     renderGroup(group);
 
     glutSwapBuffers();
@@ -273,12 +284,36 @@ int main(int argc, char** argv) {
 
     vector<float> points;
 
-    parser(argv[1], window, camera, group, &points);
-
+    parser(argv[1], &lights, window, camera, group, &points);
     //Init
     glutInit(&argc, argv);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+
+    float dark[4] = { 0.2, 0.2, 0.2, 1.0 };
+    float white[4] = { 1.0, 1.0, 1.0, 1.0 };
+    float black[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    int i = 0;
+    for (Lights* l : lights) {
+        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, dark);
+        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, white);
+        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, white);
+
+        float pos[4] = { l->posX, l->posY, l->posZ, 1 };
+        float dir[4] = { l->dirX, l->dirY, l->dirZ, 0 };
+
+        if (l->type == 2) glLightfv(GL_LIGHT0 + i, GL_POSITION, dir);
+        else glLightfv(GL_LIGHT0 + i, GL_POSITION, pos);
+
+        if (l->type == 3) {
+            glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, dir);
+            glLightfv(GL_LIGHT0 + i, GL_SPOT_CUTOFF, &l->cutoff);
+        }
+
+        i++;
+    }
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, black);
+
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(window->height, window->width);

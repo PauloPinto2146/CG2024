@@ -164,10 +164,12 @@ void renderGroup(Group* g) {
             glRotatef(360 * t, g->timerx, g->timery, g->timerz);
         }
     }
-
-    for (int i = 0; i < g->model.size(); i++) {
+    for (size_t  i = 0; i < g->model.size(); ++i) {
         Color* color = g->color[i];
         float diffuseColor[4] = { color->diffuseR, color->diffuseG, color->diffuseB, 1.0 };
+        cout << color->diffuseR<<"\n";
+        cout << color->diffuseG << "\n";
+        cout << color->diffuseB << "\n";
         float ambientColor[4] = { color->ambientR, color->ambientG, color->ambientB, 1.0 };
         float specularColor[4] = { color->specularR, color->specularG, color->specularB, 1.0 };
         float emissiveColor[4] = { color->emissiveR,color->emissiveG,color->emissiveB,1.0 };
@@ -176,7 +178,9 @@ void renderGroup(Group* g) {
         glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
         glMaterialfv(GL_FRONT, GL_EMISSION, emissiveColor);
         glMaterialf(GL_FRONT, GL_SHININESS, color->shininessValue);
+
         glDrawArrays(GL_TRIANGLES, first / 3, g->model[i] / 3);
+
         first += g->model[i];   
     }
 
@@ -299,17 +303,20 @@ int main(int argc, char** argv) {
         glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, white);
         glLightfv(GL_LIGHT0 + i, GL_SPECULAR, white);
 
-        float pos[4] = { l->posX, l->posY, l->posZ, 1 };
-        float dir[4] = { l->dirX, l->dirY, l->dirZ, 0 };
+        float pos[4] = { l->posX, l->posY, l->posZ, 1.0f };
+        float dir[4] = { l->dirX, l->dirY, l->dirZ, 0.0f };
 
-        if (l->type == 2) glLightfv(GL_LIGHT0 + i, GL_POSITION, dir);
-        else glLightfv(GL_LIGHT0 + i, GL_POSITION, pos);
+        if (l->type == 2) {
+            glLightfv(GL_LIGHT0 + i, GL_POSITION, dir);
+        }
+        else {
+            glLightfv(GL_LIGHT0 + i, GL_POSITION, pos);
+        }
 
         if (l->type == 3) {
             glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, dir);
             glLightfv(GL_LIGHT0 + i, GL_SPOT_CUTOFF, &l->cutoff);
         }
-
         i++;
     }
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, black);

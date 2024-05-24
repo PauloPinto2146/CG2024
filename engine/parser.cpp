@@ -88,7 +88,6 @@ void parse_lights(xml_node<>* lights_node, vector <Lights*>* lights) {
 	xml_attribute<>* dirZ;
 	xml_attribute<>* cutoff;
 	if (lights_node->first_node("light")) {
-		cout << "passei da linha 90 boi";
 		for (xml_node<>* node = lights_node->first_node("light"); node; node = node->next_sibling()) {
 			Lights* light = new Lights();
 			if (node->first_attribute("light")) {
@@ -136,26 +135,29 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points) {
 			xml_node <>* shininessNode;
 			xml_node <>* rgbNode;
 			xml_node <>* color_node;
-			if (color_node = models->first_node("color")) {
-				for (diffuseNode = color_node->first_node("diffuse"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("diffuse")) {
-					color->diffuseR = atof(diffuseNode->first_attribute("R")->value());
-					color->diffuseG = atof(diffuseNode->first_attribute("G")->value());
-					color->diffuseB = atof(diffuseNode->first_attribute("B")->value());
+			if (color_node = model->first_node("color")) {
+				if (diffuseNode = color_node->first_node("diffuse")) {
+					color->diffuseR = atof(diffuseNode->first_attribute("R")->value()) / 255;
+					cout << atof(diffuseNode->first_attribute("R")->value()) / 255<<"\n";
+					color->diffuseG = atof(diffuseNode->first_attribute("G")->value()) / 255;
+					cout << atof(diffuseNode->first_attribute("G")->value()) / 255 << "\n";
+					color->diffuseB = atof(diffuseNode->first_attribute("B")->value()) / 255;
+					cout << atof(diffuseNode->first_attribute("B")->value()) / 255 << "\n";
 				}
-				for (ambientNode = color_node->first_node("ambient"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("ambient")) {
-					color->ambientR = atof(ambientNode->first_attribute("R")->value());
-					color->ambientG = atof(ambientNode->first_attribute("G")->value());
-					color->ambientB = atof(ambientNode->first_attribute("B")->value());
+				if (ambientNode = color_node->first_node("ambient")) {
+					color->ambientR = atof(ambientNode->first_attribute("R")->value()) / 255;
+					color->ambientG = atof(ambientNode->first_attribute("G")->value()) / 255;
+					color->ambientB = atof(ambientNode->first_attribute("B")->value()) / 255;
 				}
-				for (specularNode = color_node->first_node("specular"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("specular")) {
-					color->specularR = atof(specularNode->first_attribute("R")->value());
-					color->specularG = atof(specularNode->first_attribute("G")->value());
-					color->specularB = atof(specularNode->first_attribute("B")->value());
+				if (specularNode = color_node->first_node("specular")) {
+					color->specularR = atof(specularNode->first_attribute("R")->value()) / 255;
+					color->specularG = atof(specularNode->first_attribute("G")->value()) / 255;
+					color->specularB = atof(specularNode->first_attribute("B")->value()) / 255;
 				}
-				for (emissiveNode = color_node->first_node("emissive"); rgbNode != NULL; rgbNode = rgbNode->next_sibling("emissive")) {
-					color->emissiveR = atof(emissiveNode->first_attribute("R")->value());
-					color->emissiveG = atof(emissiveNode->first_attribute("G")->value());
-					color->emissiveB = atof(emissiveNode->first_attribute("B")->value());
+				if (emissiveNode = color_node->first_node("emissive")) {
+					color->emissiveR = atof(emissiveNode->first_attribute("R")->value()) / 255;
+					color->emissiveG = atof(emissiveNode->first_attribute("G")->value()) / 255;
+					color->emissiveB = atof(emissiveNode->first_attribute("B")->value()) / 255;
 				}
 				if (shininessNode = color_node->first_node("shininess")) {
 					color->shininessValue = atof(shininessNode->first_attribute("value")->value());

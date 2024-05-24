@@ -277,6 +277,8 @@ int main(int argc, char** argv) {
 
     //Init
     glutInit(&argc, argv);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(window->height, window->width);

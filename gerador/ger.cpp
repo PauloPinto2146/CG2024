@@ -324,8 +324,10 @@ void generateSphere(char* argv[]) {
 	int N = (stacks * slices * 9) + (stacks * slices * 18); //Número de pontos
 	vector<float> pontos(N);
 	vector<float> normais(N);
+	vector<float> pontosTextura;
 	int p = 0;
 	int n = 0;
+	int t = 0;
 
 	float const R = 1.0f / slices;
 	float const S = 1.0f / stacks;
@@ -340,53 +342,64 @@ void generateSphere(char* argv[]) {
 			//Triangulo1
 			//P1
 			pontos[p] = radius * cos(theta) * sin(phi); p++; //x0
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * cos(phi); p++; //y0
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * sin(theta) * sin(phi); p++; //z0
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
+			pontosTextura.push_back(j * R);
+			pontosTextura.push_back(i * S);
 
 			//P2
 			pontos[p] = radius * cos(theta1) * sin(phi); p++; //x2
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * cos(phi); p++; //y2
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * sin(theta1) * sin(phi); p++; //z2
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
+			pontosTextura.push_back((j+1) * R);
+			pontosTextura.push_back(i * S);
 			//P3
 			pontos[p] = radius * cos(theta) * sin(phi1); p++; //x1
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * cos(phi1); p++; //y1
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
+			pontosTextura.push_back(j * R);
+			pontosTextura.push_back((i+1)*S);
 			//Triangulo2
 			//P1
 			pontos[p] = radius * cos(theta1) * sin(phi); p++; //x2
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * cos(phi); p++; //y2
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * sin(theta1) * sin(phi); p++; //z2
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			//P2
 			pontos[p] = radius * cos(theta1) * sin(phi1); p++;
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * cos(phi1); p++;
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * sin(theta1) * sin(phi1); p++;
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
+			pontosTextura.push_back((j + 1) * R);
+			pontosTextura.push_back((i+1) * S);
 			//P3
 			pontos[p] = radius * cos(theta) * sin(phi1); p++; //x1
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * cos(phi1); p++; //y1
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
 			pontos[p] = radius * sin(theta) * sin(phi1); p++; //z1
-			normais[n] = pontos[p - 1] / radius; n++;
+			normais[n] = pontos[p - 1]; n++;
+			pontosTextura.push_back(j * R);
+			pontosTextura.push_back((i+1)*S);
 		}
 	}
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float) * N);
-	file.write((char*)normais.data(), sizeof(float) * N);
+	file.write((char*)normais.data(), sizeof(float) * normais.size());
+	file.write((char*)pontosTextura.data(), sizeof(float) * pontosTextura.size());
 	file.close();
 }
 
@@ -397,11 +410,14 @@ void generateBox(char* argv[]) {
 	float grid = atoi(argv[3]);
 	float half = length / 2;
 	float portion = length / grid;
+	float texturePortion = 1.0 / grid;
 	int N = grid * grid * 18 * 6; //Número de pontos
 	vector<float> pontos(N);
 	vector<float> normais(N);
+	vector<float> pontosTextura(2/3 * N);
 	int p = 0;
 	int n = 0;
+	int t = 0;
 
 	//plano de baixo e de cima (y estável)
 	for (int i = 0; i < grid; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
@@ -417,6 +433,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
@@ -424,6 +442,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = -half; p++;
@@ -431,6 +451,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x + portion; p++;
@@ -439,6 +461,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
@@ -446,6 +470,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = -half; p++;
@@ -453,6 +479,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			// CIMA
 			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
@@ -460,6 +488,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
@@ -467,6 +497,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = half; p++;
@@ -474,6 +506,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x; p++;
@@ -482,6 +516,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = half; p++;
@@ -489,6 +525,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = half; p++;
@@ -496,6 +534,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
 			normais[n] = 0; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 		}
 	}
 	//plano da trás e de frente (x estável)
@@ -512,6 +552,8 @@ void generateBox(char* argv[]) {
 				normais[n] = 1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P2
 				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
@@ -519,6 +561,8 @@ void generateBox(char* argv[]) {
 				normais[n] = 1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P3
 				pontos[p] = half; p++;
 				pontos[p] = y; p++;
@@ -526,6 +570,8 @@ void generateBox(char* argv[]) {
 				normais[n] = 1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 
 				//Triangulo 2
 				//P1
@@ -535,6 +581,8 @@ void generateBox(char* argv[]) {
 				normais[n] = 1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P2
 				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
@@ -542,6 +590,8 @@ void generateBox(char* argv[]) {
 				normais[n] = 1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P3
 				pontos[p] = half; p++;
 				pontos[p] = y + portion; p++;
@@ -549,6 +599,8 @@ void generateBox(char* argv[]) {
 				normais[n] = 1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 
 				//TRAS
 				//Triangulo 1 
@@ -559,6 +611,8 @@ void generateBox(char* argv[]) {
 				normais[n] = -1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P2
 				pontos[p] = -half; p++;
 				pontos[p] = y + portion; p++;
@@ -566,6 +620,8 @@ void generateBox(char* argv[]) {
 				normais[n] = -1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P3
 				pontos[p] = -half; p++;
 				pontos[p] = y; p++;
@@ -573,6 +629,8 @@ void generateBox(char* argv[]) {
 				normais[n] = -1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 
 				//Triangulo 2
 				//P1
@@ -582,6 +640,8 @@ void generateBox(char* argv[]) {
 				normais[n] = -1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P2
 				pontos[p] = -half; p++;
 				pontos[p] = y + portion; p++;
@@ -589,6 +649,8 @@ void generateBox(char* argv[]) {
 				normais[n] = -1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 				//P3
 				pontos[p] = -half; p++;
 				pontos[p] = y; p++;
@@ -596,6 +658,8 @@ void generateBox(char* argv[]) {
 				normais[n] = -1; n++;
 				normais[n] = 0; n++;
 				normais[n] = 0; n++;
+				pontosTextura[t] = j * texturePortion; t++;
+				pontosTextura[t] = i * texturePortion; t++;
 		}
 	}
 	//plano da direita e da esquerda (z estável)
@@ -612,6 +676,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = y; p++;
@@ -619,6 +685,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = y; p++;
@@ -626,6 +694,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x + portion; p++;
@@ -634,6 +704,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = y + portion; p++;
@@ -641,6 +713,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = y + portion; p++;
@@ -648,6 +722,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = 1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//ESQUERDA
 			//Triangulo 1 
 			//P1
@@ -657,6 +733,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x + portion; p++;
 			pontos[p] = y; p++;
@@ -664,6 +742,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x + portion; p++;
 			pontos[p] = y + portion; p++;
@@ -671,6 +751,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//Triangulo 2
 			//P1
 			pontos[p] = x + portion; p++;
@@ -679,6 +761,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P2
 			pontos[p] = x; p++;
 			pontos[p] = y + portion; p++;
@@ -686,6 +770,8 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = x; p++;
 			pontos[p] = y; p++;
@@ -693,11 +779,14 @@ void generateBox(char* argv[]) {
 			normais[n] = 0; n++;
 			normais[n] = 0; n++;
 			normais[n] = -1; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 		}
 	}
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float)* N);
 	file.write((char*)normais.data(), sizeof(float)* N);
+	file.write((char*)pontosTextura.data(), sizeof(float)* ((2 * N) / 3));
 	file.close();
 }
 
@@ -712,41 +801,48 @@ void generateCone(char* argv[]) {
 
 	int N = (slices * 9)*(stacks * slices * 18);
 	vector<float> pontos(N);
-	vector<float> normais(N);
+	vector<float> normais;
+	vector<float> pontosTextura;
 	int p = 0;
-	int n = 0;
 	float alpha = 2 * M_PI / slices;
 	float rinc = (radius / stacks);
 	float hinc = (height / stacks);
+	float tDeltaX = 1.0 / slices;
+	float tDeltaY = 1.0 / stacks;
 
 	//Base
 	for (int i = 0; i < slices; i++) {
 		pontos[p] = radius * sin(alpha*i); p++;
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha*i); p++;
-		normais[n] = 0; n++;
-		normais[n] = -1; n++;
-		normais[n] = 0; n++;
+		normais.push_back(0);
+		normais.push_back(-1);
+		normais.push_back(0);
+		pontosTextura.push_back(0);
+		pontosTextura.push_back(0);
 
 		pontos[p] = 0; p++;
 		pontos[p] = 0; p++;
 		pontos[p] = 0; p++;
-		normais[n] = 0; n++;
-		normais[n] = -1; n++;
-		normais[n] = 0; n++;
+		normais.push_back(0);
+		normais.push_back(-1);
+		normais.push_back(0);
+		pontosTextura.push_back(0);
+		pontosTextura.push_back(0);
 
 		pontos[p] = radius * sin(alpha * (i+1)); p++;
 		pontos[p] = 0; p++;
 		pontos[p] = radius * cos(alpha * (i + 1)); p++;
-		normais[n] = 0; n++;
-		normais[n] = -1; n++;
-		normais[n] = 0; n++;
+		normais.push_back(0);
+		normais.push_back (-1); 
+		normais.push_back(0);
+		pontosTextura.push_back(0);
+		pontosTextura.push_back(0);
 	}
 	double norma = sqrt(pow(radius,2) + pow(height,2));
 
 	//float normalx = 0;
-	float ny = radius / norma;
-	float nz = height / norma;
+
 	//Laterais
 	for (int i = 0; i < stacks; i++) {
 		for (int j = 0; j < slices; j++) {
@@ -758,49 +854,63 @@ void generateCone(char* argv[]) {
 			pontos[p] = nextraio * sin(alpha*j); p++;
 			pontos[p] = nextaltura; p++;
 			pontos[p] = nextraio * cos(alpha*j); p++;
-			normais[n] = nz * sin(alpha * j); n++;
-			normais[n] = ny; n++;
-			normais[n] = nz * sin(alpha * j); n++;
+			normais.push_back((height * sin(alpha * j)) / norma);
+			normais.push_back(radius / norma);
+			normais.push_back((height * cos(alpha * j)) / norma);
+			pontosTextura.push_back(j * tDeltaX);
+			pontosTextura.push_back((i+1) * tDeltaY);
 
 			pontos[p] = raio * sin(alpha * j); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio *  cos(alpha * j); p++;
-			normais[n] = nz * sin(alpha * j); n++;
-			normais[n] = ny; n++;
-			normais[n] = nz * sin(alpha * j); n++;
+			normais.push_back((height * sin(alpha * j)) / norma);
+			normais.push_back(radius / norma);
+			normais.push_back((height * cos(alpha * j)) / norma);
+			pontosTextura.push_back(j * tDeltaX);
+			pontosTextura.push_back(i * tDeltaY);
 
 			pontos[p] = raio *  sin(alpha * (j+1)); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio *  cos(alpha * (j + 1)); p++;
-			normais[n] = nz * sin(alpha * j); n++;
-			normais[n] = ny; n++;
-			normais[n] = nz * sin(alpha * j); n++;
+			normais.push_back((height * sin(alpha * (j+1))) / norma);
+			normais.push_back(radius / norma);
+			normais.push_back((height * cos(alpha * (j+1))) / norma);
+			pontosTextura.push_back((j+1) * tDeltaX);
+			pontosTextura.push_back(i * tDeltaY);
 			//Triangulo 2
 			pontos[p] = nextraio * sin(alpha * (j + 1)); p++;
 			pontos[p] = nextaltura; p++;
 			pontos[p] = nextraio * cos(alpha * (j + 1)); p++;
-			normais[n] = nz * sin(alpha * j); n++;
-			normais[n] = ny; n++;
-			normais[n] = nz * sin(alpha * j); n++;
+			normais.push_back((height * sin(alpha * (j + 1))) / norma);
+			normais.push_back(radius / norma);
+			normais.push_back((height * cos(alpha * (j + 1))) / norma);
+			pontosTextura.push_back((j + 1) * tDeltaX);
+			pontosTextura.push_back((i + 1) * tDeltaY);
 
 			pontos[p] = nextraio * sin(alpha * j); p++;
 			pontos[p] = nextaltura; p++;
 			pontos[p] = nextraio * cos(alpha * j); p++;
-			normais[n] = nz * sin(alpha * j); n++;
-			normais[n] = ny; n++;
-			normais[n] = nz * sin(alpha * j); n++;
+			normais.push_back((height * sin(alpha * j)) / norma);
+			normais.push_back(radius / norma);
+			normais.push_back((height * cos(alpha * j)) / norma);
+			pontosTextura.push_back(j * tDeltaX);
+			pontosTextura.push_back((i + 1) * tDeltaY);
 
 			pontos[p] = raio * sin(alpha * (j + 1)); p++;
 			pontos[p] = altura; p++;
 			pontos[p] = raio * cos(alpha * (j + 1)); p++;
-			normais[n] = nz * sin(alpha * j); n++;
-			normais[n] = ny; n++;
-			normais[n] = nz * sin(alpha * j); n++;
+			normais.push_back((height * sin(alpha * (j + 1))) / norma);
+			normais.push_back(radius / norma);
+			normais.push_back((height * cos(alpha * (j + 1))) / norma);
+			pontosTextura.push_back((j+1) * tDeltaX);
+			pontosTextura.push_back(i * tDeltaY);
 		}
 	}
 
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(),sizeof(float)*N);
+	file.write((char*)normais.data(), sizeof(float) * N);
+	file.write((char*)pontosTextura.data(), sizeof(float) * pontosTextura.size());
 	file.close();
 }
 
@@ -811,11 +921,14 @@ void generatePlane(char* argv[]) {
 	float length = atoi(argv[2]);
 	float divisions = atoi(argv[3]);
 	float tr = length / divisions;
+	float texturePortion = 1.0/divisions;
 	int N = divisions * divisions * 18;
 	vector<float> pontos(N);
 	vector<float> normais(N);
+	vector<float> pontosTextura((2 * N) / 3);
 	int p = 0;
 	int n = 0;
+	int t = 0;
 
 	for (int i = 0; i < divisions; i++) { // Começar pelo menor z e menor x e iterando pela linha dos x até length/2
 		for (int j = 0; j < divisions; j++) {
@@ -828,6 +941,8 @@ void generatePlane(char* argv[]) {
 			normais[n] = 0.0f; n++;
 			normais[n] = 1.0f; n++;
 			normais[n] = 0.0f; n++;
+			pontosTextura[t] = (j + 1) * texturePortion; t++;
+			pontosTextura[t] = (i + 1) * texturePortion; t++;
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
@@ -835,6 +950,8 @@ void generatePlane(char* argv[]) {
 			normais[n] = 0.0f; n++;
 			normais[n] = 1.0f; n++;
 			normais[n] = 0.0f; n++;
+			pontosTextura[t] = (j + 1) * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 			//P3
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
@@ -842,6 +959,8 @@ void generatePlane(char* argv[]) {
 			normais[n] = 0.0f; n++;
 			normais[n] = 1.0f; n++;
 			normais[n] = 0.0f; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 
 			//Triangulo 2
 			//P1
@@ -851,6 +970,8 @@ void generatePlane(char* argv[]) {
 			normais[n] = 0.0f; n++;
 			normais[n] = 1.0f; n++;
 			normais[n] = 0.0f; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = (i + 1) * texturePortion; t++;
 			//P2
 			pontos[p] = (j + 1) * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
@@ -858,6 +979,8 @@ void generatePlane(char* argv[]) {
 			normais[n] = 0.0f; n++;
 			normais[n] = 1.0f; n++;
 			normais[n] = 0.0f; n++;
+			pontosTextura[t] = (j + 1) * texturePortion; t++;
+			pontosTextura[t] = (i + 1) * texturePortion; t++;
 			//P3
 			pontos[p] = j * tr - (length / 2); p++;
 			pontos[p] = 0; p++;
@@ -865,11 +988,14 @@ void generatePlane(char* argv[]) {
 			normais[n] = 0.0f; n++;
 			normais[n] = 1.0f; n++;
 			normais[n] = 0.0f; n++;
+			pontosTextura[t] = j * texturePortion; t++;
+			pontosTextura[t] = i * texturePortion; t++;
 		}
 	}
 	file.write((char*)&N, sizeof(int));
 	file.write((char*)pontos.data(), sizeof(float) * N);
 	file.write((char*)normais.data(), sizeof(float) * N);
+	file.write((char*)pontosTextura.data(), sizeof(float) * ((2*N)/3));
 
 	file.close();
 }

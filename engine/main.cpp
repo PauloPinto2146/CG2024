@@ -14,7 +14,7 @@ const float CAMERA_SPEED = 10.0f;
 float prev_y[3] = {0, 1, 0};
 float tesselation = 100.0f;
 
-GLuint buffers[2];
+GLuint buffers[3];
 void buildRotMatrix(float* x, float* y, float* z, float* m) {
 
     m[0] = x[0]; m[1] = x[1]; m[2] = x[2]; m[3] = 0;
@@ -175,30 +175,19 @@ void renderGroup(Group* g) {
         glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
         glMaterialfv(GL_FRONT, GL_EMISSION, emissiveColor);
         glMaterialf(GL_FRONT, GL_SHININESS, color->shininessValue);
+        glBindTexture(GL_TEXTURE_2D, g->textures[i]);
+        cout << g->textures[i];
 
         glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
         glVertexPointer(3, GL_FLOAT, 0, 0);
         glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
         glNormalPointer(GL_FLOAT, 0, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
+        glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
         glDrawArrays(GL_TRIANGLES, first / 3, g->model[i] / 3);
 
         first += g->model[i];
-
-        /*
-        glBindTexture(GL_TEXTURE_2D, groupModel->texID);
-		glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-		glVertexPointer(3, GL_FLOAT, 0, 0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
-		glNormalPointer(GL_FLOAT, 0, 0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
-		glTexCoordPointer(2, GL_FLOAT, 0, 0);
-
-		glDrawElements(groupModel->type, groupModel->modelInfo->size, GL_UNSIGNED_INT, (void*)(groupModel->modelInfo->index * sizeof(GLuint)));
-		glBindTexture(GL_TEXTURE_2D, 0);
-        */
     }
 
     for (Group*& subgroup : g->groups) {
@@ -330,9 +319,8 @@ int main(int argc, char** argv) {
 
     vector<float> points;
     vector<float> normals;
+    vector<float> texturePoints;
 
-    parser(argv[1], &lights, window, camera, group, &points, &normals);
-    //Init
     glutInit(&argc, argv);
     
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -349,8 +337,8 @@ int main(int argc, char** argv) {
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-
-
+    parser(argv[1], &lights, window, camera, group, &points, &normals, &texturePoints);
+    
     float amb[4] = { 1.0f, 1.0f, 1.0f, 1.0 };
     float diff[4] = { 0.5f, 0.5f, 0.5f, 1.0 };
     float spec[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
@@ -362,14 +350,19 @@ int main(int argc, char** argv) {
         glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff);
         glLightfv(GL_LIGHT0 + i, GL_SPECULAR, spec);
     }
-
+    glEnable(GL_TEXTURE_2D);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-    glGenBuffers(2, buffers);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glGenBuffers(3, buffers);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(float), points.data(), GL_STATIC_DRAW);
+
     glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
     glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), normals.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
+    glBufferData(GL_ARRAY_BUFFER, texturePoints.size() * sizeof(float), texturePoints.data(), GL_STATIC_DRAW);
     glVertexPointer(3, GL_FLOAT, 0, 0);
 
     glutMainLoop();

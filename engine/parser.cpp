@@ -1,6 +1,7 @@
 #include "parser.h"
 #include "classes.h"
 
+
 void parse_window(xml_node<>* window_node, Window* window) {
 	xml_attribute<>* width = window_node->first_attribute("width");
 	xml_attribute<>* height = window_node->first_attribute("height");
@@ -120,7 +121,7 @@ void parse_lights(xml_node<>* lights_node, vector <Lights*>* lights) {
 }
 
 
-void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, vector<float>* normals) {
+void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, vector<float>* normals, vector<float>* textures) {
 	xml_node<>* models = group_node->first_node("models");
 	xml_node<>* transform = group_node->first_node("transform");
 	xml_node<>* texture = group_node->first_node("texture");
@@ -138,7 +139,7 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 			if (color_node = model->first_node("color")) {
 				if (diffuseNode = color_node->first_node("diffuse")) {
 					color->diffuseR = atof(diffuseNode->first_attribute("R")->value()) / 255;
-					cout << atof(diffuseNode->first_attribute("R")->value()) / 255<<"\n";
+					cout << atof(diffuseNode->first_attribute("R")->value()) / 255 << "\n";
 					color->diffuseG = atof(diffuseNode->first_attribute("G")->value()) / 255;
 					cout << atof(diffuseNode->first_attribute("G")->value()) / 255 << "\n";
 					color->diffuseB = atof(diffuseNode->first_attribute("B")->value()) / 255;
@@ -162,8 +163,44 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 				if (shininessNode = color_node->first_node("shininess")) {
 					color->shininessValue = atof(shininessNode->first_attribute("value")->value());
 				}
-				group->color.push_back(color);
 			}
+			group->color.push_back(color);
+
+			xml_node<>* texture;
+			GLuint tex;
+			if (texture = model->first_node("texture")) {
+
+				ILstring stringTex = texture->first_attribute("file")->value();
+				cout << "1\n";
+				unsigned int t, tw, th;
+				cout << "2\n";
+				unsigned char* texData;
+				cout << "3\n";
+				ilInit();
+				ilEnable(IL_ORIGIN_SET);
+				ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+				ilGenImages(1, &t);
+				cout << "4\n";
+				ilBindImage(t);
+				cout << "5\n";
+				ilLoadImage(stringTex);
+				tw = ilGetInteger(IL_IMAGE_WIDTH);
+				th = ilGetInteger(IL_IMAGE_HEIGHT);
+				ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+				texData = ilGetData();
+				glGenTextures(1, &tex);
+				glBindTexture(GL_TEXTURE_2D, tex);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+				group->textures.push_back(tex);
+			}
+			else {
+				group->textures.push_back(0);
+			}
+
 			//Get file name and open it
 			char* file = model->first_attribute("file")->value();
 			ifstream fich;
@@ -179,38 +216,17 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 
 			float* temp_points = (float*)malloc(n * sizeof(float));
 			fich.read((char*)temp_points, n * sizeof(float));
-
 			points->insert(points->end(), temp_points, temp_points + n);
+
 			fich.read((char*)temp_points, n * sizeof(float));
 			normals->insert(normals->end(), temp_points, temp_points + n);
 			group->model.push_back(n);
 
+			fich.read((char*)temp_points, ((2 * n) / 3) * sizeof(float));
+			textures->insert(textures->end(), temp_points, temp_points + ((2 * n) / 3));
+
 			fich.close();
 		}
-		/*
-		for (xml_node<>* texture = models->first_node("texture"); texture; texture = texture ->next_sibling()) {
-
-			//Get texturefile name and open it
-			char* texturefile = texture->first_attribute("file")->value();
-			ifstream fich;
-			fich.open(texturefile, ios::in | ios::binary);
-
-			if (!fich) {
-				std::cout << "Error opening texture file " << endl;
-				exit(1);
-			}
-
-			int n;
-			fich.read((char*)&n, sizeof(int));
-
-			float* temp_points = (float*)malloc(n * sizeof(float));
-			fich.read((char*)temp_points, n * sizeof(float));
-
-			points->insert(points->end(), temp_points, temp_points + n);
-			group->texture.push_back(n);
-
-			fich.close();
-		}*/
 
 	}
 
@@ -259,10 +275,10 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 
 		if (translate) {
 			if (translate->first_attribute("time")) {
-				if(tesselation = translate->first_attribute("time")) {
+				if (tesselation = translate->first_attribute("time")) {
 					group->tesselation = atof(tesselation->value());
 				}
-				if(strcmp(translate->first_attribute("align")->value(),"True") == 0) {
+				if (strcmp(translate->first_attribute("align")->value(), "True") == 0) {
 					group->align = 1;
 				}
 				else {
@@ -347,13 +363,14 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 	for (node = group_node->first_node("group"); node != NULL; node = node->next_sibling("group")) {
 		Group* subgroup = new Group();
 
-		parse_group(node, subgroup, points, normals);
+		parse_group(node, subgroup, points, normals,textures);
 
 		group->groups.push_back(subgroup);
 	}
 }
 
-void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* camera, Group* group, vector<float>* points, vector<float>* normals) {
+void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* camera, Group* group, vector<float>* points,
+	vector<float>* normals, vector<float>* textures) {
 	xml_document<> doc;
 	xml_node<>* root_node;
 
@@ -379,5 +396,5 @@ void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* cam
 
 	//Parse group
 	xml_node<>* group_node = root_node->first_node("group");
-	parse_group(group_node, group, points,normals);
+	parse_group(group_node, group, points, normals, textures);
 }

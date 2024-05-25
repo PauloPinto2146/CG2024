@@ -1,4 +1,10 @@
 #include <vector>
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
 
 #ifndef CLASSES_H
 #define CLASSES_H
@@ -15,12 +21,12 @@ public:
 
 class Color {
 public:
-    float diffuseR = 0.0;
-    float diffuseG = 0.0;
-    float diffuseB = 0.0;
-    float ambientR = 0.0;
-    float ambientG = 0.0;
-    float ambientB = 0.0;
+    float diffuseR = 0.78;
+    float diffuseG = 0.78;
+    float diffuseB = 0.78;
+    float ambientR = 0.2;
+    float ambientG = 0.2;
+    float ambientB = 0.2;
     float specularR = 0.0;
     float specularG = 0.0;
     float specularB = 0.0;
@@ -35,7 +41,7 @@ public:
     std::vector<float> model;
     std::vector<int> torder;
     std::vector<Color*> color;
-    std::vector<float> texture;
+    std::vector<GLuint> textures;
 
     float tx = 0.0;
     float ty = 0.0;

@@ -15,7 +15,7 @@ public:
     float up[3] = { 0, 1, 0 };
     float projection[3] = { 60, 1, 1000 };
     float rotate[3] = { 0, 0 ,0 };
-    float zoom = 1.0f;
+    float zoom = 0.0f;
 };
 
 

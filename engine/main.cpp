@@ -166,22 +166,26 @@ void renderGroup(Group* g) {
     }
     for (size_t  i = 0; i < g->model.size(); ++i) {
         Color* color = g->color[i];
+
         float diffuseColor[4] = { color->diffuseR, color->diffuseG, color->diffuseB, 1.0 };
         float ambientColor[4] = { color->ambientR, color->ambientG, color->ambientB, 1.0 };
         float specularColor[4] = { color->specularR, color->specularG, color->specularB, 1.0 };
-        float emissiveColor[4] = { color->emissiveR,color->emissiveG,color->emissiveB,1.0 };
+        float emissiveColor[4] = { color->emissiveR, color->emissiveG, color->emissiveB, 1.0 };
+
         glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuseColor);
         glMaterialfv(GL_FRONT, GL_AMBIENT, ambientColor);
         glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
         glMaterialfv(GL_FRONT, GL_EMISSION, emissiveColor);
         glMaterialf(GL_FRONT, GL_SHININESS, color->shininessValue);
+
         glBindTexture(GL_TEXTURE_2D, g->textures[i]);
-        cout << g->textures[i];
 
         glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
         glVertexPointer(3, GL_FLOAT, 0, 0);
+
         glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
         glNormalPointer(GL_FLOAT, 0, 0);
+
         glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
         glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
@@ -193,18 +197,22 @@ void renderGroup(Group* g) {
     for (Group*& subgroup : g->groups) {
         renderGroup(subgroup);
     }
+
     glPopMatrix();
 }
 
 void renderScene(void) {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    // clear buffers
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // set the camera
+
     glLoadIdentity();
-    gluLookAt(camera->pos[0] - camera->zoom, camera->pos[1] - camera->zoom, camera->pos[2] - camera->zoom,
+
+    gluLookAt(
+        camera->pos[0] - camera->zoom, camera->pos[1] - camera->zoom, camera->pos[2] - camera->zoom,
         camera->lookAt[0], camera->lookAt[1], camera->lookAt[2],
-        camera->up[0], camera->up[1], camera->up[2]);
+        camera->up[0], camera->up[1], camera->up[2]
+    );
 
     glRotatef(camera->rotate[0], 1.0f, 0.0f, 0.0f);
     glRotatef(camera->rotate[1], 0.0f, 1.0f, 0.0f);
@@ -213,16 +221,24 @@ void renderScene(void) {
     first = 0;
 
     int i = 0;
+
+    if (axis) {
+        glEnable(GL_COLOR_MATERIAL);
+        drawAxis();
+        glDisable(GL_COLOR_MATERIAL);
+    }
     
     for (Lights* l : lights) {
+        if (l->type == 0) {
+            continue;
+        }
 
         float pos[4] = { l->posX, l->posY, l->posZ, 1.0f };
         float dir[4] = { l->dirX, l->dirY, l->dirZ, 0.0f };
 
         if (l->type == 2) {
             glLightfv(GL_LIGHT0 + i, GL_POSITION, dir);
-        }
-        else {
+        } else {
             glLightfv(GL_LIGHT0 + i, GL_POSITION, pos);
         }
 
@@ -230,18 +246,14 @@ void renderScene(void) {
             glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, dir);
             glLightfv(GL_LIGHT0 + i, GL_SPOT_CUTOFF, &l->cutoff);
         }
+
         i++;
     }
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glColor3f(1.0f, 1.0f, 1.0f);
-    renderGroup(group);
 
-    if (axis) {
-        glEnable(GL_COLOR_MATERIAL);
-        drawAxis();
-        glDisable(GL_COLOR_MATERIAL);
-    }
+    renderGroup(group);
 
     glutSwapBuffers();
 }
@@ -252,22 +264,16 @@ void changeSize(int w, int h) {
     if (h == 0)
         h = 1;
 
-    // compute window's aspect ratio
     float ratio = w * 1.0 / h;
 
-    // Set the projection matrix as current
     glMatrixMode(GL_PROJECTION);
 
-    // Load Identity Matrix
     glLoadIdentity();
 
-    // Set the viewport to be the entire window
     glViewport(0, 0, w, h);
 
-    // Set perspective
     gluPerspective(camera->projection[0], ratio, camera->projection[1], camera->projection[2]);
 
-    // return to the model view matrix mode
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -314,8 +320,6 @@ void keyboard(unsigned char key, int x, int y) {
 
 int main(int argc, char** argv) {
     Window* window = new Window();
-    camera = new Camera();
-    group = new Group();
 
     vector<float> points;
     vector<float> normals;
@@ -337,24 +341,39 @@ int main(int argc, char** argv) {
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    glEnable(GL_RESCALE_NORMAL);
+
     parser(argv[1], &lights, window, camera, group, &points, &normals, &texturePoints);
-    
-    float amb[4] = { 1.0f, 1.0f, 1.0f, 1.0 };
-    float diff[4] = { 0.5f, 0.5f, 0.5f, 1.0 };
-    float spec[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
-    int i = 0;
-    if (!lights.empty()) glEnable(GL_LIGHTING);
-    for (Lights* l : lights) {
-        glEnable(GL_LIGHT0 + i);
-        glLightfv(GL_LIGHT0 + i, GL_AMBIENT, amb);
-        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff);
-        glLightfv(GL_LIGHT0 + i, GL_SPECULAR, spec);
+
+    if (!lights.empty()) {
+        glEnable(GL_LIGHTING);
+
+        float amb[4] = { 0.5, 0.5, 0.5, 1.0 };
+        float diff[4] = { 1.0, 1.0, 1.0, 1.0 };
+        float spec[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        float globalAmb[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+        int i = 0;
+
+        for (Lights* l : lights) {
+            glEnable(GL_LIGHT0 + i);
+            glLightfv(GL_LIGHT0 + i, GL_AMBIENT, amb);
+            glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff);
+            glLightfv(GL_LIGHT0 + i, GL_SPECULAR, spec);
+            i++;
+        }
+
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
     }
-    glEnable(GL_TEXTURE_2D);
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glEnable(GL_TEXTURE_2D);
+
     glGenBuffers(3, buffers);
+
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(float), points.data(), GL_STATIC_DRAW);
 
@@ -363,7 +382,6 @@ int main(int argc, char** argv) {
 
     glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
     glBufferData(GL_ARRAY_BUFFER, texturePoints.size() * sizeof(float), texturePoints.data(), GL_STATIC_DRAW);
-    glVertexPointer(3, GL_FLOAT, 0, 0);
 
     glutMainLoop();
 

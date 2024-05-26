@@ -18,6 +18,7 @@
             </transform>
             <models>
                 <model file="C:\Users\pedro\Downloads\sphere_1_100_100.3d" />
+                <texture file="Sun.jpg" />
             </models>
         </group>
         <!-- Mercúrio: 1x -->
@@ -30,6 +31,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Mercury.jpg" />
 			</models>
 		</group>
         <!-- Venus: 2x -->
@@ -42,6 +44,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Venus.jpg" />
 			</models>
 		</group>
         <!-- Terra: 3x -->
@@ -54,6 +57,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Earth.jpg" />
 			</models>
 			<!-- Lua -->
 			<group>
@@ -65,6 +69,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Lua.jpg" />
 			</models>
 			</group>
 		</group>
@@ -78,6 +83,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Mars.jpg" />
 			</models>
 			<!-- Phobos -->
 			<group> 
@@ -88,6 +94,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Deimos -->
@@ -99,6 +106,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 		</group>
@@ -112,6 +120,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Jupiter.jpg" />
 			</models>
 			<!-- Io -->
 			<group> 
@@ -122,6 +131,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Europa -->
@@ -133,6 +143,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Ganimedes -->
@@ -144,6 +155,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Calisto -->
@@ -155,6 +167,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Amalteia -->
@@ -165,7 +178,8 @@
 					<scale x="0.02" y="0.02" z="0.02" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+					<texture file="Lua.jpg" /> 
 				</models> 
 			</group>
 			<!-- Tebe -->
@@ -177,6 +191,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Himalia -->
@@ -187,7 +202,8 @@
 					<scale x="0.015" y="0.015" z="0.015" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+					<texture file="Lua.jpg" /> 
 				</models> 
 			</group>
 			<!-- Sinope -->
@@ -199,6 +215,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
             <!-- Elara -->
@@ -210,6 +227,7 @@
                 </transform>
                 <models>
                     <model file="C:\Users\pedro\Downloads\sphere_1_5_5.3d"/> 
+                    <texture file="Lua.jpg" />
                 </models>
             </group>
             <!-- Pasiphae -->
@@ -221,6 +239,7 @@
                 </transform>
                 <models>
                     <model file="C:\Users\pedro\Downloads\sphere_1_5_5.3d"/> 
+                    <texture file="Lua.jpg" />
                 </models>
             </group>
 		</group>
@@ -234,6 +253,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Saturn.jpg" />
 			</models>
 			<!-- Titan -->
 			<group> 
@@ -244,6 +264,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Enceladus -->
@@ -255,6 +276,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Rhea -->
@@ -266,6 +288,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Dione -->
@@ -277,6 +300,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 		</group>
@@ -294,6 +318,7 @@
 				</transform>
 				<models>
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+					<texture file="SaturnRing.jpg" />
 				</models>
 			</group>
 		</group>
@@ -307,6 +332,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Uranus.jpg" />
 			</models>
 			<!-- Titania -->
 			<group> 
@@ -317,6 +343,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 		</group>
@@ -334,6 +361,7 @@
 				</transform>
 				<models>
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+					<texture file="UranusRing.jpg" />
 				</models>
 			</group>
 		</group>
@@ -347,6 +375,7 @@
 			</transform>
 			<models>
 				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
+				<texture file="Neptune.jpg" />
 			</models>
 			<!-- Triton -->
 			<group> 
@@ -357,6 +386,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 			<!-- Proteus -->
@@ -368,6 +398,7 @@
 				</transform> 
 				<models> 
 					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
+					<texture file="Lua.jpg" />
 				</models> 
 			</group>
 		</group>
@@ -384,6 +415,7 @@
 			</transform>
 			<models> 
 				<model file="C:\Users\pedro\Downloads\cometa.3d" />
+				<texture file="Lua.jpg" />
 			</models>
 		</group>
     </group>

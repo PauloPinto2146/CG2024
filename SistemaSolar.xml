@@ -1,11 +1,18 @@
 <world>
     <window width="512" height="512" />
-    <camera> 
-	    <position x="350" y="0" z="250" />
-	    <lookAt x="500" y="0" z="0" />
+	<camera> 
+	    <position x="-100" y="0" z="350" />
+	    <lookAt x="0" y="0" z="0" />
 	    <up x="0" y="1" z="0" />
         <projection fov="60" near="1" far="100000" />
     </camera>
+
+		<lights>
+			<light type="point" posx="0" posy="100" posz="0" />
+			<light type="point" posx="0" posy="-100" posz="0" />
+			<light type="point" posx="100" posy="0" posz="0" />
+			<light type="point" posx="-100" posy="0" posz="0" />
+		</lights>
 
     <group>
 		<transform>
@@ -15,10 +22,18 @@
         <group>
             <transform>
                 <scale x="3" y="3" z="3" />
+                <rotate time = "50" x = "0" y ="1" z = "0"/>
             </transform>
             <models>
-                <model file="C:\Users\pedro\Downloads\sphere_1_100_100.3d" />
-                <texture file="Sun.jpg" />
+                <model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_100_100.3d">
+                <texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Sun.jpg" />
+	                <color>
+						<diffuse R="255" G="255" B="255" />
+						<ambient R="255" G="255" B="255" />
+						<specular R="255" G="255" B="255" />
+						<shininess value="1" />
+					</color>
+				</model>
             </models>
         </group>
         <!-- Mercúrio: 1x -->
@@ -30,8 +45,9 @@
 				<rotate time = "120" x="0" y="1" z="0"/> <!--Rotação-->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Mercury.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Mercury.jpg" />
+				</model>
 			</models>
 		</group>
         <!-- Venus: 2x -->
@@ -43,8 +59,9 @@
 				<rotate time = "486" x="0" y="1" z="0"/> <!--Rotação-->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Venus.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Venus.jpg" />
+				</model>
 			</models>
 		</group>
         <!-- Terra: 3x -->
@@ -56,8 +73,9 @@
 				<rotate time = "2" x="0" y="1" z="0"/> <!--Rotação-->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Earth.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Earth.jpg" />
+				</model>
 			</models>
 			<!-- Lua -->
 			<group>
@@ -68,8 +86,9 @@
 				<rotate time = "52" x="0" y="1" z="0"/> <!--Translação em torno da si-->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Lua.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+				</model>
 			</models>
 			</group>
 		</group>
@@ -82,8 +101,9 @@
 				<rotate time = "2" x="0" y="1" z="0"/> <!--rotação -->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Mars.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Mars.jpg" />
+				</model>
 			</models>
 			<!-- Phobos -->
 			<group> 
@@ -93,8 +113,9 @@
 					<scale x="0.1" y="0.1" z="0.1" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Deimos -->
@@ -105,8 +126,9 @@
 					<scale x="0.06" y="0.06" z="0.06" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 		</group>
@@ -119,8 +141,9 @@
 				<rotate time = "1" x="0" y="1" z="0"/> <!--Rotação-->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Jupiter.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Jupiter.jpg" />
+				</model>
 			</models>
 			<!-- Io -->
 			<group> 
@@ -130,8 +153,9 @@
 					<scale x="0.05" y="0.05" z="0.05" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Europa -->
@@ -142,8 +166,9 @@
 					<scale x="0.05" y="0.05" z="0.05" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Ganimedes -->
@@ -154,8 +179,9 @@
 					<scale x="0.05" y="0.05" z="0.05" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Calisto -->
@@ -166,8 +192,9 @@
 					<scale x="0.05" y="0.05" z="0.05" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Amalteia -->
@@ -178,8 +205,9 @@
 					<scale x="0.02" y="0.02" z="0.02" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-					<texture file="Lua.jpg" /> 
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" /> 
+					</model>
 				</models> 
 			</group>
 			<!-- Tebe -->
@@ -190,8 +218,9 @@
 					<scale x="0.02" y="0.02" z="0.02" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Himalia -->
@@ -202,8 +231,9 @@
 					<scale x="0.015" y="0.015" z="0.015" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-					<texture file="Lua.jpg" /> 
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" /> 
+					</model>
 				</models> 
 			</group>
 			<!-- Sinope -->
@@ -214,8 +244,9 @@
 					<scale x="0.01" y="0.01" z="0.01" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
             <!-- Elara -->
@@ -226,8 +257,9 @@
                     <scale x="0.005" y="0.005" z="0.005" />   
                 </transform>
                 <models>
-                    <model file="C:\Users\pedro\Downloads\sphere_1_5_5.3d"/> 
-                    <texture file="Lua.jpg" />
+                    <model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_5_5.3d"> 
+                    	<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+                	</model>
                 </models>
             </group>
             <!-- Pasiphae -->
@@ -238,8 +270,9 @@
                     <scale x="0.03" y="0.03" z="0.03" />   
                 </transform>
                 <models>
-                    <model file="C:\Users\pedro\Downloads\sphere_1_5_5.3d"/> 
-                    <texture file="Lua.jpg" />
+                    <model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_5_5.3d"> 
+                    	<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+                	</model>
                 </models>
             </group>
 		</group>
@@ -252,8 +285,9 @@
 				<rotate time = "1" x="0" y="0" z="1"/> <!--Rotação em torno do sol-->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Saturn.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Saturn.jpg" />
+				</model>
 			</models>
 			<!-- Titan -->
 			<group> 
@@ -263,8 +297,9 @@
 					<scale x="0.2" y="0.2" z="0.2" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Enceladus -->
@@ -275,8 +310,9 @@
 					<scale x="0.1" y="0.1" z="0.1" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Rhea -->
@@ -287,8 +323,9 @@
 					<scale x="0.1" y="0.1" z="0.1" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Dione -->
@@ -299,8 +336,9 @@
 					<scale x="0.1" y="0.1" z="0.1" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 		</group>
@@ -317,8 +355,9 @@
 					<rotate angle="45" x="0.9" y="0" z="1" />
 				</transform>
 				<models>
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-					<texture file="SaturnRing.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\SaturnRing.jpg" />
+					</model>
 				</models>
 			</group>
 		</group>
@@ -331,8 +370,9 @@
 				<rotate time = "2" x="0" y="0" z="0"/> <!--Translação em torno do sol-->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Uranus.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Uranus.jpg" />
+				</model>
 			</models>
 			<!-- Titania -->
 			<group> 
@@ -342,8 +382,9 @@
 					<scale x="0.05" y="0.05" z="0.05" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 		</group>
@@ -360,8 +401,9 @@
 					<rotate angle="45" x="0.4" y="0" z="1" />
 				</transform>
 				<models>
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-					<texture file="UranusRing.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\UranusRing.jpg" />
+					</model>
 				</models>
 			</group>
 		</group>
@@ -374,8 +416,9 @@
 				<rotate time = "2" x="0" y="0" z="1"/> <!--Rotação -->
 			</transform>
 			<models>
-				<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" />
-				<texture file="Neptune.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Neptune.jpg" />
+				</model>
 			</models>
 			<!-- Triton -->
 			<group> 
@@ -385,8 +428,9 @@
 					<scale x="0.1" y="0.1" z="0.1" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 			<!-- Proteus -->
@@ -397,8 +441,9 @@
 					<scale x="0.1" y="0.1" z="0.1" /> 
 				</transform> 
 				<models> 
-					<model file="C:\Users\pedro\Downloads\sphere_1_10_10.3d" /> 
-					<texture file="Lua.jpg" />
+					<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\sphere_1_10_10.3d"> 
+						<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+					</model>
 				</models> 
 			</group>
 		</group>
@@ -414,8 +459,9 @@
 				<scale x="0.1" y="0.05" z="0.05" />
 			</transform>
 			<models> 
-				<model file="C:\Users\pedro\Downloads\cometa.3d" />
-				<texture file="Lua.jpg" />
+				<model file="C:\Users\paapm\OneDrive\Documentos\GitHub\gerador\cometa.3d">
+					<texture file="C:\Users\paapm\OneDrive\Documentos\GitHub\texturasSistemaSolar\Lua.jpg" />
+				</model>
 			</models>
 		</group>
     </group>

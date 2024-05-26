@@ -146,7 +146,6 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 
 			xml_node<>* texture;
 			GLuint texId;
-
 			if (texture = model->first_node("texture")) {
 				ILstring stringTex = texture->first_attribute("file")->value();
 
@@ -159,6 +158,7 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 				ilGenImages(1, &t);
 				ilBindImage(t);
 
+				
 				ilLoadImage(stringTex);
 				tw = ilGetInteger(IL_IMAGE_WIDTH);
 				th = ilGetInteger(IL_IMAGE_HEIGHT);

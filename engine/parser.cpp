@@ -159,8 +159,9 @@ void parse_group(xml_node<>* group_node, Group* group, vector<float>* points, ve
 				ilGenImages(1, &t);
 				ilBindImage(t);
 
+				cout << "antes\n";
 				ilLoadImage(stringTex);
-
+				cout << "depois\n";
 				tw = ilGetInteger(IL_IMAGE_WIDTH);
 				th = ilGetInteger(IL_IMAGE_HEIGHT);
 
@@ -362,19 +363,19 @@ void parser(char* fileName, vector<Lights*>* lights, Window* window, Camera* cam
 	doc.parse<0>(&buffer[0]);
 
 	root_node = doc.first_node("world");
-
 	//Parse window
 	xml_node<>* window_node = root_node->first_node("window");
 	parse_window(window_node, window);
-
 	//Parse lights
 	xml_node<>* lights_node = root_node->first_node("lights");
-	parse_lights(lights_node, lights);
-
-	//Parse camera
+	if (lights_node){
+		parse_lights(lights_node, lights);
+		//Parse camera
+	}
 	xml_node<>* camera_node = root_node->first_node("camera");
+	//Parse camera
 	parse_camera(camera_node, camera);
-
+	cout << "parse_group\n";
 	//Parse group
 	xml_node<>* group_node = root_node->first_node("group");
 	parse_group(group_node, group, points, normals, textures);
